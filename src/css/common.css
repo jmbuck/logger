@@ -1,4 +1,5 @@
-body { font-family: verdana; font-size: 12px; }
+body {
+    font-family: verdana, serif; font-size: 12px; }
 body { font-family: verdana, sans-serif; font-size: 12px; }
 label { display: block; }
 td { vertical-align: top; }
