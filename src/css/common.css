@@ -5,7 +5,7 @@ label { display: block; }
 td { vertical-align: top; }
 form { width: 400px; }
 button { width: 100%; height: 24px; margin-top: 10px; font-size: 14px; }
-.Navbar { cursor: default; position: fixed; top: 0; left: 0; width: 100%; height: 4em; padding: .66em 0; z-index: 0; background: #53061E; box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.3); }
+.Navbar { cursor: default; position: fixed; top: 0; left: 0; width: 100%; height: 4em; padding: .66em 0; z-index: 0; background: #631717; box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.3); }
  .Navbar .Logger-Title { position: fixed; top: 0; left: 0; width: 100%; font-size: 3.5em; text-align: center; margin: auto; font-family: "Rhodium Libre", serif; z-index: 1; color: white; }
  .Navbar .Options { float: right; display: flex; position: relative; width: 10em; margin-right: .5em; cursor: pointer; z-index: 10; }
  .Navbar .Options .Settings { float: right; width: 4em; height: 4em; margin: 0 1em; }
@@ -27,4 +27,34 @@ button { width: 100%; height: 24px; margin-top: 10px; font-size: 14px; }
     max-width: 1254px;
     width: 100%;
     margin: 2em auto;
+}
+
+.Preference-Panel {
+    margin-top: 6em;
+    color: white;
+}
+
+.Preference-Panel div {
+    text-align:center;
+    margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    background: #631717;
+    border-radius: 5px;
+    width: 400px;
+    font-family: "Rhodium Libre", sans-serif;
+    font-size: 2em;
+    cursor:pointer;
+}
+
+.Preference-Panel div:hover {
+    background: #531717;
+}
+
+.Preference-Panel div.Delete-Account {
+    background: #f44242;
+}
+
+.Preference-Panel div.Delete-Account:hover {
+    background: #d44242;
 }

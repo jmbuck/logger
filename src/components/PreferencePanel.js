@@ -7,7 +7,7 @@ class PreferencePanel extends Component {
                 <div className="Panel-Container">
                     <div className="Preference-Panel">
                         <div onClick={ () => this.props.history.push("/filters")}>Set Logger Filters</div>
-                        <div className="Delete-Account">Delete Account</div>
+                        <div className="Delete-Account" onClick={ () => this.props.history.push("/deleteaccount")}>Delete Account</div>
                     </div>
                 </div>
             </div>

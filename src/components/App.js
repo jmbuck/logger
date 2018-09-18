@@ -5,6 +5,7 @@ import Navbar from './Navbar'
 
 import PreferencePanel from "./PreferencePanel"
 import FilterPanel from "./FilterPanel"
+import DeleteAccountPanel from "./DeleteAccountPanel"
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
             <Route path="/data" render={(navProps) => null/*<Data /> component goes here*/}/>
             <Route path='/preferences' render={(navProps) => <PreferencePanel {...navProps} />}/>
             <Route path='/filters' render={(navProps) => <FilterPanel {...navProps} />}/>
+            <Route path='/deleteaccount' render={(navProps) => <DeleteAccountPanel {...navProps} />}/>
             <Route path='/' render={(navProps) => <Redirect to="/data" />}/>
         </Switch>
       </div>
