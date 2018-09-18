@@ -12,7 +12,8 @@
   "permissions": [
     "webRequest",
     "*://*/*",
-    "tabs"
+    "tabs",
+    "identity"
   ],
   "background": {
     "scripts": [
