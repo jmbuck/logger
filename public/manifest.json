@@ -20,5 +20,15 @@
       "Network.js"
       ],
     "persistent": true
-  }
+  },
+  "content_security_policy":"script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'",
+  "oauth2": {
+    "client_id": "870302921200-051ic9q5fl9isqscfvsnuu9v2450dfaj.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile"
+    ]
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg4LYSfo6geu7cd95GvTeYtWcHVsERW+twYOtbcUK1nrWYTv0Yo24+jgHJXplpvEPaCFosLAcviYh+02VeX/AlAVDwpBQWCt/XBqLy6jAhi6dzPhQQamHGlHSwzq2D/NEGTNKg4cUIflMZ7Zh2xqS4SVohG7+VM7EEKCgMBLLWPlC/WJMdCCLSEMzyOfBJNp31tFcznYRK9NIvbSCjj5C7gzQeo0aT4eXMVUKlund0qxpVI85y5odxL6PoF9t8DgB3fDVPNIisNv6Keg88nUfFNu4kLDHfTBhdceBGFd4MGfzPfpXzpvND3yHmGg7bWjjK7BAnoPspU8uvSBi+QYdQQIDAQAB"
 }
+
