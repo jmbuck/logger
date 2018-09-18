@@ -10,7 +10,7 @@ class Navbar extends Component {
         <div className="NavList">
             <div className="Options">
                 <div className="Settings">
-                    <img src={settings} />
+                    <img src={settings} onClick={() => this.props.history.push("/preferences")} />
                 </div>
                 <div className="Logout">
                     <img src={logout} />
