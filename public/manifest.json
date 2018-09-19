@@ -8,5 +8,11 @@
     "default_title": "Logger"
   },
   "options_page": "index.html",
-  "version": "1.0"
+  "version": "1.0",
+  "background": {
+    "scripts": [
+      "Background.js"
+      ],
+    "persistent": true
+  },
 }
