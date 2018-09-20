@@ -1,54 +1,61 @@
 import React, { Component } from 'react'
 import '../css/common.css'
+import settingsIcon from '../img/settings.svg'
 
 class FilterPanel extends Component {
+
+    constructor(props) {
+        super(props);
+
+         this.state = { websites: false }
+    }
+
     render() {
-        return (<div className="Panel">
-		        <div className="Panel-Container">
-			        <div className="Filter-Panel">
-				        <div className="Filter-Website-List">
-					        <div className="Filter-Website-Title">
-							        Websites
-					        </div>
-					        <div className="Break-Line" />
-					        <div className="Website">
-						        Website1
-					        </div>
-					        <div className="Website">
-						        Website2
-					        </div>
-					        <div className="Website">
-						        Website3
-					        </div>
-					        <div className="Website">
-						        Website4
-					        </div>
-					        <div className="Website">
-						        Website5
-					        </div>
-					        <div className="Website">
-						        Website6
-					        </div>
-					        <div className="Website">
-						        Website7
-					        </div>
-					        <div className="Website">
-						        Website8
-					        </div>
-				        </div>
-				        <div className="Website-Filter">
-					        <input type="text" />
-					        <input type="submit" />
-					        <form>
-								<input type="radio" value="Monitor time spent" />
-						        <input type="radio" value="Monitor internet usage" />
-						        <input type="radio" value="Monitor specific internet usage"/>
-						        <input type="submit" />
-					        </form>
-				        </div>
-				        <div className="Exit">
-				        </div>
-			        </div>
+        return (<div className="panel">
+		        <div className="panel-container">
+			        <div className="panel-filter">
+                        <div className="panel-left-nav">
+                            <div className="filter-nav">
+                                <div className="filter-title" onClick={this.props["titleClick"]}>
+                                    <h3>
+                                        Websites
+                                    </h3>
+                                    <img src={settingsIcon} />
+                                </div>
+                                <h3 className="break-line title" />
+                                <h4>
+                                    Google
+                                </h4>
+                                <h4>
+                                    Facebook
+                                </h4>
+                                <h4>
+                                    Stack Overflow
+                                </h4>
+                            </div>
+                        </div>
+                        {this.state.websites ?
+                            <div className="panel-center-content">
+                            </div>
+                            :
+                            <div className="panel-center-content">
+                                <h3 className="header">
+                                    Website URL
+                                </h3>
+                                <input type="text" className="h2-size" />
+                                <h2 className="break-line" />
+                                <h4 className="header">
+                                    Name
+                                </h4>
+                                <input type="text" className="h3-size"/>
+                                <br />
+                                <input type="checkbox" value="Bike" />
+                                <h4 className="header">
+                                    Monitor Internet Usage
+                                </h4>
+                            </div>
+                        }
+                    </div>
 		        </div>
 	        </div>
         )
