@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import '../css/common.css'
 import settingsIcon from '../img/settings.svg'
+import exitIcon from "../img/x.svg"
 
 class FilterPanel extends Component {
 
@@ -55,6 +56,11 @@ class FilterPanel extends Component {
                                 </h4>
                             </div>
                         }
+				        <div className="panel-right-nav">
+					        <div className="exit-nav" onClick={ () => this.props.history.push("/preferences") }>
+						        <img src={exitIcon} />
+					        </div>
+				        </div>
                     </div>
 		        </div>
 	        </div>
