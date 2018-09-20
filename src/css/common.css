@@ -58,3 +58,16 @@ button { width: 100%; height: 24px; margin-top: 10px; font-size: 14px; }
 .Preference-Panel div.Delete-Account:hover {
     background: #d44242;
 }
+
+.WebsitePanel th, td {
+    padding: 5px;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 75px;
+}
+
+.NetflixPanel h3 {
+    padding: 20px;
+}

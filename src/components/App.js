@@ -1,11 +1,14 @@
-import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router'
+import React, {Component} from 'react';
+import {Redirect, Route, Switch} from 'react-router'
 import '../css/common.css';
 import Navbar from './Navbar'
 
 import PreferencePanel from "./PreferencePanel"
 import FilterPanel from "./FilterPanel"
 import DeleteAccountPanel from "./DeleteAccountPanel"
+import WebsitePanel from "./WebsitePanel"
+import NetflixPanel from "./NetflixPanel"
+import RedditPanel from "./RedditPanel"
 import DataPanel from './DataPanel'
 
 class App extends Component {
@@ -18,6 +21,9 @@ class App extends Component {
             <Route path='/preferences' render={(navProps) => <PreferencePanel {...navProps} />}/>
             <Route path='/filters' render={(navProps) => <FilterPanel {...navProps} />}/>
             <Route path='/deleteaccount' render={(navProps) => <DeleteAccountPanel {...navProps} />}/>
+            <Route path='/websites' render={(navProps) => <WebsitePanel {...navProps} />}/>
+            <Route path='/netflix' render={(navProps) => <NetflixPanel {...navProps} />}/>
+            <Route path='/reddit' render={(navProps) => <RedditPanel {...navProps} />}/>
             <Route path='/' render={(navProps) => <Redirect to='/data' />}/>
         </Switch>
       </div>
