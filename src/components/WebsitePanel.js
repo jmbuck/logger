@@ -19,10 +19,10 @@ class WebsitePanel extends Component {
                         <td contentEditable='true'>Social Media</td>
                     </tr>
                     <tr>
-                        <td>Website2</td>
-                        <td>Visits2</td>
-                        <td>Time2</td>
-                        <td contentEditable='true'>Category2</td>
+                        <td>Youtube</td>
+                        <td>2</td>
+                        <td>37 minutes</td>
+                        <td contentEditable='true'>Videos</td>
                     </tr>
                 </table>
             </div>
