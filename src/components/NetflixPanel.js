@@ -23,7 +23,8 @@ class NetflixPanel extends Component {
                         <div className="panel-right-nav">
 	                        <div className="exit-nav" onClick={ () => this.props.history.push("/data") }>
 		                        <img src={exitIcon} />
-	                        </div></div>
+	                        </div>
+                        </div>
                     </div>
                 </div>
 	        </div>
