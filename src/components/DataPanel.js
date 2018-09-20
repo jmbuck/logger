@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {Line} from 'react-chartjs'
+import React, { Component } from 'react'
+import { Doughnut } from 'react-chartjs-2';
 import '../css/common.css'
 
 class DataPanel extends Component {
@@ -9,8 +9,6 @@ class DataPanel extends Component {
             labels: ["January", "February", "March", "April", "May", "June", "July"],
             datasets: [{
                 label: "My First dataset",
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
                 data: [0, 10, 5, 2, 20, 30, 45],
             }]
         }
@@ -19,7 +17,7 @@ class DataPanel extends Component {
         return (<div className="Panel">
                 <div className="Panel-Container">
                     <div className="Data-Panel">
-                        <Line data={this.getData()} options={{}} />
+                        <Doughnut data={this.getData()} options={{}} />
                     </div>
                     <div onClick={ () => this.props.history.push("/websites")}>Website Page</div>
                     <div onClick={() => this.props.history.push("/netflix")}>Netflix Page</div>
