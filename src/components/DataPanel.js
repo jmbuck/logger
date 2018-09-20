@@ -14,16 +14,23 @@ class DataPanel extends Component {
         }
     }
     render() {
-        return (<div className="Panel">
-                <div className="Panel-Container">
-                    <div className="Data-Panel">
-                        <Doughnut data={this.getData()} options={{}} />
-                    </div>
-                    <div onClick={ () => this.props.history.push("/websites")}>Website Page</div>
-                    <div onClick={() => this.props.history.push("/netflix")}>Netflix Page</div>
-                    <div onClick={() => this.props.history.push("/reddit")}>Reddit Page</div>
-                </div>
-            </div>
+        return (
+	        <div className="panel">
+		        <div className="panel-container">
+			        <div className="panel-data">
+				        <div className="panel-left-nav">
+				        </div>
+				        <div className="panel-center-content">
+					        <div className="Data-Panel">
+						        <Doughnut data={this.getData()} options={{}} />
+					        </div>
+					        <div onClick={ () => this.props.history.push("/websites")}>Website Page</div>
+					        <div onClick={() => this.props.history.push("/netflix")}>Netflix Page</div>
+					        <div onClick={() => this.props.history.push("/reddit")}>Reddit Page</div>
+				        </div>
+			        </div>
+		        </div>
+	        </div>
         )
     }
 }
