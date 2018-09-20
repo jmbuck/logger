@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Line } from 'react-chartjs'
+import React, {Component} from 'react'
+import {Line} from 'react-chartjs'
 import '../css/common.css'
 
 class DataPanel extends Component {
@@ -21,6 +21,9 @@ class DataPanel extends Component {
                     <div className="Data-Panel">
                         <Line data={this.getData()} options={{}} />
                     </div>
+                    <div onClick={ () => this.props.history.push("/websites")}>Website Page</div>
+                    <div onClick={() => this.props.history.push("/netflix")}>Netflix Page</div>
+                    <div onClick={() => this.props.history.push("/reddit")}>Reddit Page</div>
                 </div>
             </div>
         )
