@@ -17,8 +17,8 @@ class Navbar extends Component {
                 </div>
             </div>
         </div>
-        <div className="Logger-Title">
-            Logger
+        <div className="Logger-Title" >
+            <span onClick={() => this.props.history.push('/data')}>Logger</span>
         </div>
     </div>
     )
