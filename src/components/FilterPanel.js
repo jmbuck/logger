@@ -12,7 +12,8 @@ class FilterPanel extends Component {
     }
 
     render() {
-        return (<div className="panel">
+        return (
+        	<div className="panel">
 		        <div className="panel-container">
 			        <div className="panel-filter">
                         <div className="panel-left-nav">
