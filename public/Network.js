@@ -7,18 +7,6 @@ const networkFilters = {
 let dataCollector = [];
 
 chrome.webRequest.onCompleted.addListener((details) => {
-	/*const { tabId, requestId } = details;
-	if (!tabStorage.hasOwnProperty(tabId) || !tabStorage[tabId].requests.hasOwnProperty(requestId)) {
-		return;
-	}
-
-	const request = tabStorage[tabId].requests[requestId];
-
-	Object.assign(request, {
-		endTime: details.timeStamp,
-		requestDuration: details.timeStamp - request.startTime,
-		status: 'complete'
-	});*/
 	if(details.statusCode === 200) {
         let data = { url : details.initiator, method : details.method, type : details.type };
         if(details.responseHeaders) {
