@@ -7,18 +7,21 @@
     "default_popup": "popup.html",
     "default_title": "Logger"
   },
-  "permissions": [
-    "tabs"
-  ],
   "content_scripts": [{
     "matches": [ "http://*/*", "https://*/*" ],
     "js": [ "content.js" ]
   }],
   "options_page": "index.html",
   "version": "1.0",
+  "permissions": [
+    "webRequest",
+    "*://developer.mozilla.org/",
+    "tabs"
+  ],
   "background": {
     "scripts": [
-      "Background.js"
+      "Background.js",
+      "Network.js"
       ],
     "persistent": true
   }
