@@ -15,16 +15,16 @@ function onActiveTabChange(activeInfo) {
     var sessionTime = startOfSession - endOfSession;
     // We have the session time!
     startOfSession = Date.now();
-    alert("Tab " + activeInfo.tabId + " is now the active tab!");
+    //alert("Tab " + activeInfo.tabId + " is now the active tab!");
 }
 
 function onTabUpdate(tabId, changeInfo, tab) {
   //Logic for when a tab is updated
     //alert("Tab " + tabId + " has updated!");
     if (changeInfo.status == "loading" && changeInfo.url != undefined) {
-      alert("URL is now: " + changeInfo.url)
+      //alert("URL is now: " + changeInfo.url)
     } else if (changeInfo.status == "loading") {
-      alert("URL is the same.");
+      //alert("URL is the same.");
     } else {
       //Do nothing
     }
