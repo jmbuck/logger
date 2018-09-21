@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "chart.js": "^2.7.2",
+    "firebase": "^5.5.1",
+    "re-base": "^4.0.0",
     "react": "^16.5.1",
     "react-chartjs-2": "^2.7.4",
     "react-dom": "^16.5.1",

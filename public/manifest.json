@@ -8,6 +8,7 @@
     "default_title": "Logger"
   },
   "options_page": "index.html",
+  "default_icon": "icon.png",
   "version": "1.0",
   "permissions": [
     "webRequest",
