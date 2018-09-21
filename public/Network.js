@@ -6,8 +6,8 @@ const networkFilters = {
 
 let dataCollector = [];
 
-chrome.webRequest.onCompleted.addListener((details) => {
-	if(details.statusCode === 200) {
+function retrieveDetails(details) {
+    if(details.statusCode === 200) {
         let data = { url : details.initiator, method : details.method, type : details.type };
         if(details.responseHeaders) {
             for(let i = 0; i < details.responseHeaders.length; i++) {
@@ -24,7 +24,9 @@ chrome.webRequest.onCompleted.addListener((details) => {
 
         dataCollector.push(data);
     }
-}, networkFilters, ["responseHeaders"]);
+}
+
+chrome.webRequest.onCompleted.addListener(retrieveDetails, networkFilters, ["responseHeaders"]);
 
 setInterval(() => {
 
