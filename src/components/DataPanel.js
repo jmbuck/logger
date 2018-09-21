@@ -92,6 +92,9 @@ class DataPanel extends Component {
                                 <div className="graph">
                                     <h3 className="h3-size">Website Categories</h3>
                                     <Doughnut data={this.getDoughnutData()}/>
+                                </div>
+                                <div className="graph">
+                                <h3 className="h3-size">Past 6 Browsing Sessions</h3>
                                     <HorizontalBar
                                         data={this.getBarData()}
                                         width={100}
