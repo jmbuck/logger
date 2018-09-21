@@ -89,16 +89,3 @@ h3.break-line.title { margin-top: 5px; margin-bottom: 20px; }
 .panel-preference .panel-center-content div.Delete-Account:hover {
     background: #d44242;
 }
-
-.WebsitePanel th, td {
-    padding: 5px;
-}
-
-h1 {
-    text-align: center;
-    margin-top: 75px;
-}
-
-.NetflixPanel h3 {
-    padding: 20px;
-}
