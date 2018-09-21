@@ -10,6 +10,7 @@ import WebsitePanel from "./WebsitePanel"
 import NetflixPanel from "./NetflixPanel"
 import RedditPanel from "./RedditPanel"
 import DataPanel from './DataPanel'
+import YoutubePanel from './YoutubePanel'
 
 class App extends Component {
   render() {
@@ -24,6 +25,7 @@ class App extends Component {
             <Route path='/websites' render={(navProps) => <WebsitePanel {...navProps} />}/>
             <Route path='/netflix' render={(navProps) => <NetflixPanel {...navProps} />}/>
             <Route path='/reddit' render={(navProps) => <RedditPanel {...navProps} />}/>
+            <Route path='/youtube' render={(navProps) => <YoutubePanel {...navProps} />}/>
             <Route path='/' render={(navProps) => <Redirect to='/data' />}/>
         </Switch>
       </div>

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
+import DataNav from './DataNav'
 
 class NetflixPanel extends Component {
     render() {
@@ -8,29 +9,7 @@ class NetflixPanel extends Component {
 	        <div className="panel">
                 <div className="panel-container">
                     <div className="panel-netflix">
-
-	                    <div className="panel-left-nav">
-		                    <div className="filter-nav">
-			                    <div className="filter-title" onClick={ () => this.props.history.push("/data") }>
-				                    <h3>
-					                    Summary Pages
-				                    </h3>
-			                    </div>
-			                    <h3 className="break-line title" />
-			                    <h4 onClick={ () => this.props.history.push("/websites")}>
-				                    Websites
-			                    </h4>
-			                    <h4>
-				                    Youtube
-			                    </h4>
-			                    <h4 onClick={ () => this.props.history.push("/netflix")}>
-				                    Netflix
-			                    </h4>
-			                    <h4 onClick={ () => this.props.history.push("/reddit")}>
-				                    Reddit
-			                    </h4>
-		                    </div>
-	                    </div>
+						<DataNav {...this.props}/>
                         <div className="panel-center-content">
 	                        <h1>Netflix Page</h1>
 	                        <h3>Time Spent Watching TV -</h3>
