@@ -4,21 +4,31 @@
 
 var TabSessions = {};
 
-function onTabRemoval(tabId, removeInfo) {
+var startOfBrowsing = Date.now();
+var startOfSession = Date.now();
+var endOfSession;
+
+
+function onActiveTabChange(activeInfo) {
   //Logic for when a tab is closed
-    alert("Tab " + tabid + "is removed!");
+    endOfSession = Date.now(); //sessions are tab based.....for now.
+    var sessionTime = startOfSession - endOfSession;
+    // We have the session time!
+    startOfSession = Date.now();
+    alert("Tab " + activeInfo.tabId + " is now the active tab!");
 }
 
 function onTabUpdate(tabId, changeInfo, tab) {
   //Logic for when a tab is updated
-    alert("Tab " + tabId + " has updated!");
+    //alert("Tab " + tabId + " has updated!");
+    if (changeInfo.status == "loading" && changeInfo.url != undefined) {
+      alert("URL is now: " + changeInfo.url)
+    } else if (changeInfo.status == "loading") {
+      alert("URL is the same.");
+    } else {
+      //Do nothing
+    }
 }
 
-function onTabReplacement(addedTabId, removedTabId) {
-  //Logic for when a tab is replaced (??)
-    alert("Tab " + tabId + " was replaced!");
-}
-
-chrome.tabs.onRemoved.addListener(onTabRemoval);
+chrome.tabs.onActivated.addListener(onActiveTabChange);
 chrome.tabs.onUpdated.addListener(onTabUpdate);
-chrome.tabs.onReplaced.addListener(onTabReplacement);

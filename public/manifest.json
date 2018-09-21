@@ -7,6 +7,9 @@
     "default_popup": "popup.html",
     "default_title": "Logger"
   },
+  "permissions": [
+    "tabs"
+  ],
   "content_scripts": [{
     "matches": [ "http://*/*", "https://*/*" ],
     "js": [ "content.js" ]
