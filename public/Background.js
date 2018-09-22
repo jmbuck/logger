@@ -92,10 +92,9 @@ function onTabUpdate(tabId, changeInfo, tab) {
               }
             }
           }
+          break;
         }
       }
-
-      sessionNotTracked = true;
 
         //We are not tracking this tab
         if (tabNotTracked) {
@@ -103,6 +102,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
             for (var i = 0; i < SessionsArray.length; i++) {
               if (SessionsArray[i].domain == domainRetreival(changeInfo.url)) {
                 sessionNotTracked = false;
+                break;
               }
             }
             if (sessionNotTracked) {
