@@ -27,7 +27,8 @@ firebase.initializeApp(config);
 function initApp() {
     // Listen for auth state changes.
     // [START authstatelistener]
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged((user) => {
+        console.log(user);
         if (user) {
             // User is signed in.
             var displayName = user.displayName;

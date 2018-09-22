@@ -11,17 +11,28 @@ var endYoutube;
 var channel;
 var endOfSession;
 
-var app = firebase.initializeApp({
+var config = {
     apiKey: "AIzaSyAWi4vgQmLJqYCaVjwqXygDcD8PERfafRM",
     authDomain: "logger-216718.firebaseapp.com",
     databaseURL: "https://logger-216718.firebaseio.com",
     projectId: "logger-216718",
     storageBucket: "logger-216718.appspot.com",
     messagingSenderId: "870302921200"
-});
+};
 
-var db = firebase.database(app);
-var auth = app.auth();
+const app = firebase.initializeApp(config);
+const appDb = app.database().ref();
+
+function initApp() {
+
+    firebase.auth().onAuthStateChanged((user) => {
+        console.log('User state change detected from the Background script of the Chrome Extension:', user);
+    })
+}
+
+window.onload = function() {
+    initApp();
+};
 
 function onActiveTabChange(activeInfo) {
   //Logic for when a tab is closed
@@ -36,30 +47,6 @@ function onActiveTabChange(activeInfo) {
     //alert("Tab " + activeInfo.tabId + " is now the active tab!");
 }
 
-chrome.identity.getAuthToken({interactive: false}, function(token) {
-    if (chrome.runtime.lastError) {
-        console.log('It was not possible to get a token programmatically.');
-    } else if(chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError);
-    } else if (token) {
-        // Authorize Firebase with the OAuth Access Token.
-        var credential = firebase.auth.GoogleAuthProvider.credential(null, token);
-        firebase.auth().signInAndRetrieveDataWithCredential(credential).catch(function(error) {
-            // The OAuth token might have been invalidated. Lets' remove it from cache.
-            if (error.code === 'auth/invalid-credential') {
-                chrome.identity.removeCachedAuthToken({token: token}, function() {
-                    startAuth(false, callback);
-                });
-            }
-        });
-        chrome.runtime.sendMessage({auth, db}, function(response) {
-            console.log(response);
-        });
-    } else {
-        console.error('The OAuth Token was null');
-    }
-});
-
 function onTabUpdate(tabId, changeInfo, tab) {
   //Logic for when a tab is updated
     //alert("Tab " + tabId + " has updated!");
@@ -71,39 +58,6 @@ function onTabUpdate(tabId, changeInfo, tab) {
     } else {
       //Do nothing
     }
-}
-
-/**
- * Start the auth flow and authorizes to Firebase.
- * @param{boolean} interactive True if the OAuth flow should request with an interactive mode.
- */
-function startAuth(interactive, callback) {
-    console.log("Inside startAuth function")
-    // Request an OAuth token from the Chrome Identity API.
-    chrome.identity.getAuthToken({interactive: !!interactive}, function(token) {
-        if (chrome.runtime.lastError && !interactive) {
-            console.log('It was not possible to get a token programmatically.');
-        } else if(chrome.runtime.lastError) {
-            console.error(chrome.runtime.lastError);
-        } else if (token) {
-            // Authorize Firebase with the OAuth Access Token.
-            var credential = firebase.auth.GoogleAuthProvider.credential(null, token);
-            firebase.auth().signInAndRetrieveDataWithCredential(credential).catch(function(error) {
-                // The OAuth token might have been invalidated. Lets' remove it from cache.
-                if (error.code === 'auth/invalid-credential') {
-                    chrome.identity.removeCachedAuthToken({token: token}, function() {
-                        startAuth(interactive);
-                    });
-                }
-            });
-            chrome.runtime.sendMessage({auth, db}, function(response) {
-                console.log(response);
-            });
-        } else {
-            console.error('The OAuth Token was null');
-        }
-    });
-    callback()
 }
 
 function checkTab(url) {
@@ -144,7 +98,7 @@ function postYoutubeVideoData(channel, timeWatched) {
     console.log(timeWatched)
     updateFirebaseYoutubeVideoData(auth.currentUser.uid, {channel, timeWatched})
   }
-  
+
   channel = null;
 }
 
