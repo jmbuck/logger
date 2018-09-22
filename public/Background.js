@@ -13,6 +13,10 @@ var endOfSession;
 
 function onActiveTabChange(activeInfo) {
   //Logic for when a tab is closed
+    chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, (tabs) => {
+      let url = tabs[0] != undefined ? tabs[0].url : null
+      if(url != null) checkTab(url)
+    });
     endOfSession = Date.now(); //sessions are tab based.....for now.
     var sessionTime = startOfSession - endOfSession;
     // We have the session time!
@@ -47,6 +51,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
     //alert("Tab " + tabId + " has updated!");
     if (changeInfo.status == "loading" && changeInfo.url != undefined) {
       //alert("URL is now: " + changeInfo.url)
+      checkTab(changeInfo.url)
     } else if (changeInfo.status == "loading") {
       //alert("URL is the same.");
     } else {
@@ -82,6 +87,11 @@ function startAuth(interactive, callback) {
         }
     });
     callback()
+}
+
+function checkTab(url) {
+  if(url.includes('youtube.com/watch?')) {
+    console.log('youtube video!')
 }
 
 chrome.tabs.onActivated.addListener(onActiveTabChange);

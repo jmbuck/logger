@@ -23,8 +23,8 @@
   }],
   "background": {
     "scripts": [
-      "Background.js",
-      "Network.js"
+      "background.js",
+      "network.js"
       ],
     "persistent": true
   },
