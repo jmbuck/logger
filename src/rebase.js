@@ -45,15 +45,17 @@ export function retrieveFirebaseUserYoutubeVideoData(uid) {
         }
     ]
  */
-export function retrieveFirebaseGlobalYoutubeVideoData() {
-    let arr = {}
+export function retrieveFirebaseGlobalYoutubeVideoData(callback) {
+    let arr = []
 
     let url = '/global/youtube'
 
     db.ref(url).on("value", function(snapshot) {
         snapshot.forEach((child) => {
-            arr[child.key] = child.val()
+            arr.push({name: child.key, time: child.val().timeWatched})
         });
+        console.log(arr);
+        callback(arr);
     }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
     });

@@ -50,10 +50,10 @@ function onActiveTabChange(activeInfo) {
 function onTabUpdate(tabId, changeInfo, tab) {
   //Logic for when a tab is updated
     //alert("Tab " + tabId + " has updated!");
-    if (changeInfo.status == "loading" && changeInfo.url != undefined) {
+    if (changeInfo.status === "loading" && changeInfo.url !== undefined) {
       //alert("URL is now: " + changeInfo.url)
       checkTab(changeInfo.url)
-    } else if (changeInfo.status == "loading") {
+    } else if (changeInfo.status === "loading") {
       //alert("URL is the same.");
     } else {
       //Do nothing
@@ -96,7 +96,8 @@ function postYoutubeVideoData(channel, timeWatched) {
   if(channel) {
     console.log(channel)
     console.log(timeWatched)
-    updateFirebaseYoutubeVideoData(firebase.auth().currentUser.uid, {channel, timeWatched})
+      if(firebase.auth().currentUser)
+        updateFirebaseYoutubeVideoData(firebase.auth().currentUser.uid, {channel, timeWatched})
   }
 
   channel = null;
@@ -161,6 +162,7 @@ setInterval(() => {
 
  */
 function updateFirebaseYoutubeVideoData(uid, data) {
+    console.log(uid, data);
     let updates = {};
 
     let url = '/users/' + uid + '/youtube/' + data.channel

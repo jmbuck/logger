@@ -12,11 +12,11 @@ class YoutubePanel extends Component {
 		this.state = {
             data: []
         }
-	}
 
-	retrieveGlobalData = () => {
-        this.setState({ data: retrieveFirebaseGlobalYoutubeVideoData() })
-        console.log(this.state.data)
+        retrieveFirebaseGlobalYoutubeVideoData((data) => {
+            console.log(data);
+            this.setState({ data : data})
+        })
 	}
 
     render() {
@@ -28,12 +28,27 @@ class YoutubePanel extends Component {
                         <div className="panel-center-content">
 	                        <h1>YouTube</h1>
 	                        <table border="1px solid black" align="center">
-		                        <tr>
-			                        <th>Channels Watched</th>
-			                        <th>Total Time Watched</th>
+                                <thead>
+                                <tr>
+                                    <th>Channels Watched</th>
+                                    <th>Total Time Watched</th>
                                     <th>Total Videos Watched</th>
-		                        </tr>
-								{Object.keys(this.state.data).map((item) => <tr><td>{item}</td><td>{this.state.data[item]}</td></tr>)}
+                                    <th>Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {
+                                    this.state.data.map((d) =>
+                                        <tr key={d.name}>
+                                            <td>{d.name}</td>
+                                            <td>{d.time}</td>
+                                            <td>1</td>
+                                            <td>
+                                                <img src={exitIcon} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
+                                            </td>
+                                        </tr>)
+                                }
+                                </tbody>
 	                        </table>
                         </div>
                     </div>
