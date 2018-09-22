@@ -11,7 +11,11 @@ var startYoutube;
 var endYoutube;
 var startNetflix;
 var endNetflix;
+var redditBaseURL = "reddit.com/r/";
+var startReddit;
+var endReddit;
 var channel;
+var subreddit;
 var endOfSession;
 var timeWatchedNetflix;
 
@@ -137,19 +141,32 @@ function checkTab(url) {
     const timeWatched = endYoutube - startYoutube
     startYoutube = null;
     postYoutubeVideoData(channel, timeWatched)
-  }
-  if(startNetflix) {
+  } else if(startNetflix) {
       endNetflix = Date.now()
       const timeWatchedNetflix = endNetflix - startNetflix
-
+  } else if(startReddit) {
+      endReddit = Date.now();
+      const timeOnSubreddit = endReddit - startReddit;
+      startReddit = null;
+      //alert("PUSH " + subreddit + " WITH TIME OF " + timeOnSubreddit);
+      //TODO: post back to Firebase (with vars subreddit & timeOnSubreddit)
+    }
   }
   if(url.includes('youtube.com/watch?')) {
     startYoutube = Date.now()
     fetchJSON(url)
+  } else if(url.includes('netflix.com/watch')) {
+    startNetflix = Date.now()
+    var urlObj = new URL(url);
+    NetflixShowData(urlObj.searchParams.get("trackId"));
+  } else if(url.includes(redditBaseURL)) {
+    startReddit = Date.now();
+    subreddit = url.slice(url.indexOf(redditBaseURL) + redditBaseURL.length);
   }
-  if(url.includes('netflix.com/watch')) {
-      startNetflix = Date.now()
-  }
+}
+
+function NetflixShowData(trackId) {
+  //Corey's function goes here to extraxt show data
 }
 
 function fetchJSON(url) {
