@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
-import {auth, retrieveFirebaseNetflixData, retrieveFirebaseUserYoutubeVideoData} from "../rebase";
+import {auth, retrieveFirebaseNetflixData} from "../rebase";
 
 class NetflixPanel extends Component {
 

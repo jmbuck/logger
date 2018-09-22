@@ -19,9 +19,17 @@ class FilterPanel extends Component {
          }
     }
 
+    retrieve = (user) => {
+
+    }
+
     componentWillMount() {
-        this.fetchFilters()
-        this.props.fetchWebsites(this.updateState)
+        if(auth.currentUser)
+            this.retrieve(auth.currentUser);
+
+        auth.onAuthStateChanged((user) => {
+            this.retrieve(user);
+        })
     }
 
 

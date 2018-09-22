@@ -43,8 +43,17 @@ export function retrieveFirebaseUserYoutubeVideoData(uid, callback) {
     return arr
 }
 
+export function retrieveFirebaseWebsites(uid, callback) {
+    let url = `/users/${uid}/filters/data`;
+
+    db.ref(url).on("value", (snapshot) => {
+        let arr = [];
+
+    });
+}
+
 export function retrieveFirebaseUserData(uid, callback) {
-    let url = `/users/${uid}/data`
+    let url = `/users/${uid}/data`;
 
     const colors = [
         'rgba(255, 99, 132, 0.2)',
