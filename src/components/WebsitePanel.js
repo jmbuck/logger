@@ -12,8 +12,6 @@ class WebsitePanel extends Component {
 
         this.state = {
             data : [
-                {name : "Facebook", visits : 5, time : "3 minutes", data: "1 GB", category : "Social Media"},
-                {name : "Youtube", visits : 2, time : "37 minutes", data: ".5 MB", category : "Videos"}
             ]}
     }
 
@@ -56,12 +54,12 @@ class WebsitePanel extends Component {
                                 <tbody>
                                 {
                                     this.state.data.map((d) =>
-                                        <tr>
+                                        <tr key={d.name}>
                                             <td>{d.name}</td>
                                             <td>{d.visits}</td>
                                             <td>{d.time}</td>
                                             <td>{d.data}</td>
-                                            <td contentEditable='true'>{d.category}</td>
+                                            <td>{d.category}</td>
                                             <td>
                                                 <img src={exitIcon} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
                                             </td>

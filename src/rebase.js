@@ -82,7 +82,7 @@ export function retrieveFirebaseUserRedditData(uid, callback) {
     db.ref(url).on("value", (snapshot) => {
         let arr = [];
         snapshot.forEach((child) => {
-            arr.push({name: child.key, time: child.val().time});
+            arr.push({name: child.key, time: msToString(child.val().time)});
         });
         callback(arr);
     }, (error) => console.log("The read failed: " + error.code));
@@ -95,7 +95,7 @@ export function retrieveFirebaseWebsiteData(uid, callback) {
         let arr = [];
         snapshot.forEach((child) => {
             const json = child.val();
-            arr.push({name: json.name, time: json.time, visits: json.time, data: json.data, category: json.category ? json.category : "not specified"});
+            arr.push({name: json.name, time: msToString(json.time), visits: json.visits, data: json.data, category: json.category ? json.category : "not specified"});
         })
         callback(arr);
     }, (error) => console.log("The read failed: " + error.code));

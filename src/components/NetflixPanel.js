@@ -20,7 +20,7 @@ class NetflixPanel extends Component {
     retrieve = (user) => {
         if(user) {
             retrieveFirebaseNetflixData(user.uid, (data) => {
-                this.setState({ data : data})
+                this.setState(data)
             })
         }
     };
