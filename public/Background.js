@@ -106,6 +106,60 @@ function postYoutubeVideoData(channel, timeWatched) {
 chrome.tabs.onActivated.addListener(onActiveTabChange);
 chrome.tabs.onUpdated.addListener(onTabUpdate);
 
+chrome.runtime.onMessage.addListener((message) => {
+    if(message.netflix_info) {
+        console.log("Received netflix data ", firebase.auth().currentUser, message.data);
+        if(firebase.auth().currentUser)
+            updateFirebaseNetflixData(firebase.auth().currentUser.uid, message.data)
+    }
+});
+
+/*
+Expects data to be:
+{
+title: string,
+type: integer [0: show, 1: movie]
+}
+
+Stores data as:
+/global
+/netflix
+    /title
+        type
+        watches
+/users
+/uid
+    /netflix
+        title
+
+*/
+function updateFirebaseNetflixData(uid, data) {
+    let updates = {};
+
+    let url = '/users/' + uid + '/netflix'
+    let ref = db.ref(url);
+
+    updates[url + '/' + data.title] = true;
+
+    url = '/global/netflix/' + data.title
+    ref = db.ref(url);
+    var storedTime = 0
+
+    ref.on("value", function(snapshot) {
+        let stored = snapshot.val()
+        if (stored) {
+            storedTime = stored.watches
+        }
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    updates[url + '/type'] = data.type;
+    updates[url + '/watches'] = storedTime++
+
+    db.ref().update(updates)
+}
+
 const networkFilters = {
     urls: [
         "*://*/*"
