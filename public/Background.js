@@ -59,7 +59,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
  * @param{boolean} interactive True if the OAuth flow should request with an interactive mode.
  */
 function startAuth(interactive, callback) {
-    console.log('hello')
+
     // Request an OAuth token from the Chrome Identity API.
     chrome.identity.getAuthToken({interactive: !!interactive}, function(token) {
         if (chrome.runtime.lastError && !interactive) {
@@ -81,24 +81,7 @@ function startAuth(interactive, callback) {
             console.error('The OAuth Token was null');
         }
     });
-    console.log('here1')
     callback()
-}
-
-/**
- * Starts the sign-in process.
- */
-export function startSignIn(auth, callback) {
-    auth.signOut();
-    console.log('hello2')
-    document.getElementById('quickstart-button').disabled = true;
-    if (auth.currentUser) {
-        console.log('currentUser')
-        auth.signOut();
-    } else {
-        console.log('no user')
-        startAuth(true, callback);
-    }
 }
 
 chrome.tabs.onActivated.addListener(onActiveTabChange);

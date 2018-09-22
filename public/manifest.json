@@ -8,12 +8,14 @@
     "default_title": "Logger"
   },
   "options_page": "index.html",
+  "default_icon": "icon.png",
   "version": "1.0",
   "permissions": [
     "webRequest",
     "*://*/*",
     "tabs",
-    "activeTab"
+    "activeTab",
+    "identity"
   ],
   "content_scripts" : [{
     "matches": ["*://*.netflix.com/watch/*"],

@@ -1,3 +1,4 @@
+/*global chrome*/
 import React, {Component} from 'react';
 import {Redirect, Route, Switch} from 'react-router'
 import '../css/common.css';
@@ -11,6 +12,8 @@ import NetflixPanel from "./NetflixPanel"
 import RedditPanel from "./RedditPanel"
 import DataPanel from './DataPanel'
 import YoutubePanel from './YoutubePanel'
+import LoginPanel from "./LoginPanel"
+import base, {auth} from '../rebase'
 
 class App extends Component {
 
