@@ -14,13 +14,20 @@ class YoutubePanel extends Component {
 		}
 	}
 
+	retrieve = (user) => {
+        if(user) {
+            retrieveFirebaseUserYoutubeVideoData(user.uid, (data) => {
+                this.setState({ data : data})
+            })
+        }
+    };
+
 	componentWillMount() {
+	    if(auth.currentUser)
+            this.retrieve(auth.currentUser);
+
 	    auth.onAuthStateChanged((user) => {
-	        if(user) {
-                retrieveFirebaseUserYoutubeVideoData(user.uid, (data) => {
-                    this.setState({ data : data})
-                })
-            }
+	        this.retrieve(user);
         })
     }
 
