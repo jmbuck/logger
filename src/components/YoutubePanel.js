@@ -2,13 +2,31 @@ import React, {Component} from 'react'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
+import {retrieveFirebaseGlobalYoutubeVideoData} from "../rebase";
 
 class YoutubePanel extends Component {
+
+	constructor(props) {
+		super(props)
+
+		this.state = {
+            data: []
+        }
+	}
+
+	retrieveGlobalData = () => {
+        this.setState({ data: retrieveFirebaseGlobalYoutubeVideoData() })
+        console.log(this.state.data)
+	}
+
     render() {
         return (
 	        <div className="panel">
                 <div className="panel-container">
                     <div className="panel-youtube">
+                        <div className="main-content">
+                            <button id="test-button" onClick={() => this.retrieveGlobalData()}>Print data</button>
+                        </div>
                         <DataNav {...this.props}/>
                         <div className="panel-center-content">
 	                        <h1>YouTube</h1>
@@ -18,21 +36,7 @@ class YoutubePanel extends Component {
 			                        <th>Total Time Watched</th>
                                     <th>Total Videos Watched</th>
 		                        </tr>
-		                        <tr>
-			                        <td>VSauce</td>
-			                        <td>7 hours</td>
-                                    <td>102 videos</td>
-		                        </tr>
-		                        <tr>
-			                        <td>Pewdiepie</td>
-			                        <td>12 hours</td>
-                                    <td>234 videos</td>
-		                        </tr>
-		                        <tr>
-			                        <td>Summoning Salt</td>
-			                        <td>5 hours 37 minutes</td>
-                                    <td>25 videos</td>
-		                        </tr>
+								{Object.keys(this.state.data).map((item) => <tr><td>{item}</td><td>{this.state.data[item]}</td></tr>)}
 	                        </table>
                         </div>
                     </div>

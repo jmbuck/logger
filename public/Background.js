@@ -52,6 +52,9 @@ chrome.identity.getAuthToken({interactive: false}, function(token) {
                 });
             }
         });
+        chrome.runtime.sendMessage({auth, db}, function(response) {
+            console.log(response);
+        });
     } else {
         console.error('The OAuth Token was null');
     }
@@ -93,6 +96,9 @@ function startAuth(interactive, callback) {
                     });
                 }
             });
+            chrome.runtime.sendMessage({auth, db}, function(response) {
+                console.log(response);
+            });
         } else {
             console.error('The OAuth Token was null');
         }
@@ -105,7 +111,7 @@ function checkTab(url) {
     endYoutube = Date.now()
     timeWatched = endYoutube - startYoutube
     startYoutube = null;
-    postVideoData(channel, timeWatched)
+    postYoutubeVideoData(channel, timeWatched)
   }
   if(url.includes('youtube.com/watch?')) {
     startYoutube = Date.now()
@@ -132,11 +138,11 @@ function fetchJSON(url) {
   })
 }
 
-function postVideoData(channel, timeWatched) {
+function postYoutubeVideoData(channel, timeWatched) {
   if(channel) {
-    //Post data to firebase
     console.log(channel)
     console.log(timeWatched)
+    updateFirebaseYoutubeVideoData(auth.currentUser.uid, {channel, timeWatched})
   }
   
   channel = null;
@@ -144,7 +150,6 @@ function postVideoData(channel, timeWatched) {
 
 chrome.tabs.onActivated.addListener(onActiveTabChange);
 chrome.tabs.onUpdated.addListener(onTabUpdate);
-
 
 const networkFilters = {
     urls: [
@@ -176,8 +181,112 @@ function retrieveDetails(details) {
 
 chrome.webRequest.onCompleted.addListener(retrieveDetails, networkFilters, ["responseHeaders"]);
 
-function writeUserData(uid, data) {
-    db.ref('users/' + uid).set(data);
+/*
+    Expects data to be:
+    {
+        channel: string,
+        timeWatched: integer
+    }
+
+    Stores data as:
+    /global/
+        youtube/
+            channel/
+                timeWatched
+    /users/
+        uid/
+            channel/
+                timeWatched
+
+ */
+function updateFirebaseYoutubeVideoData(uid, data) {
+    let updates = {};
+
+    let url = '/users/' + uid + '/youtube/' + data.channel
+    let ref = db.ref(url);
+    let storedTime = 0
+
+    ref.on("value", function(snapshot) {
+        let stored = snapshot.val()
+        if (stored) {
+            storedTime = stored.timeWatched
+        }
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    updates[url + '/timeWatched'] = storedTime + data.timeWatched;
+
+    url = '/global/youtube/' + data.channel
+    ref = db.ref(url);
+    storedTime = 0
+
+    ref.on("value", function(snapshot) {
+        let stored = snapshot.val()
+        if (stored) {
+            storedTime = stored.timeWatched
+        }
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    updates[url + '/timeWatched'] = storedTime + data.timeWatched;
+
+    db.ref().update(updates)
+}
+
+/*
+    Returns array data as:
+    [
+        "Channel1": {
+            timeWatched: int
+        },
+        "Channel2": {
+            timeWatched: int
+        }
+    ]
+ */
+function retrieveFirebaseUserYoutubeVideoData(uid) {
+
+    let arr = {}
+    let url = '/users/' + uid + '/youtube'
+
+    db.ref(url).on("value", function(snapshot) {
+        snapshot.forEach((child) => {
+            arr[child.key] = child.val()
+        });
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    return arr
+}
+
+/*
+    Returns array data as:
+    [
+        "Channel1": {
+            timeWatched: int
+        },
+        "Channel2": {
+            timeWatched: int
+        }
+    ]
+ */
+function retrieveFirebaseGlobalYoutubeVideoData() {
+    let arr = {}
+
+    let url = '/global/youtube'
+
+    db.ref(url).on("value", function(snapshot) {
+        snapshot.forEach((child) => {
+            arr[child.key] = child.val()
+        });
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    return arr
 }
 
 

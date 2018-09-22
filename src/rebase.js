@@ -3,6 +3,7 @@ import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/auth'
 
+
 var app = firebase.initializeApp({
     apiKey: "AIzaSyAWi4vgQmLJqYCaVjwqXygDcD8PERfafRM",
     authDomain: "logger-216718.firebaseapp.com",
@@ -12,7 +13,37 @@ var app = firebase.initializeApp({
     messagingSenderId: "870302921200"
 });
 
-export const db = firebase.database(app);
+
+// chrome.runtime.onMessage.addListener(
+//     function(request, sender, sendResponse) {
+//         console.log(sender.tab ?
+//             "from a content script:" + sender.tab.url :
+//             "from the extension");
+//         if (request) {
+//             auth = request.auth
+//             db = request.db
+//             sendResponse({auth, db});
+//         }
+//     });
+
+export function retrieveFirebaseGlobalYoutubeVideoData() {
+
+    let arr = {}
+
+    let url = '/global/youtube'
+
+    db.ref(url).on("value", function(snapshot) {
+        snapshot.forEach((child) => {
+            arr[child.key] = child.val()
+        });
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    return arr
+}
+
+var db = firebase.database(app);
 var base = Rebase.createClass(db);
 
 export const auth = app.auth()
