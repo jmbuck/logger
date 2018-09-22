@@ -18,15 +18,16 @@ var app = window.firebase.initializeApp({
         }
     ]
  */
-export function retrieveFirebaseUserYoutubeVideoData(uid) {
+export function retrieveFirebaseUserYoutubeVideoData(uid, callback) {
 
-    let arr = {}
+    let arr = []
     let url = '/users/' + uid + '/youtube'
 
     db.ref(url).on("value", function(snapshot) {
         snapshot.forEach((child) => {
-            arr[child.key] = child.val()
+            arr.push({name: child.key, time: child.val().timeWatched})
         });
+        callback(arr);
     }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
@@ -54,7 +55,6 @@ export function retrieveFirebaseGlobalYoutubeVideoData(callback) {
         snapshot.forEach((child) => {
             arr.push({name: child.key, time: child.val().timeWatched})
         });
-        console.log(arr);
         callback(arr);
     }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);

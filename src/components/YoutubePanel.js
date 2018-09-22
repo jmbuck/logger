@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
-import {retrieveFirebaseGlobalYoutubeVideoData} from "../rebase";
+import {auth, retrieveFirebaseUserYoutubeVideoData} from "../rebase";
 
 class YoutubePanel extends Component {
 
@@ -11,13 +11,17 @@ class YoutubePanel extends Component {
 
 		this.state = {
             data: []
-        }
-
-        retrieveFirebaseGlobalYoutubeVideoData((data) => {
-            console.log(data);
-            this.setState({ data : data})
-        })
+		}
 	}
+
+	componentWillMount() {
+	    auth.onAuthStateChanged((user) => {
+	        console.log(user);
+            retrieveFirebaseUserYoutubeVideoData(user.uid, (data) => {
+                this.setState({ data : data})
+            })
+        })
+    }
 
     render() {
         return (
