@@ -24,9 +24,6 @@ class YoutubePanel extends Component {
 	        <div className="panel">
                 <div className="panel-container">
                     <div className="panel-youtube">
-                        <div className="main-content">
-                            <button id="test-button" onClick={() => this.retrieveGlobalData()}>Print data</button>
-                        </div>
                         <DataNav {...this.props}/>
                         <div className="panel-center-content">
 	                        <h1>YouTube</h1>
