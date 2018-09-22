@@ -8,7 +8,11 @@ var app = window.firebase.initializeApp({
 });
 
 function msToString(time) {
-    return time;
+    let seconds = Math.floor(time / 1000) % 60;
+    let minutes = Math.floor(time / 1000 / 60) % 60;
+    let hours = Math.floor(time / 1000 / 60 / 24);
+
+    return (hours >= .9 ? `${hours} hours ` : '') + (minutes >= .9 ? `${minutes} minutes ` : '') + (seconds >= .9 ? `${seconds} seconds` : '');
 }
 
 /*
@@ -103,10 +107,10 @@ export function retrieveFirebaseNetflixData(uid, callback) {
     db.ref(url).on("value", (snapshot) => {
         const json = snapshot.toJSON();
         callback({
-            timeTV: msToString(json["0"].time),
-            visitsTV: json["0"].watches,
-            timeMovies: msToString(json["1"].time),
-            visitsMovies: json["1"].watches
+            timeTV: msToString(json["shows"].time),
+            visitsTV: json["shows"].watches,
+            timeMovies: msToString(json["movies"].time),
+            visitsMovies: json["movies"].watches
         })
     }, (error) => console.log("The read failed: " + error.code));
 }

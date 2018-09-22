@@ -11,9 +11,9 @@ class DataPanel extends Component {
 
         this.state = {
             dataUsage : {
-                labels: ["Social Media", "Streaming", "Gaming", "News", "Financial", "Programming"],
+                labels: [],
                 datasets: [{
-                    label: "My First dataset",
+                    label: "Loading",
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -22,7 +22,7 @@ class DataPanel extends Component {
                         'rgba(153, 102, 255, 0.2)',
                         'rgba(255, 159, 64, 0.2)'
                     ],
-                    data: [40, 10, 5, 2, 20, 30],
+                    data: [],
                 }]
             }
         }
