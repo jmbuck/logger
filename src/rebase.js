@@ -35,6 +35,19 @@ export function retrieveFirebaseUserYoutubeVideoData(uid, callback) {
     return arr
 }
 
+export function retrieveFirebaseWebsiteData(uid, callback) {
+    let url = `/users/${uid}/website`
+
+    db.ref(url).on("value", (snapshot) => {
+        let arr = [];
+        snapshot.forEach((child) => {
+            const json = child.val();
+            arr.push({name: json.name, time: json.time, visits: json.time, data: json.data, category: json.category ? json.category : "not specified"});
+        })
+        callback(arr);
+    }, (error) => console.log("The read failed: " + error.code));
+}
+
 export function retrieveFirebaseNetflixData(uid, callback) {
     let url = `/users/${uid}/netflix`;
 

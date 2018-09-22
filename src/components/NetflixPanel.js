@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
-import {auth, retrieveFirebaseNetflixData} from "../rebase";
+import {auth, retrieveFirebaseNetflixData, retrieveFirebaseUserYoutubeVideoData} from "../rebase";
 
 class NetflixPanel extends Component {
 
@@ -17,13 +17,20 @@ class NetflixPanel extends Component {
         }
     }
 
+    retrieve = (user) => {
+        if(user) {
+            retrieveFirebaseNetflixData(user.uid, (data) => {
+                this.setState({ data : data})
+            })
+        }
+    };
+
     componentWillMount() {
+        if(auth.currentUser)
+            this.retrieve(auth.currentUser);
+
         auth.onAuthStateChanged((user) => {
-            if(user) {
-                retrieveFirebaseNetflixData(user.uid, (data) => {
-                    this.setState(data)
-                })
-            }
+            this.retrieve(user);
         })
     }
 
