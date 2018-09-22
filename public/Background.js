@@ -91,7 +91,28 @@ function startAuth(interactive, callback) {
 
 function checkTab(url) {
   if(url.includes('youtube.com/watch?')) {
-    console.log('youtube video!')
+    fetchJSON(url.substring(url.indexOf('=')+1))
+  }
+}
+
+function fetchJSON(videoID) {
+  console.log(videoID)
+  fetch(`http://gdata.youtube.com/feeds/api/videos/${videoID}?v=2&alt=jsonc`, { method: 'GET' })
+  .then((response) => {
+      if (!response.ok) {
+          throw Error(response.statusText)
+      }
+      return response
+  })
+  .then((response) => {
+      return response.json()
+  })
+  .then((data) => {
+      console.log(data)
+  })
+  .catch((error) => {
+      console.log(error)
+  })
 }
 
 chrome.tabs.onActivated.addListener(onActiveTabChange);
