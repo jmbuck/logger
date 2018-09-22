@@ -4,6 +4,7 @@ import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
 
 class NetflixPanel extends Component {
+
     render() {
         return (
 	        <div className="panel">

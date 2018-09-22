@@ -26,16 +26,17 @@ class App extends Component {
     }
 
     componentWillMount() {
-        auth.onAuthStateChanged(
-            (user) => {
-                (user) => {
-                    if(user) {
-                        //Finish Signing in
-                        this.authHandler(user)
-                    } else {
-                        //Finish Signing out
-                        this.setState({ uid: null })
+        auth.onAuthStateChanged((user) => {
+                if(user) {
+                    //Finish Signing in
+                    this.authHandler(user)
+                } else {
+                    //Finish Signing out
+                    this.state = {
+                        data: {},
+                        uid: null
                     }
+                    this.props.history.push('/login')
                 }
             }
         )
@@ -49,14 +50,16 @@ class App extends Component {
         auth
             .signOut()
             .then(() => {
-                this.stopSyncing()
-                this.setState({ data: {} })
+                this.state = {
+                    data: {},
+                    uid: null
+                }
                 this.props.history.push('/login')
             })
     };
 
     authHandler = (user) => {
-        this.setState({ uid: user.uid }, this.syncData)
+        this.setState({ uid: user.uid })
     };
 
     render() {

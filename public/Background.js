@@ -21,7 +21,7 @@ var config = {
 };
 
 const app = firebase.initializeApp(config);
-const appDb = app.database().ref();
+const db = app.database();
 
 function initApp() {
 
@@ -63,7 +63,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
 function checkTab(url) {
   if(startYoutube) {
     endYoutube = Date.now()
-    timeWatched = endYoutube - startYoutube
+    let timeWatched = endYoutube - startYoutube
     startYoutube = null;
     postYoutubeVideoData(channel, timeWatched)
   }
@@ -96,7 +96,7 @@ function postYoutubeVideoData(channel, timeWatched) {
   if(channel) {
     console.log(channel)
     console.log(timeWatched)
-    updateFirebaseYoutubeVideoData(auth.currentUser.uid, {channel, timeWatched})
+    updateFirebaseYoutubeVideoData(firebase.auth().currentUser.uid, {channel, timeWatched})
   }
 
   channel = null;
@@ -135,6 +135,12 @@ function retrieveDetails(details) {
 
 chrome.webRequest.onCompleted.addListener(retrieveDetails, networkFilters, ["responseHeaders"]);
 
+
+setInterval(() => {
+
+    dataCollector = [];
+}, 5000);
+
 /*
     Expects data to be:
     {
@@ -143,14 +149,15 @@ chrome.webRequest.onCompleted.addListener(retrieveDetails, networkFilters, ["res
     }
 
     Stores data as:
-    /global/
-        youtube/
-            channel/
+    /global
+        /youtube
+            /channel
                 timeWatched
-    /users/
-        uid/
-            channel/
-                timeWatched
+    /users
+        /uid
+            /youtube
+                /channel
+                    timeWatched
 
  */
 function updateFirebaseYoutubeVideoData(uid, data) {
@@ -188,64 +195,3 @@ function updateFirebaseYoutubeVideoData(uid, data) {
 
     db.ref().update(updates)
 }
-
-/*
-    Returns array data as:
-    [
-        "Channel1": {
-            timeWatched: int
-        },
-        "Channel2": {
-            timeWatched: int
-        }
-    ]
- */
-function retrieveFirebaseUserYoutubeVideoData(uid) {
-
-    let arr = {}
-    let url = '/users/' + uid + '/youtube'
-
-    db.ref(url).on("value", function(snapshot) {
-        snapshot.forEach((child) => {
-            arr[child.key] = child.val()
-        });
-    }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-    });
-
-    return arr
-}
-
-/*
-    Returns array data as:
-    [
-        "Channel1": {
-            timeWatched: int
-        },
-        "Channel2": {
-            timeWatched: int
-        }
-    ]
- */
-function retrieveFirebaseGlobalYoutubeVideoData() {
-    let arr = {}
-
-    let url = '/global/youtube'
-
-    db.ref(url).on("value", function(snapshot) {
-        snapshot.forEach((child) => {
-            arr[child.key] = child.val()
-        });
-    }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-    });
-
-    return arr
-}
-
-
-setInterval(() => {
-
-
-    dataCollector = [];
-}, 5000);
