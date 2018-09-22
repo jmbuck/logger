@@ -4,6 +4,19 @@ import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
 
 class RedditPanel extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            data : [
+                {name: "AskReddit", time : "3 minutes"},
+                {name: "IAmA", time : "10 minutes"},
+                {name: "pics", time : "5 hours"}
+            ]
+        }
+    }
+
     render() {
         return (
 	        <div className="panel">
@@ -14,25 +27,20 @@ class RedditPanel extends Component {
 	                        <h1>Reddit</h1>
 	                        <table border="1px solid black" align="center">
 		                        <tr>
-			                        <th>Threads Visited</th>
+			                        <th>Subreddit</th>
 			                        <th>Time Spent</th>
+                                    <th>Delete</th>
 		                        </tr>
-		                        <tr>
-			                        <td>"The Button"</td>
-			                        <td>3 minutes</td>
-		                        </tr>
-		                        <tr>
-			                        <td>"What's your secret that could literally ruin  your life if it came out?"</td>
-			                        <td>54 minutes</td>
-		                        </tr>
-		                        <tr>
-			                        <td>"HELP reddit turned spanish and i cannot undo it!"</td>
-			                        <td>22 minutes</td>
-		                        </tr>
-		                        <tr>
-			                        <td>"Rome Sweet Rome"</td>
-			                        <td>10 minutes</td>
-		                        </tr>
+                                {
+                                    this.state.data.map((d) =>
+                                        <tr>
+                                            <td>{d.name}</td>
+                                            <td>{d.time}</td>
+                                            <td>
+                                                <img src={exitIcon} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
+                                            </td>
+                                        </tr>)
+                                }
 	                        </table>
                         </div>
                     </div>
