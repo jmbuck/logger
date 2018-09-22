@@ -4,7 +4,13 @@ import Modal from 'react-modal'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import { database } from 'firebase';
-import { auth } from '../rebase'
+import {
+    auth,
+    postFirebaseWebsiteFilter,
+    postFirebaseWebsiteSettings,
+    retrieveFirebaseWebsites,
+    retrieveFirebaseWebsitesBlacklist
+} from '../rebase'
 
 class FilterPanel extends Component {
 
@@ -13,25 +19,28 @@ class FilterPanel extends Component {
 
          this.state = { 
              websites: ['Google', 'Facebook', 'YouTube'],
-             filters: ['google.com', 'facebook.com'],
+             filters: [],
              modalIsOpen: false,
              website: '',
          }
     }
 
+    retrieve = (user) => {
+        retrieveFirebaseWebsites(user.uid, (data) => {
+            this.setState({websites: data});
+        });
+        retrieveFirebaseWebsitesBlacklist(user.uid, (data) => {
+            this.setState({filters: data});
+        })
+    };
+
     componentWillMount() {
-        this.fetchFilters()
-        this.props.fetchWebsites(this.updateState)
-    }
+        if (auth.currentUser)
+            this.retrieve(auth.currentUser);
 
-
-    updateState = (websites) => {
-        this.setState({ websites })
-    }
-
-    fetchFilters = () => {
-        let uid = auth.currentUser ? auth.currentUser.uid : null
-        //TODO: implement fetch
+        auth.onAuthStateChanged((user) => {
+            this.retrieve(user);
+        })
     }
     
     handleSubmit = (ev) => {
@@ -49,10 +58,7 @@ class FilterPanel extends Component {
         const data = ev.target.data.checked
         const time = ev.target.time.checked
         const visits = ev.target.visits.checked
-        const tracking = []
-        if(data) tracking.push('data')
-        if(time) tracking.push('time')
-        if(visits) tracking.push('visits')
+        const tracking = { data, time, visits }
         console.log(ev.target)
         console.log(tracking)
         this.postTrackingSettingsToFirebase(website, tracking)
@@ -60,10 +66,14 @@ class FilterPanel extends Component {
 
     postTrackingSettingsToFirebase = (website, tracking) => {
         //TODO: implement post
+        if(auth.currentUser)
+            postFirebaseWebsiteSettings(auth.currentUser.uid, website, tracking)
     }
 
     postFilterToFirebase = (url) => {
         //TODO: implement post
+        if(auth.currentUser)
+            postFirebaseWebsiteFilter(auth.currentUser.uid, url)
     }
 
     openModal = (website) => {

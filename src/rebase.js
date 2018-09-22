@@ -43,8 +43,38 @@ export function retrieveFirebaseUserYoutubeVideoData(uid, callback) {
     return arr
 }
 
+export function retrieveFirebaseWebsites(uid, callback) {
+    let url = `/users/${uid}/filters/data`;
+
+    db.ref(url).on("value", (snapshot) => {
+        let arr = [];
+
+        snapshot.forEach((child) => {
+            arr.push(child.key);
+        })
+
+        callback(arr);
+
+    });
+}
+
+export function retrieveFirebaseWebsitesBlacklist(uid, callback) {
+    let url = `/users/${uid}/filters/blacklist`;
+
+    db.ref(url).on("value", (snapshot) => {
+        let arr = [];
+
+        snapshot.forEach((child) => {
+            arr.push(child.key);
+        });
+
+        callback(arr);
+
+    });
+}
+
 export function retrieveFirebaseUserData(uid, callback) {
-    let url = `/users/${uid}/data`
+    let url = `/users/${uid}/data`;
 
     const colors = [
         'rgba(255, 99, 132, 0.2)',
@@ -142,6 +172,25 @@ export function retrieveFirebaseGlobalYoutubeVideoData(callback) {
     });
 
     return arr
+}
+
+export function postFirebaseWebsiteFilter(uid, website) {
+    let url = `/users/${uid}/filters/blacklist/${website}`;
+
+    let updates = {};
+    updates[url] = true
+
+    db.ref().update(updates)
+}
+
+export function postFirebaseWebsiteSettings(uid, website, settings) {
+    let url = `/users/${uid}/filters/data/${website}`;
+
+    let updates = {};
+
+    updates[url] = settings;
+
+    db.ref().update(updates);
 }
 
 export const auth = app.auth()
