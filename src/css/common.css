@@ -43,7 +43,7 @@ h3.break-line.title { margin-top: 5px; margin-bottom: 20px; }
 
 .filter-nav .filter-title { position: relative; padding-top: 1em; height: 1.5em; cursor: pointer; }
 
-.filter-nav .filter-title h3 { position: relative; width: 100%; z-index: 1; margin: 0; }
+.filter-nav .filter-title h3 { position: relative; width: 100%; margin: 0; }
 
 .filter-nav .filter-title img { position: absolute; top: 0; right: 0; z-index: 2; filter: invert(88%) sepia(1%) saturate(2264%) hue-rotate(2deg) brightness(87%) contrast(97%) opacity(66%); width: 1em; height: 1em; }
 
@@ -59,7 +59,7 @@ h3.break-line.title { margin-top: 5px; margin-bottom: 20px; }
 
 .exit-nav { position: relative; height: 1.5em; width: 1.5em; padding: .5em; cursor: pointer; }
 
-.exit-nav img { position: absolute; top: .5em; left: .5em; z-index: 2; filter: invert(88%) sepia(1%) saturate(2264%) hue-rotate(2deg) brightness(87%) contrast(97%) opacity(66%); width: 1.5em; height: 1.5em; }
+.exit-nav img { position: absolute; top: .5em; left: .5em; filter: invert(88%) sepia(1%) saturate(2264%) hue-rotate(2deg) brightness(87%) contrast(97%) opacity(66%); width: 1.5em; height: 1.5em; }
 
 .exit-nav:hover img { filter: invert(88%) sepia(1%) saturate(2264%) hue-rotate(2deg) brightness(87%) contrast(97%) opacity(90%); }
 

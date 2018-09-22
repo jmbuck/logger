@@ -47,7 +47,7 @@ class App extends Component {
         //TODO: implement fetch
         //callback should be called after data is received
         let data;
-        callback(data)
+        //callback(data)
     }
 
     signedIn = () => {
