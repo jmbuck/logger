@@ -13,7 +13,7 @@ import RedditPanel from "./RedditPanel"
 import DataPanel from './DataPanel'
 import YoutubePanel from './YoutubePanel'
 import LoginPanel from "./LoginPanel"
-import base, {auth} from '../rebase'
+import {auth} from '../rebase'
 
 class App extends Component {
 
@@ -41,25 +41,9 @@ class App extends Component {
         )
     }
 
-    syncData = () => {
-        this.ref = base.syncState(
-            `data/${this.state.uid}`,
-            {
-                context: this,
-                state: 'data',
-            }
-        )
-    }
-
-    stopSyncing = () => {
-        if(this.ref) {
-            base.removeBinding(this.ref)
-        }
-    }
-
     signedIn = () => {
         return this.state.uid
-    }
+    };
 
     signOut = () =>{
         auth
@@ -69,11 +53,11 @@ class App extends Component {
                 this.setState({ data: {} })
                 this.props.history.push('/login')
             })
-    }
+    };
 
     authHandler = (user) => {
         this.setState({ uid: user.uid }, this.syncData)
-    }
+    };
 
     render() {
         return (

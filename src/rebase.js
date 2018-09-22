@@ -1,10 +1,4 @@
-import Rebase from 're-base';
-import firebase from 'firebase/app';
-import 'firebase/database';
-import 'firebase/auth'
-
-
-var app = firebase.initializeApp({
+var app = window.firebase.initializeApp({
     apiKey: "AIzaSyAWi4vgQmLJqYCaVjwqXygDcD8PERfafRM",
     authDomain: "logger-216718.firebaseapp.com",
     databaseURL: "https://logger-216718.firebaseio.com",
@@ -32,22 +26,9 @@ export function retrieveFirebaseGlobalYoutubeVideoData() {
 
     let url = '/global/youtube'
 
-    db.ref(url).on("value", function(snapshot) {
-        snapshot.forEach((child) => {
-            arr[child.key] = child.val()
-        });
-    }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-    });
-
     return arr
 }
 
-var db = firebase.database(app);
-var base = Rebase.createClass(db);
-
 export const auth = app.auth()
-export const googleProvider = new firebase.auth.GoogleAuthProvider()
-
-export default base;
+export const googleProvider = new window.firebase.auth.GoogleAuthProvider()
 
