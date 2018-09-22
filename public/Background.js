@@ -8,8 +8,11 @@ var startOfBrowsing = Date.now();
 var startOfSession = Date.now();
 var startYoutube;
 var endYoutube;
+var startNetflix;
+var endNetflix;
 var channel;
 var endOfSession;
+var timeWatchedNetflix;
 
 var config = {
     apiKey: "AIzaSyAWi4vgQmLJqYCaVjwqXygDcD8PERfafRM",
@@ -63,13 +66,21 @@ function onTabUpdate(tabId, changeInfo, tab) {
 function checkTab(url) {
   if(startYoutube) {
     endYoutube = Date.now()
-    let timeWatched = endYoutube - startYoutube
+    const timeWatched = endYoutube - startYoutube
     startYoutube = null;
     postYoutubeVideoData(channel, timeWatched)
+  }
+  if(startNetflix) {
+      endNetflix = Date.now()
+      const timeWatchedNetflix = endNetflix - startNetflix
+
   }
   if(url.includes('youtube.com/watch?')) {
     startYoutube = Date.now()
     fetchJSON(url)
+  }
+  if(url.includes('netflix.com/watch')) {
+      startNetflix = Date.now()
   }
 }
 
@@ -105,12 +116,15 @@ function postYoutubeVideoData(channel, timeWatched) {
 
 chrome.tabs.onActivated.addListener(onActiveTabChange);
 chrome.tabs.onUpdated.addListener(onTabUpdate);
-
 chrome.runtime.onMessage.addListener((message) => {
     if(message.netflix_info) {
         console.log("Received netflix data ", firebase.auth().currentUser, message.data);
+        if(startNetflix) {
+            timeWatchedNetflix = Date.now() - startNetflix
+            startNetflix = Date.now()
+        }
         if(firebase.auth().currentUser)
-            updateFirebaseNetflixData(firebase.auth().currentUser.uid, message.data)
+            updateFirebaseNetflixData(firebase.auth().currentUser.uid, message.data, timeWatchedNetflix)
     }
 });
 
@@ -133,7 +147,7 @@ Stores data as:
         title
 
 */
-function updateFirebaseNetflixData(uid, data) {
+function updateFirebaseNetflixData(uid, data, timeWatchedNetflix) {
     let updates = {};
 
     let url = '/users/' + uid + '/netflix'
