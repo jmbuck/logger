@@ -30,22 +30,19 @@ class YoutubePanel extends Component {
 			                        <th>Channels Watched</th>
 			                        <th>Total Time Watched</th>
                                     <th>Total Videos Watched</th>
+                                    <th>Delete</th>
 		                        </tr>
-		                        <tr>
-			                        <td>VSauce</td>
-			                        <td>7 hours</td>
-                                    <td>102 videos</td>
-		                        </tr>
-		                        <tr>
-			                        <td>Pewdiepie</td>
-			                        <td>12 hours</td>
-                                    <td>234 videos</td>
-		                        </tr>
-		                        <tr>
-			                        <td>Summoning Salt</td>
-			                        <td>5 hours 37 minutes</td>
-                                    <td>25 videos</td>
-		                        </tr>
+                                {
+                                    this.state.data.map((d) =>
+                                        <tr>
+                                            <td>{d.name}</td>
+                                            <td>{d.time}</td>
+                                            <td>{d.visits}</td>
+                                            <td>
+                                                <img src={exitIcon} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
+                                            </td>
+                                        </tr>)
+                                }
 	                        </table>
                         </div>
                     </div>
