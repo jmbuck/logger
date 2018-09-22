@@ -27,7 +27,7 @@ var config = {
 const app = firebase.initializeApp(config);
 const db = app.database();
 
-function domainRetreival(Stirng URL) {
+function domainRetreival(URL) {
   var resultArray = URL.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img);
   return resultArray[0];
 }
@@ -82,7 +82,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
                 //We are tracking this session in another tab
               } else {
                 //We are not tracking this session in another tab
-                var TabSession =  = {
+                var TabSession = {
                   tabid: tabId,
                   startOfSession: Date.now(),
                   rawURL: changeInfo.url,

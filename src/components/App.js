@@ -13,7 +13,7 @@ import RedditPanel from "./RedditPanel"
 import DataPanel from './DataPanel'
 import YoutubePanel from './YoutubePanel'
 import LoginPanel from "./LoginPanel"
-import {auth} from '../rebase'
+import { auth } from '../rebase'
 
 class App extends Component {
 
@@ -40,6 +40,14 @@ class App extends Component {
                 }
             }
         )
+    }
+
+    fetchWebsites = (callback) => {
+        let uid = auth.currentUser ? auth.currentUser.uid : null
+        //TODO: implement fetch
+        //callback should be called after data is received
+        let data;
+        callback(data)
     }
 
     signedIn = () => {
@@ -69,7 +77,7 @@ class App extends Component {
             <Switch>
                 <Route path='/data' render={(navProps) => <DataPanel {...navProps} />}/>
                 <Route path='/preferences' render={(navProps) => <PreferencePanel {...navProps} />}/>
-                <Route path='/filters' render={(navProps) => <FilterPanel {...navProps} />}/>
+                <Route path='/filters' render={(navProps) => <FilterPanel {...navProps} fetchWebsites={this.fetchWebsites}/>}/>
                 <Route path='/deleteaccount' render={(navProps) => <DeleteAccountPanel {...navProps} />}/>
                 <Route path='/websites' render={(navProps) => <WebsitePanel {...navProps} />}/>
                 <Route path='/netflix' render={(navProps) => <NetflixPanel {...navProps} />}/>
