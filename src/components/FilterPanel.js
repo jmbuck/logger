@@ -18,7 +18,7 @@ class FilterPanel extends Component {
         super(props);
 
          this.state = { 
-             websites: ['Google', 'Facebook', 'YouTube'],
+             websites: [],
              filters: [],
              modalIsOpen: false,
              website: '',

@@ -101,7 +101,6 @@ export function retrieveFirebaseUserData(uid, callback) {
                 data: dataUsage,
             }]
         };
-        console.log(data);
         callback(data);
     }, (error) => console.log("The read failed: " + error.code));
 }
@@ -125,10 +124,56 @@ export function retrieveFirebaseWebsiteData(uid, callback) {
         let arr = [];
         snapshot.forEach((child) => {
             const json = child.val();
-            arr.push({name: json.name, time: msToString(json.time), visits: json.visits, data: json.data, category: json.category ? json.category : "not specified"});
-        })
+            let data = 0;
+            for(let dataType in json.data) {
+                if(!json.data.hasOwnProperty(dataType)) continue;
+                    data += json.data[dataType];
+            }
+
+            arr.push({name: child.key, time: msToString(json.time), visits: json.visits, data: data, category: json.category ? json.category : "not specified"});
+        });
         callback(arr);
     }, (error) => console.log("The read failed: " + error.code));
+}
+
+export function retrieveFirebaseWebsitesData(uid, callback) {
+    let url = `/users/${uid}/website`
+
+    const colors = [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+    ];
+
+    db.ref(url).on("value", (snapshot) => {
+        let i = 0;
+
+        let dataTypes = {};
+
+        snapshot.forEach((child) => {
+            if(i < 6) {
+                const jsonData = child.val().data;
+
+                for(let dataType in jsonData) {
+                    if(!jsonData.hasOwnProperty(dataType)) continue;
+
+                    console.log(dataType);
+
+                    if(!dataTypes[dataType])
+                        dataTypes[dataType] = [0, 0, 0, 0, 0, 0];
+
+                    dataTypes[dataType][i] = jsonData[dataType];
+                }
+
+                i++;
+            }
+        });
+
+        console.log(dataTypes)
+    })
 }
 
 export function retrieveFirebaseNetflixData(uid, callback) {
