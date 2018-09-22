@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/chrome": "0.0.74",
+    "auth0-chrome": "^0.1.2",
     "chart.js": "^2.7.2",
+    "chrome": "^0.1.0",
     "firebase": "^5.5.1",
+    "jwt-decode": "^2.2.0",
     "re-base": "^4.0.0",
     "react": "^16.5.1",
     "react-chartjs-2": "^2.7.4",
