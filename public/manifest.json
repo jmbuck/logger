@@ -12,8 +12,13 @@
   "permissions": [
     "webRequest",
     "*://*/*",
-    "tabs"
+    "tabs",
+    "activeTab"
   ],
+  "content_scripts" : [{
+    "matches": ["*://*.netflix.com/watch/*"],
+    "js": ["Content.js"]
+  }],
   "background": {
     "scripts": [
       "Background.js",
