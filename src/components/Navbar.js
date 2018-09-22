@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import '../css/common.css'
 import logout from '../img/logout.svg'
 import settings from '../img/settings.svg'
+import {auth} from '../rebase'
 
 class Navbar extends Component {
   render() {
@@ -13,7 +14,10 @@ class Navbar extends Component {
                     <img src={settings} onClick={() => this.props.history.push("/preferences")} />
                 </div>
                 <div className="Logout">
-                    <img src={logout} onClick={() => this.props.signOut()}/>
+                    <img src={logout} onClick={() => auth.signOut().then(() => {
+                        this.setState({ data: {} })
+                        this.props.history.push('/login')
+                    })}/>
                 </div>
             </div>
         </div>

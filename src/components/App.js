@@ -13,12 +13,12 @@ import RedditPanel from "./RedditPanel"
 import DataPanel from './DataPanel'
 import YoutubePanel from './YoutubePanel'
 import LoginPanel from "./LoginPanel"
-import base, {auth} from '../rebase'
+import {auth} from '../rebase'
 
 class App extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             data: {},
             uid: null
@@ -26,54 +26,41 @@ class App extends Component {
     }
 
     componentWillMount() {
-        auth.onAuthStateChanged(
-            (user) => {
-                (user) => {
-                    if(user) {
-                        //Finish Signing in
-                        this.authHandler(user)
-                    } else {
-                        //Finish Signing out
-                        this.setState({ uid: null })
+        auth.onAuthStateChanged((user) => {
+                if(user) {
+                    //Finish Signing in
+                    this.authHandler(user)
+                } else {
+                    //Finish Signing out
+                    this.state = {
+                        data: {},
+                        uid: null
                     }
+                    this.props.history.push('/login')
                 }
             }
         )
     }
 
-    syncData = () => {
-        this.ref = base.syncState(
-            `data/${this.state.uid}`,
-            {
-                context: this,
-                state: 'data',
-            }
-        )
-    }
-
-    stopSyncing = () => {
-        if(this.ref) {
-            base.removeBinding(this.ref)
-        }
-    }
-
     signedIn = () => {
         return this.state.uid
-    }
+    };
 
     signOut = () =>{
         auth
             .signOut()
             .then(() => {
-                this.stopSyncing()
-                this.setState({ data: {} })
+                this.state = {
+                    data: {},
+                    uid: null
+                }
                 this.props.history.push('/login')
             })
-    }
+    };
 
     authHandler = (user) => {
-        this.setState({ uid: user.uid }, this.syncData)
-    }
+        this.setState({ uid: user.uid })
+    };
 
     render() {
         return (

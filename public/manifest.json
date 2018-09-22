@@ -8,7 +8,6 @@
     "default_title": "Logger"
   },
   "options_page": "index.html",
-  "default_icon": "icon.png",
   "version": "1.0",
   "permissions": [
     "webRequest",
@@ -23,12 +22,12 @@
   }],
   "background": {
     "scripts": [
-      "background.js",
-      "network.js"
+      "firebase.js",
+      "Background.js"
       ],
     "persistent": true
   },
-  "content_security_policy":"script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'",
+  "content_security_policy":"script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com https://apis.google.com; object-src 'self'",
   "oauth2": {
     "client_id": "870302921200-051ic9q5fl9isqscfvsnuu9v2450dfaj.apps.googleusercontent.com",
     "scopes": [

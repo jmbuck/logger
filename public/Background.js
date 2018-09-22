@@ -9,14 +9,39 @@ var SessionsArray = [];
 var startOfBrowsing = Date.now();
 var startYoutube;
 var endYoutube;
+var startNetflix;
+var endNetflix;
 var channel;
 var endOfSession;
+var timeWatchedNetflix;
+
+var config = {
+    apiKey: "AIzaSyAWi4vgQmLJqYCaVjwqXygDcD8PERfafRM",
+    authDomain: "logger-216718.firebaseapp.com",
+    databaseURL: "https://logger-216718.firebaseio.com",
+    projectId: "logger-216718",
+    storageBucket: "logger-216718.appspot.com",
+    messagingSenderId: "870302921200"
+};
+
+const app = firebase.initializeApp(config);
+const db = app.database();
 
 function domainRetreival(Stirng URL) {
   var resultArray = URL.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img);
   return resultArray[0];
 }
 
+function initApp() {
+
+    firebase.auth().onAuthStateChanged((user) => {
+        console.log('User state change detected from the Background script of the Chrome Extension:', user);
+    })
+}
+
+window.onload = function() {
+    initApp();
+};
 
 function onActiveTabChange(activeInfo) {
   //Logic for when a tab is closed
@@ -30,28 +55,6 @@ function onActiveTabChange(activeInfo) {
     //startOfSession = Date.now();
     //alert("Tab " + activeInfo.tabId + " is now the active tab!");
 }
-
-chrome.identity.getAuthToken({interactive: !!interactive}, function(token) {
-    if (chrome.runtime.lastError && !interactive) {
-        console.log('It was not possible to get a token programmatically.');
-    } else if(chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError);
-    } else if (token) {
-        // Authorize Firebase with the OAuth Access Token.
-        var credential = firebase.auth.GoogleAuthProvider.credential(null, token);
-        firebase.auth().signInAndRetrieveDataWithCredential(credential).catch(function(error) {
-            // The OAuth token might have been invalidated. Lets' remove it from cache.
-            if (error.code === 'auth/invalid-credential') {
-                chrome.identity.removeCachedAuthToken({token: token}, function() {
-                    startAuth(interactive);
-                });
-            }
-        });
-    } else {
-        console.error('The OAuth Token was null');
-    }
-});
-
 
 function onTabUpdate(tabId, changeInfo, tab) {
   //Logic for when a tab is updated
@@ -104,7 +107,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
             }
             if (sessionNotTracked) {
               //We're not tracking this session in any other tab
-              var TabSession =  = {
+              var TabSession = {
                 tabid: tabId,
                 startOfSession: Date.now(),
                 rawURL: changeInfo.url,
@@ -120,52 +123,32 @@ function onTabUpdate(tabId, changeInfo, tab) {
       checkTab(changeInfo.url);
 
     } else if (changeInfo.status == "loading") {
+        //alert("URL is now: " + changeInfo.url)
+        checkTab(changeInfo.url)
       //alert("URL is the same.");
     } else {
       //Do nothing
     }
 }
 
-/**
- * Start the auth flow and authorizes to Firebase.
- * @param{boolean} interactive True if the OAuth flow should request with an interactive mode.
- */
-function startAuth(interactive, callback) {
-
-    // Request an OAuth token from the Chrome Identity API.
-    chrome.identity.getAuthToken({interactive: !!interactive}, function(token) {
-        if (chrome.runtime.lastError && !interactive) {
-            console.log('It was not possible to get a token programmatically.');
-        } else if(chrome.runtime.lastError) {
-            console.error(chrome.runtime.lastError);
-        } else if (token) {
-            // Authorize Firebase with the OAuth Access Token.
-            var credential = firebase.auth.GoogleAuthProvider.credential(null, token);
-            firebase.auth().signInAndRetrieveDataWithCredential(credential).catch(function(error) {
-                // The OAuth token might have been invalidated. Lets' remove it from cache.
-                if (error.code === 'auth/invalid-credential') {
-                    chrome.identity.removeCachedAuthToken({token: token}, function() {
-                        startAuth(interactive);
-                    });
-                }
-            });
-        } else {
-            console.error('The OAuth Token was null');
-        }
-    });
-    callback()
-}
-
 function checkTab(url) {
   if(startYoutube) {
     endYoutube = Date.now()
-    timeWatched = endYoutube - startYoutube
+    const timeWatched = endYoutube - startYoutube
     startYoutube = null;
-    postVideoData(channel, timeWatched)
+    postYoutubeVideoData(channel, timeWatched)
+  }
+  if(startNetflix) {
+      endNetflix = Date.now()
+      const timeWatchedNetflix = endNetflix - startNetflix
+
   }
   if(url.includes('youtube.com/watch?')) {
     startYoutube = Date.now()
     fetchJSON(url)
+  }
+  if(url.includes('netflix.com/watch')) {
+      startNetflix = Date.now()
   }
 }
 
@@ -188,11 +171,12 @@ function fetchJSON(url) {
   })
 }
 
-function postVideoData(channel, timeWatched) {
+function postYoutubeVideoData(channel, timeWatched) {
   if(channel) {
-    //Post data to firebase
     console.log(channel)
     console.log(timeWatched)
+      if(firebase.auth().currentUser)
+        updateFirebaseYoutubeVideoData(firebase.auth().currentUser.uid, {channel, timeWatched})
   }
 
   channel = null;
@@ -200,3 +184,151 @@ function postVideoData(channel, timeWatched) {
 
 chrome.tabs.onActivated.addListener(onActiveTabChange);
 chrome.tabs.onUpdated.addListener(onTabUpdate);
+chrome.runtime.onMessage.addListener((message) => {
+    if(message.netflix_info) {
+        console.log("Received netflix data ", firebase.auth().currentUser, message.data);
+        if(startNetflix) {
+            timeWatchedNetflix = Date.now() - startNetflix
+            startNetflix = Date.now()
+        }
+        if(firebase.auth().currentUser)
+            updateFirebaseNetflixData(firebase.auth().currentUser.uid, message.data, timeWatchedNetflix)
+    }
+});
+
+/*
+Expects data to be:
+{
+title: string,
+type: integer [0: show, 1: movie]
+}
+
+Stores data as:
+/global
+/netflix
+    /title
+        type
+        watches
+/users
+/uid
+    /netflix
+        title
+
+*/
+function updateFirebaseNetflixData(uid, data, timeWatchedNetflix) {
+    let updates = {};
+
+    let url = '/users/' + uid + '/netflix'
+    let ref = db.ref(url);
+
+    updates[url + '/' + data.title] = true;
+
+    url = '/global/netflix/' + data.title
+    ref = db.ref(url);
+    var storedTime = 0
+
+    ref.on("value", function(snapshot) {
+        let stored = snapshot.val()
+        if (stored) {
+            storedTime = stored.watches
+        }
+        updates[url + '/type'] = data.type;
+        updates[url + '/watches'] = storedTime++;
+
+        db.ref().update(updates)
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+}
+
+const networkFilters = {
+    urls: [
+        "*://*/*"
+    ]
+};
+
+let dataCollector = [];
+
+function retrieveDetails(details) {
+    if(details.statusCode === 200) {
+        let data = { url : details.initiator, method : details.method, type : details.type };
+        if(details.responseHeaders) {
+            for(let i = 0; i < details.responseHeaders.length; i++) {
+                if(details.responseHeaders[i].name.toLowerCase() === "content-length")
+                    data["size"] = details.responseHeaders[i].value;
+                else if(details.responseHeaders[i].name.toLowerCase() === "content-type")
+                    data["content-type"] = details.responseHeaders[i].value;
+                else if(details.responseHeaders[i].name.toLowerCase() === "date")
+                    data["date"] = details.responseHeaders[i].value;
+            }
+        }
+        else
+            data["hasHeaders"] = false;
+
+        dataCollector.push(data);
+    }
+}
+
+chrome.webRequest.onCompleted.addListener(retrieveDetails, networkFilters, ["responseHeaders"]);
+
+
+setInterval(() => {
+
+    dataCollector = [];
+}, 5000);
+
+/*
+    Expects data to be:
+    {
+        channel: string,
+        timeWatched: integer
+    }
+
+    Stores data as:
+    /global
+        /youtube
+            /channel
+                timeWatched
+    /users
+        /uid
+            /youtube
+                /channel
+                    timeWatched
+
+ */
+function updateFirebaseYoutubeVideoData(uid, data) {
+    console.log(uid, data);
+    let updates = {};
+
+    let url = '/users/' + uid + '/youtube/' + data.channel
+    let ref = db.ref(url);
+    let storedTime = 0
+
+    ref.on("value", function(snapshot) {
+        let stored = snapshot.val()
+        if (stored) {
+            storedTime = stored.timeWatched
+        }
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    updates[url + '/timeWatched'] = storedTime + data.timeWatched;
+
+    url = '/global/youtube/' + data.channel
+    ref = db.ref(url);
+    storedTime = 0
+
+    ref.on("value", function(snapshot) {
+        let stored = snapshot.val()
+        if (stored) {
+            storedTime = stored.timeWatched
+        }
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    updates[url + '/timeWatched'] = storedTime + data.timeWatched;
+
+    db.ref().update(updates)
+}

@@ -1,9 +1,4 @@
-import Rebase from 're-base';
-import firebase from 'firebase/app';
-import 'firebase/database';
-import 'firebase/auth'
-
-var app = firebase.initializeApp({
+var app = window.firebase.initializeApp({
     apiKey: "AIzaSyAWi4vgQmLJqYCaVjwqXygDcD8PERfafRM",
     authDomain: "logger-216718.firebaseapp.com",
     databaseURL: "https://logger-216718.firebaseio.com",
@@ -12,10 +7,77 @@ var app = firebase.initializeApp({
     messagingSenderId: "870302921200"
 });
 
-export const db = firebase.database(app);
-var base = Rebase.createClass(db);
+/*
+    Returns array data as:
+    [
+        "Channel1": {
+            timeWatched: int
+        },
+        "Channel2": {
+            timeWatched: int
+        }
+    ]
+ */
+export function retrieveFirebaseUserYoutubeVideoData(uid, callback) {
+
+    let arr = []
+    let url = '/users/' + uid + '/youtube'
+
+    db.ref(url).on("value", function(snapshot) {
+        snapshot.forEach((child) => {
+            arr.push({name: child.key, time: child.val().timeWatched})
+        });
+        callback(arr);
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    return arr
+}
+
+export function retrieveFirebaseNetflixData(uid, callback) {
+    let url = `/users/${uid}/netflix`;
+
+    db.ref(url).on("value", (snapshot) => {
+        const json = snapshot.toJSON();
+        callback({
+            timeTV: json["type0"].time,
+            visitsTV: json["type0"].watches,
+            timeMovies: json["type1"].time,
+            visitsMovies: json["type1"].watches
+        })
+    }, (error) => console.log("The read failed: " + error.code));
+}
+
+/*
+    Returns array data as:
+    [
+        "Channel1": {
+            timeWatched: int
+        },
+        "Channel2": {
+            timeWatched: int
+        }
+    ]
+ */
+export function retrieveFirebaseGlobalYoutubeVideoData(callback) {
+    let arr = []
+
+    let url = '/global/youtube'
+
+    db.ref(url).on("value", function(snapshot) {
+        snapshot.forEach((child) => {
+            arr.push({name: child.key, time: child.val().timeWatched})
+        });
+        callback(arr);
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    return arr
+}
 
 export const auth = app.auth()
-export const googleProvider = new firebase.auth.GoogleAuthProvider()
+export const db = app.database()
+export const googleProvider = new window.firebase.auth.GoogleAuthProvider()
 
-export default base;

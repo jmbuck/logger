@@ -4,12 +4,14 @@ function load(evt) {
     function retrieveNetflixInfo() {
         if(document.querySelector(".video-title")) {
             const video = document.querySelector(".video-title").querySelector("h4");
-            console.log(video.innerHTML);
-            console.log(document.querySelector(".button-nfplayerEpisodes"));
+            let type = 1;
+            if (document.querySelector(".button-nfplayerEpisodes")) {
+                type = 0;
+            }
+            chrome.runtime.sendMessage({netflix_info: true, data : {title: video.innerHTML, type: type}});
             clearInterval(timer);
         }
     }
 }
 
-if(location.hostname.indexOf("netflix") !== -1)
-    load();
+window.addEventListener("load", load, false);

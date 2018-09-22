@@ -5,18 +5,12 @@ import {googleProvider, auth} from "../rebase";
 class LoginPanel extends Component {
 
     authenticate = (provider) => {
-        auth.signOut().then(() => {
-            auth.signInWithPopup(provider).then(() => {
-                this.props.history.push('/data')
-            })
-        })
-    }
-
-    // sendTestData = () => {
-    //     db.ref('users/' + auth.currentUser.displayName).set({
-    //         username: auth.currentUser.displayName
-    //     });
-    // }
+         auth.signOut().then(() => {
+             auth.signInWithPopup(provider).then(() => {
+                 this.props.history.push('/data')
+             })
+         })
+    };
 
     render = () => {
 
