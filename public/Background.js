@@ -8,11 +8,18 @@ var TabSessions = {};
 
 var startOfBrowsing = Date.now();
 var startOfSession = Date.now();
+var startYoutube;
+var endYoutube;
+var channel;
 var endOfSession;
 
 
 function onActiveTabChange(activeInfo) {
   //Logic for when a tab is closed
+    chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, (tabs) => {
+      let url = tabs[0] != undefined ? tabs[0].url : null
+      if(url != null) checkTab(url)
+    });
     endOfSession = Date.now(); //sessions are tab based.....for now.
     var sessionTime = startOfSession - endOfSession;
     // We have the session time!
@@ -47,6 +54,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
     //alert("Tab " + tabId + " has updated!");
     if (changeInfo.status == "loading" && changeInfo.url != undefined) {
       //alert("URL is now: " + changeInfo.url)
+      checkTab(changeInfo.url)
     } else if (changeInfo.status == "loading") {
       //alert("URL is the same.");
     } else {
@@ -82,6 +90,48 @@ function startAuth(interactive, callback) {
         }
     });
     callback()
+}
+
+function checkTab(url) {
+  if(startYoutube) {
+    endYoutube = Date.now()
+    timeWatched = endYoutube - startYoutube
+    startYoutube = null;
+    postVideoData(channel, timeWatched)
+  }
+  if(url.includes('youtube.com/watch?')) {
+    startYoutube = Date.now()
+    fetchJSON(url)
+  }
+}
+
+function fetchJSON(url) {
+  fetch(`https://www.youtube.com/oembed?url=${url}&format=json`, { method: 'GET' })
+  .then((response) => {
+      if (!response.ok) {
+          throw Error(response.statusText)
+      }
+      return response
+  })
+  .then((response) => {
+      return response.json()
+  })
+  .then((data) => {
+      channel = data.author_name
+  })
+  .catch((error) => {
+      console.log(error)
+  })
+}
+
+function postVideoData(channel, timeWatched) {
+  if(channel) {
+    //Post data to firebase
+    console.log(channel)
+    console.log(timeWatched)
+  }
+  
+  channel = null;
 }
 
 chrome.tabs.onActivated.addListener(onActiveTabChange);
