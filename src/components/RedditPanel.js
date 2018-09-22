@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
+import {auth, retrieveFirebaseUserRedditData} from "../rebase";
 
 class RedditPanel extends Component {
 
@@ -9,12 +10,25 @@ class RedditPanel extends Component {
         super(props);
 
         this.state = {
-            data : [
-                {name: "AskReddit", time : "3 minutes"},
-                {name: "IAmA", time : "10 minutes"},
-                {name: "pics", time : "5 hours"}
-            ]
+            data : []
         }
+    }
+
+    retrieve = (user) => {
+        if(user) {
+            retrieveFirebaseUserRedditData(user.uid, (data) => {
+                this.setState({ data : data})
+            })
+        }
+    };
+
+    componentWillMount() {
+        if(auth.currentUser)
+            this.retrieve(auth.currentUser);
+
+        auth.onAuthStateChanged((user) => {
+            this.retrieve(user);
+        })
     }
 
     render() {
