@@ -148,7 +148,7 @@ function checkTab(url) {
       //alert("PUSH " + subreddit + " WITH TIME OF " + timeOnSubreddit);
       //TODO: post back to Firebase (with vars subreddit & timeOnSubreddit)
     }
-  }
+  
   if(url.includes('youtube.com/watch?')) {
     startYoutube = Date.now()
     fetchJSON(url)
