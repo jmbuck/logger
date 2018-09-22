@@ -4,9 +4,9 @@ function load(evt) {
     function retrieveNetflixInfo() {
         if(document.querySelector(".video-title")) {
             const video = document.querySelector(".video-title").querySelector("h4");
-            let type = 1
+            let type = 1;
             if (document.querySelector(".button-nfplayerEpisodes")) {
-                type = 0
+                type = 0;
             }
             chrome.runtime.sendMessage({netflix_info: true, data : {title: video.innerHTML, type: type}});
             clearInterval(timer);

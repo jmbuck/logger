@@ -150,14 +150,13 @@ function updateFirebaseNetflixData(uid, data) {
         if (stored) {
             storedTime = stored.watches
         }
+        updates[url + '/type'] = data.type;
+        updates[url + '/watches'] = storedTime++;
+
+        db.ref().update(updates)
     }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
-
-    updates[url + '/type'] = data.type;
-    updates[url + '/watches'] = storedTime++
-
-    db.ref().update(updates)
 }
 
 const networkFilters = {
