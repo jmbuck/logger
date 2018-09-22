@@ -12,12 +12,6 @@ class LoginPanel extends Component {
         })
     }
 
-    // sendTestData = () => {
-    //     db.ref('users/' + auth.currentUser.displayName).set({
-    //         username: auth.currentUser.displayName
-    //     });
-    // }
-
     render = () => {
 
         return (<div className="panel">
