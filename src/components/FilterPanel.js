@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import Modal from 'react-modal'
+
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import { database } from 'firebase';
@@ -10,9 +12,10 @@ class FilterPanel extends Component {
         super(props);
 
          this.state = { 
-             websites: [],
+             websites: ['Google', 'Facebook', 'YouTube'],
              filters: ['google.com', 'facebook.com'],
-             filter: true,
+             modalIsOpen: false,
+             website: '',
          }
     }
 
@@ -40,9 +43,35 @@ class FilterPanel extends Component {
         this.postFilterToFirebase(url)
     }
 
+    handleTrackingSubmit = (ev) => {
+        ev.preventDefault()
+        const website = this.state.website
+        const data = ev.target.data.checked
+        const time = ev.target.time.checked
+        const visits = ev.target.visits.checked
+        const tracking = []
+        if(data) tracking.push('data')
+        if(time) tracking.push('time')
+        if(visits) tracking.push('visits')
+        console.log(ev.target)
+        console.log(tracking)
+        this.postTrackingSettingsToFirebase(website, tracking)
+    }
+
+    postTrackingSettingsToFirebase = (website, tracking) => {
+        //TODO: implement post
+    }
 
     postFilterToFirebase = (url) => {
         //TODO: implement post
+    }
+
+    openModal = (website) => {
+        this.setState({website, modalIsOpen: true})
+    }
+
+    closeModal = () => {
+        this.setState({website: '', modalIsOpen: false})
     }
 
     render() {
@@ -52,39 +81,46 @@ class FilterPanel extends Component {
 			        <div className="panel-filter">
                         <div className="panel-left-nav">
                             <div className="filter-nav">
-                                <div className="filter-title" onClick={this.props["titleClick"]}>
+                                <div className="filter-title" onClick={this.props.titleClick}>
                                     <h3>
                                         Websites
                                     </h3>                                
                                 </div>
                                 <h3 className="break-line title" />
-                                <h4>
-                                    Google
-                                </h4>
-                                <h4>
-                                    Facebook
-                                </h4>
-                                <h4>
-                                    Stack Overflow
-                                </h4>
+                                {this.state.websites && this.state.websites.map((website) => 
+                                    <h4 key={website} onClick={() => this.openModal(website)}>{website}</h4>
+                                )}
                             </div>
                         </div>
-                        {this.state.filter ?
-                            <div className="panel-center-content">
-                                <h3>Filters</h3>
-                                <ul>
-                                    {this.state.filters.map((filter) => <li key={filter}>{filter}</li>)}
-                                </ul>
-                                <form onSubmit={this.handleSubmit}>
-                                    <input type="text" required autoFocus placeholder="Filter URL" name="url" />
-                                    <button type="submit">Add Filter</button>
-                                </form>
-                            </div>
-                            : <div className="panel-center-content">
-                            
-                            </div>
-                            
-                        }
+
+                        <Modal
+                            isOpen={this.state.modalIsOpen}
+                            onRequestClose={this.closeModal}
+                            contentLabel={this.state.website}
+                        >
+
+                            <h2>{this.state.website}</h2>
+                            <button onClick={this.closeModal}>close</button>
+                            <h3>Modify website tracking</h3>
+                            <form onSubmit={this.handleTrackingSubmit}>
+                                <input type="checkbox" name="data" value="data" defaultChecked/> Internet Usage<br/>
+                                <input type="checkbox" name="time" value="time" defaultChecked/> Time Tracking<br/>
+                                <input type="checkbox" name="visits" value="visits" defaultChecked/> Visits Tracking<br/>
+                                <button type="submit">Save</button>
+                            </form>
+                        </Modal>
+                        <div className="panel-center-content">
+                            <h3>Filters</h3>
+                            <ul>
+                                {this.state.filters && 
+                                    this.state.filters.map((filter) => <li key={filter}>{filter}</li>)}
+                            </ul>
+                            <form onSubmit={this.handleSubmit}>
+                                <input type="text" required autoFocus placeholder="Filter URL" name="url" />
+                                <button type="submit">Add Filter</button>
+                            </form>
+                        </div>
+       
 				        <div className="panel-right-nav">
 					        <div className="exit-nav" onClick={ () => this.props.history.push("/preferences") }>
 						        <img src={exitIcon} />

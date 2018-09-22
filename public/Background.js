@@ -2,8 +2,6 @@
 
 //sample for timing tabs found here: https://github.com/google/page-timer
 
-import firebase from "firebase";
-
 var SessionsArray = [];
 
 var startOfBrowsing = Date.now();
@@ -11,7 +9,11 @@ var startYoutube;
 var endYoutube;
 var startNetflix;
 var endNetflix;
+var redditBaseURL = "reddit.com/r/";
+var startReddit;
+var endReddit;
 var channel;
+var subreddit;
 var endOfSession;
 var timeWatchedNetflix;
 
@@ -92,10 +94,9 @@ function onTabUpdate(tabId, changeInfo, tab) {
               }
             }
           }
+          break;
         }
       }
-
-      sessionNotTracked = true;
 
         //We are not tracking this tab
         if (tabNotTracked) {
@@ -103,6 +104,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
             for (var i = 0; i < SessionsArray.length; i++) {
               if (SessionsArray[i].domain == domainRetreival(changeInfo.url)) {
                 sessionNotTracked = false;
+                break;
               }
             }
             if (sessionNotTracked) {
@@ -119,8 +121,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
             }
           }
 
-
-      checkTab(changeInfo.url);
+          checkTab(changeInfo.url);
 
     } else if (changeInfo.status == "loading") {
         //alert("URL is now: " + changeInfo.url)
@@ -137,19 +138,32 @@ function checkTab(url) {
     const timeWatched = endYoutube - startYoutube
     startYoutube = null;
     postYoutubeVideoData(channel, timeWatched)
-  }
-  if(startNetflix) {
+  } else if(startNetflix) {
       endNetflix = Date.now()
-      const timeWatchedNetflix = endNetflix - startNetflix
-
+      timeWatchedNetflix = endNetflix - startNetflix
+  } else if(startReddit) {
+      endReddit = Date.now();
+      const timeOnSubreddit = endReddit - startReddit;
+      startReddit = null;
+      //alert("PUSH " + subreddit + " WITH TIME OF " + timeOnSubreddit);
+      //TODO: post back to Firebase (with vars subreddit & timeOnSubreddit)
+    }
   }
   if(url.includes('youtube.com/watch?')) {
     startYoutube = Date.now()
     fetchJSON(url)
+  } else if(url.includes('netflix.com/watch')) {
+    startNetflix = Date.now()
+    var urlObj = new URL(url);
+    NetflixShowData(urlObj.searchParams.get("trackId"));
+  } else if(url.includes(redditBaseURL)) {
+    startReddit = Date.now();
+    subreddit = url.slice(url.indexOf(redditBaseURL) + redditBaseURL.length);
   }
-  if(url.includes('netflix.com/watch')) {
-      startNetflix = Date.now()
-  }
+}
+
+function NetflixShowData(trackId) {
+  //Corey's function goes here to extraxt show data
 }
 
 function fetchJSON(url) {
@@ -175,7 +189,7 @@ function postYoutubeVideoData(channel, timeWatched) {
   if(channel) {
     console.log(channel)
     console.log(timeWatched)
-      if(firebase.auth().currentUser)
+    if(firebase.auth().currentUser)
         updateFirebaseYoutubeVideoData(firebase.auth().currentUser.uid, {channel, timeWatched})
   }
 
@@ -186,13 +200,16 @@ chrome.tabs.onActivated.addListener(onActiveTabChange);
 chrome.tabs.onUpdated.addListener(onTabUpdate);
 chrome.runtime.onMessage.addListener((message) => {
     if(message.netflix_info) {
-        console.log("Received netflix data ", firebase.auth().currentUser, message.data);
+        console.log("Received netflix data: ", firebase.auth().currentUser, message.data);
         if(startNetflix) {
             timeWatchedNetflix = Date.now() - startNetflix
             startNetflix = Date.now()
         }
-        if(firebase.auth().currentUser)
+        if(firebase.auth().currentUser) {
+            console.log("Update Firebase Netflix")
             updateFirebaseNetflixData(firebase.auth().currentUser.uid, message.data, timeWatchedNetflix)
+        }
+        console.log("After Firebase Netflix")
     }
 });
 
@@ -218,27 +235,43 @@ Stores data as:
 function updateFirebaseNetflixData(uid, data, timeWatchedNetflix) {
     let updates = {};
 
-    let url = '/users/' + uid + '/netflix'
+    let url = '/users/' + uid + '/netflix/' + data.type + '/' + data.title
     let ref = db.ref(url);
 
-    updates[url + '/' + data.title] = true;
-
-    url = '/global/netflix/' + data.title
-    ref = db.ref(url);
-    var storedTime = 0
-
+    let storedWatches = 0
+    let storedTime = 0
     ref.on("value", function(snapshot) {
         let stored = snapshot.val()
         if (stored) {
-            storedTime = stored.watches
+            storedWatches = stored.watches
+            storedTime = stored.time
         }
-        updates[url + '/type'] = data.type;
-        updates[url + '/watches'] = storedTime++;
-
-        db.ref().update(updates)
     }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
+    updates[url + '/watches'] = ++storedWatches;
+    updates[url + '/time'] = storedTime + timeWatchedNetflix
+
+    url = '/global/netflix/' + data.type + '/' + data.title
+    ref = db.ref(url);
+
+    storedWatches = 0
+    storedTime = 0
+    ref.on("value", function(snapshot) {
+        let stored = snapshot.val()
+        if (stored) {
+            storedWatches = stored.watches
+            storedTime = stored.time
+        }
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+    updates[url + '/watches'] = ++storedWatches;
+    updates[url + '/time'] = storedTime + timeWatchedNetflix
+
+    db.ref().update(updates).catch((error) => {
+        console.log("Error updating Firebase: " + error)
+    })
 }
 
 const networkFilters = {
