@@ -13,7 +13,7 @@ class Navbar extends Component {
                     <img src={settings} onClick={() => this.props.history.push("/preferences")} />
                 </div>
                 <div className="Logout">
-                    <img src={logout} />
+                    <img src={logout} onClick={() => this.props.signOut()}/>
                 </div>
             </div>
         </div>
