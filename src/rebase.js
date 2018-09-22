@@ -7,6 +7,10 @@ var app = window.firebase.initializeApp({
     messagingSenderId: "870302921200"
 });
 
+function msToString(time) {
+    return time;
+}
+
 /*
     Returns array data as:
     [
@@ -99,10 +103,10 @@ export function retrieveFirebaseNetflixData(uid, callback) {
     db.ref(url).on("value", (snapshot) => {
         const json = snapshot.toJSON();
         callback({
-            timeTV: json["type0"].time,
-            visitsTV: json["type0"].watches,
-            timeMovies: json["type1"].time,
-            visitsMovies: json["type1"].watches
+            timeTV: msToString(json["0"].time),
+            visitsTV: json["0"].watches,
+            timeMovies: msToString(json["1"].time),
+            visitsMovies: json["1"].watches
         })
     }, (error) => console.log("The read failed: " + error.code));
 }
