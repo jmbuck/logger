@@ -16,10 +16,11 @@ class YoutubePanel extends Component {
 
 	componentWillMount() {
 	    auth.onAuthStateChanged((user) => {
-	        console.log(user);
-            retrieveFirebaseUserYoutubeVideoData(user.uid, (data) => {
-                this.setState({ data : data})
-            })
+	        if(user) {
+                retrieveFirebaseUserYoutubeVideoData(user.uid, (data) => {
+                    this.setState({ data : data})
+                })
+            }
         })
     }
 

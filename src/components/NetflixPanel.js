@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
+import {auth, retrieveFirebaseNetflixData} from "../rebase";
 
 class NetflixPanel extends Component {
 
@@ -9,11 +10,21 @@ class NetflixPanel extends Component {
         super(props);
 
         this.state = {
-            timeTV : "47.25 hours",
-            timeMovies : "6.7 hours",
-            visitsTV : "6",
-            visitsMovies : "4"
+            timeTV : "...",
+            timeMovies : "...",
+            visitsTV : "...",
+            visitsMovies : "..."
         }
+    }
+
+    componentWillMount() {
+        auth.onAuthStateChanged((user) => {
+            if(user) {
+                retrieveFirebaseNetflixData(user.uid, (data) => {
+                    this.setState(data)
+                })
+            }
+        })
     }
 
     render() {

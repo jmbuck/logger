@@ -35,6 +35,20 @@ export function retrieveFirebaseUserYoutubeVideoData(uid, callback) {
     return arr
 }
 
+export function retrieveFirebaseNetflixData(uid, callback) {
+    let url = `/users/${uid}/netflix`;
+
+    db.ref(url).on("value", (snapshot) => {
+        const json = snapshot.toJSON();
+        callback({
+            timeTV: json["type0"].time,
+            visitsTV: json["type0"].watches,
+            timeMovies: json["type1"].time,
+            visitsMovies: json["type1"].watches
+        })
+    }, (error) => console.log("The read failed: " + error.code));
+}
+
 /*
     Returns array data as:
     [
