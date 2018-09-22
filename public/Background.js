@@ -8,6 +8,9 @@ var TabSessions = {};
 
 var startOfBrowsing = Date.now();
 var startOfSession = Date.now();
+var startYoutube;
+var endYoutube;
+var channel;
 var endOfSession;
 
 
@@ -90,14 +93,20 @@ function startAuth(interactive, callback) {
 }
 
 function checkTab(url) {
+  if(startYoutube) {
+    endYoutube = Date.now()
+    timeWatched = endYoutube - startYoutube
+    startYoutube = null;
+    postVideoData(channel, timeWatched)
+  }
   if(url.includes('youtube.com/watch?')) {
-    fetchJSON(url.substring(url.indexOf('=')+1))
+    startYoutube = Date.now()
+    fetchJSON(url)
   }
 }
 
-function fetchJSON(videoID) {
-  console.log(videoID)
-  fetch(`http://gdata.youtube.com/feeds/api/videos/${videoID}?v=2&alt=jsonc`, { method: 'GET' })
+function fetchJSON(url) {
+  fetch(`https://www.youtube.com/oembed?url=${url}&format=json`, { method: 'GET' })
   .then((response) => {
       if (!response.ok) {
           throw Error(response.statusText)
@@ -108,11 +117,21 @@ function fetchJSON(videoID) {
       return response.json()
   })
   .then((data) => {
-      console.log(data)
+      channel = data.author_name
   })
   .catch((error) => {
       console.log(error)
   })
+}
+
+function postVideoData(channel, timeWatched) {
+  if(channel) {
+    //Post data to firebase
+    console.log(channel)
+    console.log(timeWatched)
+  }
+  
+  channel = null;
 }
 
 chrome.tabs.onActivated.addListener(onActiveTabChange);
