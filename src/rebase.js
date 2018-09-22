@@ -35,6 +35,51 @@ export function retrieveFirebaseUserYoutubeVideoData(uid, callback) {
     return arr
 }
 
+export function retrieveFirebaseUserData(uid, callback) {
+    let url = `/users/${uid}/data`
+
+    const colors = [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+    ];
+
+    db.ref(url).on("value", (snapshot) => {
+        let data = {};
+        let labels = [];
+        let dataUsage = [];
+        snapshot.forEach((child) => {
+            labels.push(child.key)
+            dataUsage.push(child.val())
+        });
+        data = {
+            labels: labels,
+            datasets: [{
+                label: "Data usage",
+                backgroundColor: colors,
+                data: dataUsage,
+            }]
+        };
+        console.log(data);
+        callback(data);
+    }, (error) => console.log("The read failed: " + error.code));
+}
+
+export function retrieveFirebaseUserRedditData(uid, callback) {
+    let url = `/users/${uid}/reddit`
+
+    db.ref(url).on("value", (snapshot) => {
+        let arr = [];
+        snapshot.forEach((child) => {
+            arr.push({name: child.key, time: child.val().time});
+        });
+        callback(arr);
+    }, (error) => console.log("The read failed: " + error.code));
+}
+
 export function retrieveFirebaseWebsiteData(uid, callback) {
     let url = `/users/${uid}/website`
 
