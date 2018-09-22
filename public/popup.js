@@ -1,5 +1,6 @@
 
 // Initialize Firebase
+
 var config = {
     apiKey: "AIzaSyAWi4vgQmLJqYCaVjwqXygDcD8PERfafRM",
     authDomain: "logger-216718.firebaseapp.com",
@@ -39,23 +40,23 @@ function initApp() {
             var uid = user.uid;
             var providerData = user.providerData;
             // [START_EXCLUDE]
-            document.getElementById('quickstart-button').textContent = 'Sign out';
+            document.getElementById('quickstart-button-google').textContent = 'Sign out with Google';
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
             document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
             // [END_EXCLUDE]
         } else {
             // Let's try to get a Google auth token programmatically.
             // [START_EXCLUDE]
-            document.getElementById('quickstart-button').textContent = 'Sign-in with Google';
+            document.getElementById('quickstart-button-google').textContent = 'Sign-in with Google';
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
             document.getElementById('quickstart-account-details').textContent = 'null';
             // [END_EXCLUDE]
         }
-        document.getElementById('quickstart-button').disabled = false;
+        document.getElementById('quickstart-button-google').disabled = false;
     });
     // [END authstatelistener]
 
-    document.getElementById('quickstart-button').addEventListener('click', startSignIn, false);
+    document.getElementById('quickstart-button-google').addEventListener('click', startSignIn, false);
 }
 
 /**
@@ -90,7 +91,7 @@ function startAuth(interactive) {
  * Starts the sign-in process.
  */
 function startSignIn() {
-    document.getElementById('quickstart-button').disabled = true;
+    document.getElementById('quickstart-button-google').disabled = true;
     if (firebase.auth().currentUser) {
         firebase.auth().signOut();
     } else {

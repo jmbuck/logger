@@ -75,10 +75,10 @@ function onTabUpdate(tabId, changeInfo, tab) {
           if (SessionsArray[i].domain == domainRetreival(changeInfo.url)) {
             //Do nothing if it is - it's the same session
           } else {
-            var finalSessionTime = Date.now() - SessionsArray[i].startOfSession;
+            let finalSessionTime = Date.now() - SessionsArray[i].startOfSession;
             //HERE: This marks the end of a prior session, what to do with SessionArray[i]'s data?'
-            postSiteData(SessionArray[i].domain, finalSessionTime);
-            SessionsArray.splice(i, 1); //Remove this old session.
+            postSiteData(SessionsArray[i].domain, finalSessionTime);
+              SessionsArray.splice(i, 1); //Remove this old session.
             //Are we already tracking this new session in another tab?
             for (var i = 0; i < SessionsArray.length; i++) {
               if (SessionsArray[i].domain == domainRetreival(changeInfo.url)) {
@@ -126,7 +126,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
 
     } else if (changeInfo.status == "loading") {
         //alert("URL is now: " + changeInfo.url)
-        checkTab(changeInfo.url)
+        //checkTab(changeInfo.url)
       //alert("URL is the same.");
     } else {
       //Do nothing
@@ -146,8 +146,7 @@ function checkTab(url) {
       endReddit = Date.now();
       const timeOnSubreddit = endReddit - startReddit;
       startReddit = null;
-      //alert("PUSH " + subreddit + " WITH TIME OF " + timeOnSubreddit);
-      //TODO: post back to Firebase (with vars subreddit & timeOnSubreddit)
+      postRedditData(subreddit, timeOnSubreddit)
     }
 
   if(url.includes('youtube.com/watch?')) {
@@ -163,12 +162,86 @@ function checkTab(url) {
   }
 }
 
+function postRedditData(subreddit, timeWatched) {
+    if(subreddit) {
+        console.log(subreddit)
+        console.log(timeWatched)
+        if(firebase.auth().currentUser)
+            updateFirebaseRedditData(firebase.auth().currentUser.uid, subreddit, timeWatched)
+    }
+
+    subreddit = null
+}
+
+function updateFirebaseRedditData(uid, subreddit, timeonSubreddit) {
+    let updates = {};
+
+    let url = '/users/' + uid + '/reddit/' + subreddit
+    let ref = db.ref(url);
+    let storedTime = 0
+
+    ref.on("value", function(snapshot) {
+        let stored = snapshot.val()
+        if (stored) {
+            storedTime = stored.time
+        }
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    updates[url + '/time'] = storedTime + timeonSubreddit;
+
+    db.ref().update(updates).catch((error) => {
+        console.log("Error updating Firebase: " + error)
+    })
+}
+
 function NetflixShowData(trackId) {
   //Corey's function goes here to extraxt show data
 }
 
 function postSiteData(sessionName, timeSpent) {
-  //Firebase goes here
+    if(sessionName) {
+        console.log(sessionName)
+        console.log(timeSpent)
+        if(firebase.auth().currentUser)
+            updateFirebaseSiteData(firebase.auth().currentUser.uid, sessionName, timeSpent)
+    }
+
+    channel = null;
+}
+
+function updateFirebaseSiteData(uid, url, time) {
+    let updates = {};
+    let hostname = url.match(/(?<=\/\/).*(?=\.)/g)
+    hostname = (hostname[0] != undefined)? hostname[0].split('.').join('-'): null
+    if (!hostname) {
+        console.log("Could not find hostname")
+        return
+    }
+    if (hostname.includes('www')) hostname = hostname.substring(4)
+
+    let db_url = '/users/' + uid + '/websites/' + hostname
+    let ref = db.ref(db_url);
+
+    let storedTime = 0
+    let storedVisits = 0
+    ref.on("value", function(snapshot) {
+        let stored = snapshot.val()
+        if (stored) {
+            storedTime = stored.time
+            storedVisits = stored.visits
+        }
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+    updates[url + '/time'] = storedTime + time
+    updates[url + '/url'] = url
+    updates[url + '/visits'] = ++storedVisits
+
+    db.ref().update(updates).catch((error) => {
+        console.log("Error updating Firebase: " + error)
+    })
 }
 
 function fetchJSON(url) {
@@ -205,16 +278,13 @@ chrome.tabs.onActivated.addListener(onActiveTabChange);
 chrome.tabs.onUpdated.addListener(onTabUpdate);
 chrome.runtime.onMessage.addListener((message) => {
     if(message.netflix_info) {
-        console.log("Received netflix data: ", firebase.auth().currentUser, message.data);
         if(startNetflix) {
             timeWatchedNetflix = Date.now() - startNetflix
             startNetflix = Date.now()
         }
         if(firebase.auth().currentUser) {
-            console.log("Update Firebase Netflix")
             updateFirebaseNetflixData(firebase.auth().currentUser.uid, message.data, timeWatchedNetflix)
         }
-        console.log("After Firebase Netflix")
     }
 });
 
@@ -239,29 +309,13 @@ Stores data as:
 */
 function updateFirebaseNetflixData(uid, data, timeWatchedNetflix) {
     let updates = {};
+    let type = (data.type == 0)? "shows": "movies"
 
-    let url = '/users/' + uid + '/netflix/' + data.type + '/' + data.title
+    let url = '/users/' + uid + '/netflix/' + type
     let ref = db.ref(url);
 
     let storedWatches = 0
     let storedTime = 0
-    ref.on("value", function(snapshot) {
-        let stored = snapshot.val()
-        if (stored) {
-            storedWatches = stored.watches
-            storedTime = stored.time
-        }
-    }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-    });
-    updates[url + '/watches'] = ++storedWatches;
-    updates[url + '/time'] = storedTime + timeWatchedNetflix
-
-    url = '/global/netflix/' + data.type + '/' + data.title
-    ref = db.ref(url);
-
-    storedWatches = 0
-    storedTime = 0
     ref.on("value", function(snapshot) {
         let stored = snapshot.val()
         if (stored) {

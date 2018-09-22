@@ -106,6 +106,7 @@ export function retrieveFirebaseNetflixData(uid, callback) {
 
     db.ref(url).on("value", (snapshot) => {
         const json = snapshot.toJSON();
+
         callback({
             timeTV: msToString(json["shows"].time),
             visitsTV: json["shows"].watches,
