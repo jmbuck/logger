@@ -18,7 +18,7 @@ import {auth} from '../rebase'
 class App extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             data: {},
             uid: null
