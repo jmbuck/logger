@@ -77,6 +77,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
           } else {
             var finalSessionTime = Date.now() - SessionsArray[i].startOfSession;
             //HERE: This marks the end of a prior session, what to do with SessionArray[i]'s data?'
+            postSiteData(SessionArray[i].domain, finalSessionTime);
             SessionsArray.splice(i, 1); //Remove this old session.
             //Are we already tracking this new session in another tab?
             for (var i = 0; i < SessionsArray.length; i++) {
@@ -148,7 +149,7 @@ function checkTab(url) {
       //alert("PUSH " + subreddit + " WITH TIME OF " + timeOnSubreddit);
       //TODO: post back to Firebase (with vars subreddit & timeOnSubreddit)
     }
-  
+
   if(url.includes('youtube.com/watch?')) {
     startYoutube = Date.now()
     fetchJSON(url)
@@ -164,6 +165,10 @@ function checkTab(url) {
 
 function NetflixShowData(trackId) {
   //Corey's function goes here to extraxt show data
+}
+
+function postSiteData(sessionName, timeSpent) {
+  //Firebase goes here
 }
 
 function fetchJSON(url) {
