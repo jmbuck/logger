@@ -120,7 +120,7 @@ class FilterPanel extends Component {
                             </form>
                         </Modal>
                         <div className="panel-center-content">
-                            <h3>Filters</h3>
+                            <h3>Website Blacklist</h3>
                             <ul>
                                 {this.state.filters && 
                                     this.state.filters.map((filter) => <li key={filter}>{filter}</li>)}

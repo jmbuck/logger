@@ -73,6 +73,16 @@ export function retrieveFirebaseWebsitesBlacklist(uid, callback) {
     });
 }
 
+export function retrieveFirebaseWebsitesSettings(uid, callback) {
+    let url = `/users/${uid}/filters/data`;
+
+    db.ref(url).on("value", (snapshot) => {
+
+        callback(snapshot.toJSON());
+
+    });
+}
+
 export function retrieveFirebaseUserData(uid, callback) {
     let url = `/users/${uid}/data`;
 
