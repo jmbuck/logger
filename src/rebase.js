@@ -143,7 +143,7 @@ export function retrieveFirebaseUserRedditData(uid, callback) {
 }
 
 export function retrieveFirebaseWebsiteData(uid, callback) {
-    let url = `/users/${uid}/website`
+    let url = `/users/${uid}/websites`
 
     db.ref(url).on("value", (snapshot) => {
         let arr = [];
@@ -162,7 +162,7 @@ export function retrieveFirebaseWebsiteData(uid, callback) {
 }
 
 export function retrieveFirebaseWebsitesData(uid, callback) {
-    let url = `/users/${uid}/website`
+    let url = `/users/${uid}/websites`
 
     const colors = [
         'rgba(255, 99, 132, 0.2)',
