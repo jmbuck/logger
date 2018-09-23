@@ -11,8 +11,10 @@ class WebsitePanel extends Component {
         super(props);
 
         this.state = {
-            data : [
-            ]}
+            data : []
+        };
+
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     retrieve = (user) => {
@@ -21,6 +23,12 @@ class WebsitePanel extends Component {
                 this.setState({ data : data})
             })
         }
+    };
+
+    handleDelete = (index) => {
+        let data = [...this.state.data];
+        data.splice(index, 1);
+        this.setState({data});
     };
 
     componentWillMount() {
@@ -53,15 +61,15 @@ class WebsitePanel extends Component {
                                 </thead>
                                 <tbody>
                                 {
-                                    this.state.data.map((d) =>
+                                    this.state.data.map((d, index) =>
                                         <tr key={d.name}>
                                             <td>{d.name}</td>
                                             <td>{d.visits}</td>
                                             <td>{d.time}</td>
                                             <td>{d.data}</td>
-                                            <td>{d.category}</td>
+                                            <td contentEditable='true'>{d.category}</td>
                                             <td>
-                                                <img src={exitIcon} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
+                                                <img src={exitIcon} onClick={() => this.handleDelete(index)} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
                                             </td>
                                         </tr>)
                                 }
