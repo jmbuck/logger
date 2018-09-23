@@ -39,7 +39,7 @@ class RedditPanel extends Component {
 	                    <DataNav {...this.props}/>
                         <div className="panel-center-content">
 	                        <h1>Reddit</h1>
-	                        <table border="1px solid black" align="center">
+	                        <table border="1px solid black">
 		                        <tr>
 			                        <th>Subreddit</th>
 			                        <th>Time Spent</th>
