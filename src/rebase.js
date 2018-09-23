@@ -136,13 +136,14 @@ export function retrieveFirebaseNetflixData(uid, callback) {
 
     db.ref(url).on("value", (snapshot) => {
         const json = snapshot.toJSON();
-
-        callback({
-            timeTV: msToString(json["shows"].time),
-            visitsTV: json["shows"].watches,
-            timeMovies: msToString(json["movies"].time),
-            visitsMovies: json["movies"].watches
-        })
+        if (json != null) {
+            callback({
+                timeTV: msToString(json["shows"].time),
+                visitsTV: json["shows"].watches,
+                timeMovies: msToString(json["movies"].time),
+                visitsMovies: json["movies"].watches
+            })
+        }
     }, (error) => console.log("The read failed: " + error.code));
 }
 

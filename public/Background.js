@@ -214,7 +214,7 @@ function postSiteData(sessionName, timeSpent) {
 function updateFirebaseSiteData(uid, url, time) {
     let updates = {};
     let hostname = url.match(/(?<=\/\/).*(?=\.)/g)
-    hostname = (hostname[0] != undefined)? hostname[0].split('.').join('-'): null
+    hostname = (hostname[0] != undefined)? hostname[0].split(".").join("-"): null
     if (!hostname) {
         console.log("Could not find hostname")
         return
@@ -363,10 +363,68 @@ function retrieveDetails(details) {
 
 chrome.webRequest.onCompleted.addListener(retrieveDetails, networkFilters, ["responseHeaders"]);
 
+function updateFirebaseIntervalData(uid, data) {
+    let updates = {};
+
+    let total = {}
+    for (let i = 0; i < data.length; i++) {
+        let type = data[i].type
+        let size = parseInt(data[i].size)
+        if (isNaN(size)) {
+            size = 0
+        }
+        if (!data[i].url) continue
+        let hostname = data[i].url.match(/(?<=\/\/).*(?=\.)/g)
+        if (!hostname) {
+            console.log("Could not find hostname")
+            continue
+        }
+        hostname = (hostname[0] != undefined)? hostname[0].split('.').join('-'): null
+
+        if (hostname.includes('www')) hostname = hostname.substring(4)
+
+        let url = '/users/' + uid + '/websites/' + hostname + '/data'
+        let ref = db.ref(url)
+
+        let storedValue = 0
+        ref.on("value", (snapshot) => {
+            let temp = snapshot.child(type).val();
+            if (temp != null) storedValue = temp
+        }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
+        });
+        updates[url + '/' + type] = storedValue + size
+        total[type] = (total[type])? total[type] + size: size
+    }
+
+    let url = '/users/' + uid + '/data'
+    let ref = db.ref(url)
+
+    ref.on("value", (snapshot) => {
+        snapshot.forEach((child) => {
+            let val = child.val()
+            let key = child.key
+            total[key] = (total[key])? total[key] + val: val
+        })
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    for (let key in total) {
+        updates[url + '/' + key] = total[key]
+    }
+
+    db.ref().update(updates).catch((error) => {
+        console.log("Error updating Firebase: " + error)
+    })
+}
 
 setInterval(() => {
-
+    //check uid not null
+    if (firebase.auth().currentUser)
+        updateFirebaseIntervalData(firebase.auth().currentUser.uid, dataCollector)
     dataCollector = [];
+
 }, 5000);
 
 /*

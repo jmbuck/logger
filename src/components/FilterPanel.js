@@ -3,7 +3,6 @@ import Modal from 'react-modal'
 
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
-import { database } from 'firebase';
 import {
     auth,
     postFirebaseWebsiteFilter,
@@ -65,13 +64,11 @@ class FilterPanel extends Component {
     }
 
     postTrackingSettingsToFirebase = (website, tracking) => {
-        //TODO: implement post
         if(auth.currentUser)
             postFirebaseWebsiteSettings(auth.currentUser.uid, website, tracking)
     }
 
     postFilterToFirebase = (url) => {
-        //TODO: implement post
         if(auth.currentUser)
             postFirebaseWebsiteFilter(auth.currentUser.uid, url)
     }

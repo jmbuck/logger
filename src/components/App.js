@@ -42,14 +42,6 @@ class App extends Component {
         )
     }
 
-    fetchWebsites = (callback) => {
-        let uid = auth.currentUser ? auth.currentUser.uid : null
-        //TODO: implement fetch
-        //callback should be called after data is received
-        let data;
-        //callback(data)
-    }
-
     signedIn = () => {
         return this.state.uid
     };
@@ -77,7 +69,7 @@ class App extends Component {
             <Switch>
                 <Route path='/data' render={(navProps) => <DataPanel {...navProps} />}/>
                 <Route path='/preferences' render={(navProps) => <PreferencePanel {...navProps} />}/>
-                <Route path='/filters' render={(navProps) => <FilterPanel {...navProps} fetchWebsites={this.fetchWebsites}/>}/>
+                <Route path='/filters' render={(navProps) => <FilterPanel {...navProps} />}/>
                 <Route path='/deleteaccount' render={(navProps) => <DeleteAccountPanel {...navProps} />}/>
                 <Route path='/websites' render={(navProps) => <WebsitePanel {...navProps} />}/>
                 <Route path='/netflix' render={(navProps) => <NetflixPanel {...navProps} />}/>
