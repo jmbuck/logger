@@ -26,6 +26,7 @@ class FilterPanel extends Component {
 
     retrieve = (user) => {
         retrieveFirebaseWebsites(user.uid, (data) => {
+            console.log(data)
             this.setState({websites: data});
         });
         retrieveFirebaseWebsitesBlacklist(user.uid, (data) => {

@@ -27,10 +27,13 @@ class WebsitePanel extends Component {
                 this.setState({ data })
             })
             retrieveFirebaseWebsitesSettings(user.uid, (settings) => {
+                console.log('here')
                 console.log(settings)
                 this.setState({ settings: JSON.parse(settings) })
             })
             retrieveFirebaseWebsitesBlacklist(user.uid, (blacklist) => {
+                console.log('here2')
+                console.log(blacklist)
                 this.setState({ blacklist })
             })
         }
@@ -80,8 +83,8 @@ class WebsitePanel extends Component {
 		                        </tr>
                                 </thead>
                                 <tbody>
-                                { this.state.blacklist && this.state.settings ?
-                                    this.state.data.map((d, index) => {
+                                { !(this.state.blacklist === null || this.state.settings === null) ?
+                                    this.state.data.map((d) => {
                                         if(!this.blacklisted(d.name)) {
                                             return (
                                             <tr key={d.name}>
