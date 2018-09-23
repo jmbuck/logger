@@ -39,7 +39,7 @@ class YoutubePanel extends Component {
                         <DataNav {...this.props}/>
                         <div className="panel-center-content">
 	                        <h1>YouTube</h1>
-	                        <table border="1px solid black" align="center">
+	                        <table border="1px solid black">
                                 <thead>
                                 <tr>
                                     <th>Channels Watched</th>
