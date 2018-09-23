@@ -26,38 +26,9 @@ class DataPanel extends Component {
                 }]
             },
             websiteDataUsage : {
-                datasets: [{
-                    label: 'Social Media',
-                    backgroundColor:  'rgba(255, 159, 64, 0.2)',
-                    data: [1, 1, 1, 1, 1, 1]
-                },
-                    {
-                        label: 'Streaming',
-                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                        data:  [1, 1, 1, 1, 1, 1]
-                    },
-                    {
-                        label: 'Gaming',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        data:  [1, 1, 1, 1, 1, 1]
-                    },
-                    {
-                        label: 'News',
-                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
-                        data:  [1, 1, 1, 1, 1, 1]
-                    },
-                    {
-                        label: 'Financial',
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        data:  [1, 1, 1, 1, 1, 1]
-                    },
-                    {
-                        label: 'Programming',
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        data: [1, 1, 1, 1, 1, 1]
-                    }],
+                datasets: [],
 
-                labels:[1, 2, 3, 4, 5, 6]
+                labels:[]
 
             }
         }

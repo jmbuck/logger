@@ -82,6 +82,21 @@ export function retrieveFirebaseUserData(uid, callback) {
         'rgba(255, 206, 86, 0.2)',
         'rgba(75, 192, 192, 0.2)',
         'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
         'rgba(255, 159, 64, 0.2)'
     ];
 
@@ -145,22 +160,38 @@ export function retrieveFirebaseWebsitesData(uid, callback) {
         'rgba(255, 206, 86, 0.2)',
         'rgba(75, 192, 192, 0.2)',
         'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
         'rgba(255, 159, 64, 0.2)'
     ];
 
     db.ref(url).on("value", (snapshot) => {
         let i = 0;
 
+        let names = [];
         let dataTypes = {};
 
         snapshot.forEach((child) => {
             if(i < 6) {
                 const jsonData = child.val().data;
 
+                names.push(child.key);
+
                 for(let dataType in jsonData) {
                     if(!jsonData.hasOwnProperty(dataType)) continue;
-
-                    console.log(dataType);
 
                     if(!dataTypes[dataType])
                         dataTypes[dataType] = [0, 0, 0, 0, 0, 0];
@@ -171,8 +202,17 @@ export function retrieveFirebaseWebsitesData(uid, callback) {
                 i++;
             }
         });
-
-        console.log(dataTypes)
+        i = 0;
+        callback({
+            datasets : Object.entries(dataTypes).map((type) => {
+                return {
+                    label: type[0],
+                    backgroundColor: colors[i++],
+                    data: type[1]
+                }
+            }),
+            labels : names
+        });
     })
 }
 
