@@ -12,6 +12,7 @@ class RedditPanel extends Component {
         this.state = {
             data : []
         }
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     retrieve = (user) => {
@@ -31,6 +32,12 @@ class RedditPanel extends Component {
         })
     }
 
+    handleDelete = (index) => {
+        let data = [...this.state.data];
+        data.splice(index, 1);
+        this.setState({data});
+    };
+
     render() {
         return (
 	        <div className="panel">
@@ -46,12 +53,12 @@ class RedditPanel extends Component {
                                     <th>Delete</th>
 		                        </tr>
                                 {
-                                    this.state.data.map((d) =>
+                                    this.state.data.map((d, index) =>
                                         <tr>
                                             <td>{d.name}</td>
                                             <td>{d.time}</td>
                                             <td>
-                                                <img src={exitIcon} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
+                                                <img src={exitIcon} onClick={() => this.handleDelete(index)} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
                                             </td>
                                         </tr>)
                                 }

@@ -7,11 +7,12 @@ import {auth, retrieveFirebaseUserYoutubeVideoData} from "../rebase";
 class YoutubePanel extends Component {
 
 	constructor(props) {
-		super(props)
+		super(props);
 
 		this.state = {
             data: []
-		}
+		};
+		this.handleDelete = this.handleDelete.bind(this);
 	}
 
 	retrieve = (user) => {
@@ -30,6 +31,12 @@ class YoutubePanel extends Component {
 	        this.retrieve(user);
         })
     }
+
+    handleDelete = (index) => {
+        let data = [...this.state.data];
+        data.splice(index, 1);
+        this.setState({data});
+    };
 
     render() {
         return (
@@ -50,13 +57,13 @@ class YoutubePanel extends Component {
                                 </thead>
                                 <tbody>
                                 {
-                                    this.state.data.map((d) =>
+                                    this.state.data.map((d, index) =>
                                         <tr key={d.name}>
                                             <td>{d.name}</td>
                                             <td>{d.time}</td>
                                             <td>1</td>
                                             <td>
-                                                <img src={exitIcon} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
+                                                <img src={exitIcon} onClick={() => this.handleDelete(index)} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
                                             </td>
                                         </tr>)
                                 }

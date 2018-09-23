@@ -16,7 +16,9 @@ class WebsitePanel extends Component {
             data: [],
             settings: null,
             blacklist: null,
-        }
+        };
+
+        this.handleDelete = this.handleDelete.bind(this);     
     }
 
     retrieve = (user) => {
@@ -42,6 +44,12 @@ class WebsitePanel extends Component {
         }
         return false
     }
+
+    handleDelete = (index) => {
+        let data = [...this.state.data];
+        data.splice(index, 1);
+        this.setState({data});
+    };
 
     componentWillMount() {
         if(auth.currentUser)
@@ -73,7 +81,7 @@ class WebsitePanel extends Component {
                                 </thead>
                                 <tbody>
                                 { this.state.blacklist && this.state.settings ?
-                                    this.state.data.map((d) => {
+                                    this.state.data.map((d, index) => {
                                         if(!this.blacklisted(d.name)) {
                                             return (
                                             <tr key={d.name}>
@@ -83,7 +91,7 @@ class WebsitePanel extends Component {
                                                 <td>{this.state.settings[d.name].data ? d.data : 'N/A'}</td>
                                                 <td>{d.category}</td>
                                                 <td>
-                                                    <img src={exitIcon} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
+                                                    <img src={exitIcon} onClick={() => this.handleDelete(index)} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
                                                 </td>
                                             </tr>
                                             )
