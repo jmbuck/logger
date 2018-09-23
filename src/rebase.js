@@ -73,6 +73,16 @@ export function retrieveFirebaseWebsitesBlacklist(uid, callback) {
     });
 }
 
+export function retrieveFirebaseWebsitesSettings(uid, callback) {
+    let url = `/users/${uid}/filters/data`;
+
+    db.ref(url).on("value", (snapshot) => {
+
+        callback(snapshot.toJSON());
+
+    });
+}
+
 export function retrieveFirebaseUserData(uid, callback) {
     let url = `/users/${uid}/data`;
 
@@ -221,13 +231,14 @@ export function retrieveFirebaseNetflixData(uid, callback) {
 
     db.ref(url).on("value", (snapshot) => {
         const json = snapshot.toJSON();
-
-        callback({
-            timeTV: msToString(json["shows"].time),
-            visitsTV: json["shows"].watches,
-            timeMovies: msToString(json["movies"].time),
-            visitsMovies: json["movies"].watches
-        })
+        if (json != null) {
+            callback({
+                timeTV: msToString(json["shows"].time),
+                visitsTV: json["shows"].watches,
+                timeMovies: msToString(json["movies"].time),
+                visitsMovies: json["movies"].watches
+            })
+        }
     }, (error) => console.log("The read failed: " + error.code));
 }
 
