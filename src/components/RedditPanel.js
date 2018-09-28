@@ -4,7 +4,7 @@ import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
 import {auth, retrieveFirebaseUserRedditData} from "../rebase";
 
-class RedditPanel extends Component {
+export class RedditPanel extends Component {
 
     constructor(props) {
         super(props);

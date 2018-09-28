@@ -242,7 +242,6 @@ function updateFirebaseSiteData(uid, url, time) {
     updates[db_url + '/url'] = url
     updates[db_url + '/visits'] = ++storedVisits
 
-    console.log("UPDATES: " + JSON.stringify(updates))
     db.ref().update(updates).catch((error) => {
         console.log("Error updating Firebase: " + error)
     })
