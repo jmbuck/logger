@@ -62,7 +62,7 @@ function startAuth(interactive) {
         } else if (token) {
             // Authorize Firebase with the OAuth Access Token.
             var credential = firebase.auth.GoogleAuthProvider.credential(null, token);
-            firebase.auth().signInAndRetrieveDataWithCredential(credential).catch(function(error) {
+            auth.signInAndRetrieveDataWithCredential(credential).catch(function(error) {
                 // The OAuth token might have been invalidated. Lets' remove it from cache.
                 if (error.code === 'database/invalid-credential') {
                     chrome.identity.removeCachedAuthToken({token: token}, function() {
@@ -81,8 +81,8 @@ function startAuth(interactive) {
  */
 function startSignIn() {
     document.getElementById('quickstart-button-google').disabled = true;
-    if (firebase.auth().currentUser) {
-        firebase.auth().signOut();
+    if (auth.currentUser) {
+       auth.signOut();
     } else {
         startAuth(true);
     }
