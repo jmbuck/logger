@@ -84,7 +84,7 @@ class WebsitePanel extends Component {
                                 </thead>
                                 <tbody>
                                 { !(this.state.blacklist === null || this.state.settings === null) ?
-                                    this.state.data.map((d) => {
+                                    this.state.data.map((d, index) => {
                                         if(!this.blacklisted(d.name)) {
                                             return (
                                             <tr key={d.name}>

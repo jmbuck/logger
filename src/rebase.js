@@ -1,4 +1,6 @@
-var app = window.firebase.initializeApp({
+import firebase from "firebase";
+
+var app = firebase.initializeApp({
     apiKey: "AIzaSyAWi4vgQmLJqYCaVjwqXygDcD8PERfafRM",
     authDomain: "logger-216718.firebaseapp.com",
     databaseURL: "https://logger-216718.firebaseio.com",
@@ -263,5 +265,5 @@ export function postFirebaseWebsiteSettings(uid, website, settings) {
 
 export const auth = app.auth()
 export const db = app.database()
-export const googleProvider = new window.firebase.auth.GoogleAuthProvider()
+export const googleProvider = new firebase.auth.GoogleAuthProvider()
 
