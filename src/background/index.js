@@ -1,5 +1,10 @@
 /*global chrome*/
 
+import "./Background.js"
+import firebase from "firebase";
+require("firebase/auth");
+require("firebase/database");
+
 //sample for timing tabs found here: https://github.com/google/page-timer
 
 var SessionsArray = [];

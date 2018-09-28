@@ -1,15 +1,9 @@
-
 // Initialize Firebase
 
-var config = {
-    apiKey: "AIzaSyAWi4vgQmLJqYCaVjwqXygDcD8PERfafRM",
-    authDomain: "logger-216718.firebaseapp.com",
-    databaseURL: "https://logger-216718.firebaseio.com",
-    projectId: "logger-216718",
-    storageBucket: "logger-216718.appspot.com",
-    messagingSenderId: "870302921200"
-};
-firebase.initializeApp(config);
+import "./Popup";
+import firebase from "firebase/app";
+require("firebase/auth");
+require("firebase/database");
 
 /**
  * initApp handles setting up the Firebase context and registering
