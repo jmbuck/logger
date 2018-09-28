@@ -1,3 +1,7 @@
+
+import firebase from "firebase/app";
+require("firebase/auth");
+
 export const config = {
     apiKey: "AIzaSyAWi4vgQmLJqYCaVjwqXygDcD8PERfafRM",
     authDomain: "logger-216718.firebaseapp.com",
@@ -6,4 +10,6 @@ export const config = {
     storageBucket: "logger-216718.appspot.com",
     messagingSenderId: "870302921200"
 };
+
 export const app = firebase.initializeApp(config);
+export const auth = app.auth();
