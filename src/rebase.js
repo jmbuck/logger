@@ -242,34 +242,6 @@ export function retrieveFirebaseNetflixData(uid, callback) {
     }, (error) => console.log("The read failed: " + error.code));
 }
 
-/*
-    Returns array data as:
-    [
-        "Channel1": {
-            timeWatched: int
-        },
-        "Channel2": {
-            timeWatched: int
-        }
-    ]
- */
-export function retrieveFirebaseGlobalYoutubeVideoData(callback) {
-    let arr = []
-
-    let url = '/global/youtube'
-
-    db.ref(url).on("value", function(snapshot) {
-        snapshot.forEach((child) => {
-            arr.push({name: child.key, time: child.val().timeWatched})
-        });
-        callback(arr);
-    }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-    });
-
-    return arr
-}
-
 export function postFirebaseWebsiteFilter(uid, website) {
     let url = `/users/${uid}/filters/blacklist/${website}`;
 
