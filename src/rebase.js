@@ -1,15 +1,6 @@
-import firebase from "firebase/app";
-require("firebase/auth");
-require("firebase/database");
-
-var app = firebase.initializeApp({
-    apiKey: "AIzaSyAWi4vgQmLJqYCaVjwqXygDcD8PERfafRM",
-    authDomain: "logger-216718.firebaseapp.com",
-    databaseURL: "https://logger-216718.firebaseio.com",
-    projectId: "logger-216718",
-    storageBucket: "logger-216718.appspot.com",
-    messagingSenderId: "870302921200"
-});
+import {auth, googleAuth} from "./database/Auth.js";
+import {db, on} from "./database/Database.js";
+import {update} from "./database/Database"
 
 function msToString(time) {
     let seconds = Math.floor(time / 1000) % 60;
@@ -31,65 +22,47 @@ function msToString(time) {
     ]
  */
 export function retrieveFirebaseUserYoutubeVideoData(uid, callback) {
-
-    let arr = []
-    let url = '/users/' + uid + '/youtube'
-
-    db.ref(url).on("value", function(snapshot) {
-        snapshot.forEach((child) => {
-            arr.push({name: child.key, time: child.val().timeWatched})
-        });
-        callback(arr);
-    }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-    });
-
-    return arr
-}
-
-export function retrieveFirebaseWebsites(uid, callback) {
-    let url = `/users/${uid}/filters/data`;
-
-    db.ref(url).on("value", (snapshot) => {
+    on(`/users/${uid}/youtube`, (snapshot) => {
         let arr = [];
-
         snapshot.forEach((child) => {
-            arr.push(child.key);
+            arr.push({name: child.key, time: child.val().timeWatched});
         })
 
         callback(arr);
+    });
+}
 
+export function retrieveFirebaseWebsites(uid, callback) {
+    on(`/users/${uid}/filters/data`, (snapshot) => {
+	    let arr = [];
+
+	    snapshot.forEach((child) => {
+		    arr.push(child.key);
+	    })
+
+	    callback(arr);
     });
 }
 
 export function retrieveFirebaseWebsitesBlacklist(uid, callback) {
-    let url = `/users/${uid}/filters/blacklist`;
+    on(`/users/${uid}/filters/blacklist`, (snapshot) => {
+	    let arr = [];
 
-    db.ref(url).on("value", (snapshot) => {
-        let arr = [];
+	    snapshot.forEach((child) => {
+		    arr.push(child.key);
+	    });
 
-        snapshot.forEach((child) => {
-            arr.push(child.key);
-        });
-
-        callback(arr);
-
+	    callback(arr);
     });
 }
 
 export function retrieveFirebaseWebsitesSettings(uid, callback) {
-    let url = `/users/${uid}/filters/data`;
-
-    db.ref(url).on("value", (snapshot) => {
-
+    on(`/users/${uid}/filters/data`, (snapshot) => {
         callback(snapshot.toJSON());
-
     });
 }
 
 export function retrieveFirebaseUserData(uid, callback) {
-    let url = `/users/${uid}/data`;
-
     const colors = [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -114,8 +87,8 @@ export function retrieveFirebaseUserData(uid, callback) {
         'rgba(255, 159, 64, 0.2)'
     ];
 
-    db.ref(url).on("value", (snapshot) => {
-        let data = {};
+    on(`/users/${uid}/data`, (snapshot) => {
+        let data;
         let labels = [];
         let dataUsage = [];
         snapshot.forEach((child) => {
@@ -131,7 +104,7 @@ export function retrieveFirebaseUserData(uid, callback) {
             }]
         };
         callback(data);
-    }, (error) => console.log("The read failed: " + error.code));
+    });
 }
 
 export function retrieveFirebaseUserRedditData(uid, callback) {
@@ -147,9 +120,7 @@ export function retrieveFirebaseUserRedditData(uid, callback) {
 }
 
 export function retrieveFirebaseWebsiteData(uid, callback) {
-    let url = `/users/${uid}/websites`
-
-    db.ref(url).on("value", (snapshot) => {
+    on(`/users/${uid}/websites`, (snapshot) => {
         let arr = [];
         snapshot.forEach((child) => {
             const json = child.val();
@@ -162,12 +133,10 @@ export function retrieveFirebaseWebsiteData(uid, callback) {
             arr.push({name: child.key, time: msToString(json.time), visits: json.visits, data: data, category: json.category ? json.category : "not specified"});
         });
         callback(arr);
-    }, (error) => console.log("The read failed: " + error.code));
+    });
 }
 
 export function retrieveFirebaseWebsitesData(uid, callback) {
-    let url = `/users/${uid}/websites`
-
     const colors = [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -192,7 +161,7 @@ export function retrieveFirebaseWebsitesData(uid, callback) {
         'rgba(255, 159, 64, 0.2)'
     ];
 
-    db.ref(url).on("value", (snapshot) => {
+    on(`/users/${uid}/websites`, (snapshot) => {
         let i = 0;
 
         let names = [];
@@ -231,9 +200,7 @@ export function retrieveFirebaseWebsitesData(uid, callback) {
 }
 
 export function retrieveFirebaseNetflixData(uid, callback) {
-    let url = `/users/${uid}/netflix`;
-
-    db.ref(url).on("value", (snapshot) => {
+    on(`/users/${uid}/netflix`, (snapshot) => {
         const json = snapshot.toJSON();
         if (json != null) {
             callback({
@@ -243,7 +210,7 @@ export function retrieveFirebaseNetflixData(uid, callback) {
                 visitsMovies: json["movies"].watches
             })
         }
-    }, (error) => console.log("The read failed: " + error.code));
+    });
 }
 
 export function postFirebaseWebsiteFilter(uid, website) {
@@ -252,7 +219,7 @@ export function postFirebaseWebsiteFilter(uid, website) {
     let updates = {};
     updates[url] = true
 
-    db.ref().update(updates)
+    update(updates)
 }
 
 export function postFirebaseWebsiteSettings(uid, website, settings) {
@@ -262,10 +229,6 @@ export function postFirebaseWebsiteSettings(uid, website, settings) {
 
     updates[url] = settings;
 
-    db.ref().update(updates);
+    update(updates);
 }
-
-export const auth = app.auth()
-export const db = app.database()
-export const googleProvider = new firebase.auth.GoogleAuthProvider()
 

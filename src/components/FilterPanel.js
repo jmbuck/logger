@@ -4,12 +4,12 @@ import Modal from 'react-modal'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import {
-    auth,
     postFirebaseWebsiteFilter,
     postFirebaseWebsiteSettings,
     retrieveFirebaseWebsites,
     retrieveFirebaseWebsitesBlacklist
 } from '../rebase'
+import { auth } from "../database/Auth";
 
 class FilterPanel extends Component {
 

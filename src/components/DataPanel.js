@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Doughnut, HorizontalBar, defaults } from 'react-chartjs-2';
 import '../css/common.css'
 import DataNav from './DataNav'
-import {auth, retrieveFirebaseUserData, retrieveFirebaseWebsitesData} from "../rebase";
+import { retrieveFirebaseUserData, retrieveFirebaseWebsitesData } from "../rebase";
+import { auth } from "../database/Auth";
 
 class DataPanel extends Component {
 

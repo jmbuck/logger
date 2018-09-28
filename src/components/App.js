@@ -13,7 +13,7 @@ import RedditPanel from "./RedditPanel"
 import DataPanel from './DataPanel'
 import YoutubePanel from './YoutubePanel'
 import LoginPanel from "./LoginPanel"
-import { auth } from '../rebase'
+import { auth } from '../database/Auth';
 
 class App extends Component {
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import '../css/common.css'
 import logout from '../img/logout.svg'
 import settings from '../img/settings.svg'
-import {auth} from '../rebase'
+import { auth } from "../database/Auth";
 
 class Navbar extends Component {
   render() {
