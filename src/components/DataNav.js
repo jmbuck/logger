@@ -15,7 +15,7 @@ class DataNav extends Component {
                 <h4 onClick={ () => this.props.history.push("/websites")}>
                     Websites
                 </h4>
-                <h4 onClick={() => this.props.history.push('/youtube')}>
+                <h4 onClick={ () => this.props.history.push('/youtube')}>
                     Youtube
                 </h4>
                 <h4 onClick={ () => this.props.history.push("/netflix")}>
