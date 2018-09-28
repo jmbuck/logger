@@ -38,7 +38,7 @@ class DataPanel extends Component {
         if(user) {
             retrieveFirebaseUserData(user.uid, (data) => {
                 this.setState({ dataUsage : data})
-            })
+            });
             retrieveFirebaseWebsitesData(user.uid, (data) => {
                 this.setState({ websiteDataUsage: data });
             })
@@ -70,9 +70,10 @@ class DataPanel extends Component {
                 data: [40, 10, 5, 2, 20, 30],
             }]
         }
-    }
+    };
+
     render() {
-        defaults.global.legend.position = 'left'
+        defaults.global.legend.position = 'left';
         return (
 	        <div className="panel">
 		        <div className="panel-container">

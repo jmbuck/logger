@@ -25,19 +25,19 @@ class WebsitePanel extends Component {
         if(user) {
             retrieveFirebaseWebsiteData(user.uid, (data) => {
                 this.setState({ data })
-            })
+            });
             retrieveFirebaseWebsitesSettings(user.uid, (settings) => {
-                console.log('here')
-                console.log(settings)
+                console.log('here');
+                console.log(settings);
                 this.setState({ settings: JSON.parse(settings) })
-            })
+            });
             retrieveFirebaseWebsitesBlacklist(user.uid, (blacklist) => {
-                console.log('here2')
-                console.log(blacklist)
+                console.log('here2');
+                console.log(blacklist);
                 this.setState({ blacklist })
             })
         }
-    }
+    };
 
     blacklisted = (name) => {
         for(let website in this.state.blacklist) {
@@ -46,7 +46,7 @@ class WebsitePanel extends Component {
             }
         }
         return false
-    }
+    };
 
     handleDelete = (index) => {
         let data = [...this.state.data];

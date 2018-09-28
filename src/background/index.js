@@ -48,7 +48,7 @@ window.onload = function() {
 function onActiveTabChange(activeInfo) {
     //Logic for when a tab is closed
     chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, (tabs) => {
-        let url = tabs[0] != undefined ? tabs[0].url : null
+        let url = tabs[0] !== undefined ? tabs[0].url : null;
         if(url != null) checkTab(url)
     });
     //endOfSession = Date.now(); //sessions are tab based.....for now.
@@ -61,7 +61,7 @@ function onActiveTabChange(activeInfo) {
 function onTabUpdate(tabId, changeInfo, tab) {
     //Logic for when a tab is updated
     //alert("Tab " + tabId + " has updated!");
-    if (changeInfo.status == "loading" && changeInfo.url != undefined) {
+    if (changeInfo.status === "loading" && changeInfo.url !== undefined) {
 
         //alert("URL is now: " + changeInfo.url)
         var sessionNotTracked = true;
@@ -69,10 +69,10 @@ function onTabUpdate(tabId, changeInfo, tab) {
 
         for (var i = 0; i < SessionsArray.length; i++) {
             //Are we already tracking this tab?
-            if (SessionsArray[i].tabid == tabId) {
+            if (SessionsArray[i].tabid === tabId) {
                 tabNotTracked = false;
                 //Is the new URL in the same domain as what we were already tracking for the tab?
-                if (SessionsArray[i].domain == domainRetreival(changeInfo.url)) {
+                if (SessionsArray[i].domain === domainRetreival(changeInfo.url)) {
                     //Do nothing if it is - it's the same session
                 } else {
                     let finalSessionTime = Date.now() - SessionsArray[i].startOfSession;
@@ -81,7 +81,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
                     SessionsArray.splice(i, 1); //Remove this old session.
                     //Are we already tracking this new session in another tab?
                     for (var i = 0; i < SessionsArray.length; i++) {
-                        if (SessionsArray[i].domain == domainRetreival(changeInfo.url)) {
+                        if (SessionsArray[i].domain === domainRetreival(changeInfo.url)) {
                             //We are tracking this session in another tab
                         } else {
                             //We are not tracking this session in another tab
@@ -103,7 +103,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
         if (tabNotTracked) {
             //Are we already tracking this session (on another tab)?
             for (var i = 0; i < SessionsArray.length; i++) {
-                if (SessionsArray[i].domain == domainRetreival(changeInfo.url)) {
+                if (SessionsArray[i].domain === domainRetreival(changeInfo.url)) {
                     sessionNotTracked = false;
                     break;
                 }
@@ -124,7 +124,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
 
         checkTab(changeInfo.url);
 
-    } else if (changeInfo.status == "loading") {
+    } else if (changeInfo.status === "loading") {
         //alert("URL is now: " + changeInfo.url)
         //checkTab(changeInfo.url)
         //alert("URL is the same.");
@@ -135,12 +135,12 @@ function onTabUpdate(tabId, changeInfo, tab) {
 
 function checkTab(url) {
     if(startYoutube) {
-        endYoutube = Date.now()
-        const timeWatched = endYoutube - startYoutube
+        endYoutube = Date.now();
+        const timeWatched = endYoutube - startYoutube;
         startYoutube = null;
         postYoutubeVideoData(channel, timeWatched)
     } else if(startNetflix) {
-        endNetflix = Date.now()
+        endNetflix = Date.now();
         timeWatchedNetflix = endNetflix - startNetflix
     } else if(startReddit) {
         endReddit = Date.now();
@@ -150,10 +150,10 @@ function checkTab(url) {
     }
 
     if(url.includes('youtube.com/watch?')) {
-        startYoutube = Date.now()
+        startYoutube = Date.now();
         fetchJSON(url)
     } else if(url.includes('netflix.com/watch')) {
-        startNetflix = Date.now()
+        startNetflix = Date.now();
         var urlObj = new URL(url);
         NetflixShowData(urlObj.searchParams.get("trackId"));
     } else if(url.includes(redditBaseURL)) {
@@ -164,8 +164,8 @@ function checkTab(url) {
 
 function postRedditData(subreddit, timeWatched) {
     if(subreddit) {
-        console.log(subreddit)
-        console.log(timeWatched)
+        console.log(subreddit);
+        console.log(timeWatched);
         if(firebase.auth().currentUser)
             updateFirebaseRedditData(firebase.auth().currentUser.uid, subreddit, timeWatched)
     }
@@ -176,12 +176,12 @@ function postRedditData(subreddit, timeWatched) {
 function updateFirebaseRedditData(uid, subreddit, timeonSubreddit) {
     let updates = {};
 
-    let url = '/users/' + uid + '/reddit/' + subreddit
+    let url = '/users/' + uid + '/reddit/' + subreddit;
     let ref = db.ref(url);
-    let storedTime = 0
+    let storedTime = 0;
 
     ref.on("value", function(snapshot) {
-        let stored = snapshot.val()
+        let stored = snapshot.val();
         if (stored) {
             storedTime = stored.time
         }
@@ -202,8 +202,8 @@ function NetflixShowData(trackId) {
 
 function postSiteData(sessionName, timeSpent) {
     if(sessionName) {
-        console.log(sessionName)
-        console.log(timeSpent)
+        console.log(sessionName);
+        console.log(timeSpent);
         if(firebase.auth().currentUser)
             updateFirebaseSiteData(firebase.auth().currentUser.uid, sessionName, timeSpent)
     }
@@ -212,37 +212,37 @@ function postSiteData(sessionName, timeSpent) {
 function updateFirebaseSiteData(uid, url, time) {
     let updates = {};
 
-    let hostname = url.match(/\/\/(.*.*)(?=\.)/g)
+    let hostname = url.match(/\/\/(.*.*)(?=\.)/g);
     if (!hostname) {
-        console.log("Could not find hostname")
+        console.log("Could not find hostname");
         return
     }
-    hostname = (hostname[0] != undefined)? hostname[0].split(".").join("-"): null
+    hostname = (hostname[0] !== undefined)? hostname[0].split(".").join("-"): null;
     if (!hostname) {
-        console.log("Could not find hostname")
+        console.log("Could not find hostname");
         return
     }
     if (hostname.includes('www')) hostname = hostname.substring(4);
 
-    let db_url = '/users/' + uid + '/websites/' + hostname
+    let db_url = '/users/' + uid + '/websites/' + hostname;
     let ref = db.ref(db_url);
 
-    let storedTime = 0
-    let storedVisits = 0
+    let storedTime = 0;
+    let storedVisits = 0;
     ref.on("value", function(snapshot) {
-        let stored = snapshot.val()
+        let stored = snapshot.val();
         if (stored) {
-            storedTime = (stored.time)? stored.time: 0
+            storedTime = (stored.time)? stored.time: 0;
             storedVisits = (stored.visits)? stored.visits: 0
         }
     }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
-    updates[db_url + '/time'] = storedTime + time
-    updates[db_url + '/url'] = url
-    updates[db_url + '/visits'] = ++storedVisits
+    updates[db_url + '/time'] = storedTime + time;
+    updates[db_url + '/url'] = url;
+    updates[db_url + '/visits'] = ++storedVisits;
 
-    console.log("UPDATES: " + JSON.stringify(updates))
+    console.log("UPDATES: " + JSON.stringify(updates));
     db.ref().update(updates).catch((error) => {
         console.log("Error updating Firebase: " + error)
     })
@@ -269,8 +269,8 @@ function fetchJSON(url) {
 
 function postYoutubeVideoData(channel, timeWatched) {
     if(channel) {
-        console.log(channel)
-        console.log(timeWatched)
+        console.log(channel);
+        console.log(timeWatched);
         if(firebase.auth().currentUser)
             updateFirebaseYoutubeVideoData(firebase.auth().currentUser.uid, {channel, timeWatched})
     }
@@ -283,7 +283,7 @@ chrome.tabs.onUpdated.addListener(onTabUpdate);
 chrome.runtime.onMessage.addListener((message) => {
     if(message.netflix_info) {
         if(startNetflix) {
-            timeWatchedNetflix = Date.now() - startNetflix
+            timeWatchedNetflix = Date.now() - startNetflix;
             startNetflix = Date.now()
         }
         if(firebase.auth().currentUser) {
@@ -313,24 +313,24 @@ Stores data as:
 */
 function updateFirebaseNetflixData(uid, data, timeWatchedNetflix) {
     let updates = {};
-    let type = (data.type == 0)? "shows": "movies"
+    let type = (data.type === 0)? "shows": "movies";
 
-    let url = '/users/' + uid + '/netflix/' + type
+    let url = '/users/' + uid + '/netflix/' + type;
     let ref = db.ref(url);
 
-    let storedWatches = 0
-    let storedTime = 0
+    let storedWatches = 0;
+    let storedTime = 0;
     ref.on("value", function(snapshot) {
-        let stored = snapshot.val()
+        let stored = snapshot.val();
         if (stored) {
-            storedWatches = stored.watches
+            storedWatches = stored.watches;
             storedTime = stored.time
         }
     }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
     updates[url + '/watches'] = ++storedWatches;
-    updates[url + '/time'] = storedTime + timeWatchedNetflix
+    updates[url + '/time'] = storedTime + timeWatchedNetflix;
 
     db.ref().update(updates).catch((error) => {
         console.log("Error updating Firebase: " + error)
@@ -370,48 +370,48 @@ chrome.webRequest.onCompleted.addListener(retrieveDetails, networkFilters, ["res
 function updateFirebaseIntervalData(uid, data) {
     let updates = {};
 
-    let total = {}
+    let total = {};
     for (let i = 0; i < data.length; i++) {
-        let type = data[i].type
-        let size = parseInt(data[i].size)
+        let type = data[i].type;
+        let size = parseInt(data[i].size);
         if (isNaN(size)) {
             size = 0
         }
-        if (!data[i].url) continue
-        let hostname = data[i].url.match(/\/\/(.*.*)(?=\.)/g)
+        if (!data[i].url) continue;
+        let hostname = data[i].url.match(/\/\/(.*.*)(?=\.)/g);
         if (!hostname) {
-            console.log("Could not find hostname")
+            console.log("Could not find hostname");
             continue
         }
-        hostname = (hostname[0] != undefined)? hostname[0].split('.').join('-'): null
+        hostname = (hostname[0] !== undefined)? hostname[0].split('.').join('-'): null;
         if (!hostname) {
-            console.log("Could not find hostname")
+            console.log("Could not find hostname");
             continue
         }
 
-        if (hostname.includes('www')) hostname = hostname.substring(4)
+        if (hostname.includes('www')) hostname = hostname.substring(4);
 
-        let url = '/users/' + uid + '/websites/' + hostname + '/data'
-        let ref = db.ref(url)
+        let url = '/users/' + uid + '/websites/' + hostname + '/data';
+        let ref = db.ref(url);
 
-        let storedValue = 0
+        let storedValue = 0;
         ref.on("value", (snapshot) => {
             let temp = snapshot.child(type).val();
             if (temp != null) storedValue = temp
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
         });
-        updates[url + '/' + type] = storedValue + size
+        updates[url + '/' + type] = storedValue + size;
         total[type] = (total[type])? total[type] + size: size
     }
 
-    let url = '/users/' + uid + '/data'
-    let ref = db.ref(url)
+    let url = '/users/' + uid + '/data';
+    let ref = db.ref(url);
 
     ref.on("value", (snapshot) => {
         snapshot.forEach((child) => {
-            let val = child.val()
-            let key = child.key
+            let val = child.val();
+            let key = child.key;
             total[key] = (total[key])? total[key] + val: val
         })
     }, function (errorObject) {
@@ -430,7 +430,7 @@ function updateFirebaseIntervalData(uid, data) {
 setInterval(() => {
     //check uid not null
     if (firebase.auth().currentUser)
-        updateFirebaseIntervalData(firebase.auth().currentUser.uid, dataCollector)
+        updateFirebaseIntervalData(firebase.auth().currentUser.uid, dataCollector);
     dataCollector = [];
 
 }, 5000);
@@ -458,12 +458,12 @@ function updateFirebaseYoutubeVideoData(uid, data) {
     console.log(uid, data);
     let updates = {};
 
-    let url = '/users/' + uid + '/youtube/' + data.channel
+    let url = '/users/' + uid + '/youtube/' + data.channel;
     let ref = db.ref(url);
-    let storedTime = 0
+    let storedTime = 0;
 
     ref.on("value", function(snapshot) {
-        let stored = snapshot.val()
+        let stored = snapshot.val();
         if (stored) {
             storedTime = stored.timeWatched
         }
@@ -473,12 +473,12 @@ function updateFirebaseYoutubeVideoData(uid, data) {
 
     updates[url + '/timeWatched'] = storedTime + data.timeWatched;
 
-    url = '/global/youtube/' + data.channel
+    url = '/global/youtube/' + data.channel;
     ref = db.ref(url);
-    storedTime = 0
+    storedTime = 0;
 
     ref.on("value", function(snapshot) {
-        let stored = snapshot.val()
+        let stored = snapshot.val();
         if (stored) {
             storedTime = stored.timeWatched
         }

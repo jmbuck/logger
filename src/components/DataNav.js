@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect, Route, Switch} from 'react-router'
 import '../css/common.css';
-
 
 class DataNav extends Component {
   render() {

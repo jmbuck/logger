@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import '../css/common.css'
-import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
 import {auth, retrieveFirebaseNetflixData} from "../rebase";
 

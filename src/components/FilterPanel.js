@@ -26,7 +26,7 @@ class FilterPanel extends Component {
 
     retrieve = (user) => {
         retrieveFirebaseWebsites(user.uid, (data) => {
-            console.log(data)
+            console.log(data);
             this.setState({websites: data});
         });
         retrieveFirebaseWebsitesBlacklist(user.uid, (data) => {
@@ -44,43 +44,43 @@ class FilterPanel extends Component {
     }
     
     handleSubmit = (ev) => {
-        ev.preventDefault()
-        const url = ev.target.url.value
-        const filters = [...this.state.filters]
-        filters.push(url)
-        this.setState({ filters })
+        ev.preventDefault();
+        const url = ev.target.url.value;
+        const filters = [...this.state.filters];
+        filters.push(url);
+        this.setState({ filters });
         this.postFilterToFirebase(url)
-    }
+    };
 
     handleTrackingSubmit = (ev) => {
-        ev.preventDefault()
-        const website = this.state.website
-        const data = ev.target.data.checked
-        const time = ev.target.time.checked
-        const visits = ev.target.visits.checked
-        const tracking = { data, time, visits }
-        console.log(ev.target)
-        console.log(tracking)
+        ev.preventDefault();
+        const website = this.state.website;
+        const data = ev.target.data.checked;
+        const time = ev.target.time.checked;
+        const visits = ev.target.visits.checked;
+        const tracking = { data, time, visits };
+        console.log(ev.target);
+        console.log(tracking);
         this.postTrackingSettingsToFirebase(website, tracking)
-    }
+    };
 
     postTrackingSettingsToFirebase = (website, tracking) => {
         if(auth.currentUser)
             postFirebaseWebsiteSettings(auth.currentUser.uid, website, tracking)
-    }
+    };
 
     postFilterToFirebase = (url) => {
         if(auth.currentUser)
             postFirebaseWebsiteFilter(auth.currentUser.uid, url)
-    }
+    };
 
     openModal = (website) => {
         this.setState({website, modalIsOpen: true})
-    }
+    };
 
     closeModal = () => {
         this.setState({website: '', modalIsOpen: false})
-    }
+    };
 
     render() {
         return (

@@ -27,19 +27,18 @@ class App extends Component {
 
     componentWillMount() {
         auth.onAuthStateChanged((user) => {
-                if(user) {
-                    //Finish Signing in
-                    this.authHandler(user)
-                } else {
-                    //Finish Signing out
-                    this.state = {
-                        data: {},
-                        uid: null
-                    }
-                    this.props.history.push('/login')
+            if(user) {
+                //Finish Signing in
+                this.authHandler(user)
+            } else {
+                //Finish Signing out
+                this.state = {
+                    data: {},
+                    uid: null
                 }
+                this.props.history.push('/login')
             }
-        )
+        })
     }
 
     signedIn = () => {

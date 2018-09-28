@@ -11,7 +11,7 @@ class RedditPanel extends Component {
 
         this.state = {
             data : []
-        }
+        };
         this.handleDelete = this.handleDelete.bind(this);
     }
 

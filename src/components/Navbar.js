@@ -15,7 +15,7 @@ class Navbar extends Component {
                 </div>
                 <div className="Logout">
                     <img src={logout} onClick={() => auth.signOut().then(() => {
-                        this.setState({ data: {} })
+                        this.setState({ data: {} });
                         this.props.history.push('/login')
                     })}/>
                 </div>
