@@ -385,12 +385,7 @@ function updateFirebaseIntervalData(uid, data) {
             size = 0
         }
         if (!data[i].url) continue;
-<<<<<<< HEAD
         let hostname = data[i].url.match(/\/\/(.*\..*)(?=\.)/g);
-=======
-        let hostname = data[i].url.match(/\/\/(.*.*)(?=\.)/g);
-        console.log(data[i].url)
->>>>>>> Make websites show and filter data correctly
         if (!hostname) {
             console.log("Could not find hostname3");
             continue
@@ -419,7 +414,6 @@ function updateFirebaseIntervalData(uid, data) {
     }
 
     let url = '/users/' + uid + '/data';
-    let url2 = '/users/'
     let ref = db.ref(url);
 
     ref.once("value", (snapshot) => {

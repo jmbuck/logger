@@ -4,7 +4,8 @@ import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
 import { retrieveFirebaseWebsiteData,
     retrieveFirebaseWebsitesBlacklist,
-    retrieveFirebaseWebsitesSettings} from "../logger-firebase";
+    retrieveFirebaseWebsitesSettings,
+    deleteFirebaseWebsite} from "../logger-firebase";
 import { auth } from "../database/Auth";
 
 class WebsitePanel extends Component {
@@ -17,9 +18,7 @@ class WebsitePanel extends Component {
             data: [],
             settings: null,
             blacklist: null,
-        };
-
-        this.handleDelete = this.handleDelete.bind(this);     
+        }
     }
 
     retrieve = (user) => {
@@ -48,7 +47,8 @@ class WebsitePanel extends Component {
 
     handleDelete = (index) => {
         let data = [...this.state.data];
-        data.splice(index, 1);
+        let site = data.splice(index, 1)[0].name;
+        deleteFirebaseWebsite(auth.currentUser.uid, site)
         this.setState({data});
     };
 

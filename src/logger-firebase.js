@@ -273,3 +273,14 @@ export function postFirebaseWebsiteSettings(uid, website, settings) {
     update(updates);
 }
 
+export function deleteFirebaseWebsite(uid, website) {
+    let url = `/users/${uid}/websites/${website}`
+    let url2 = `/users/${uid}/filters/data/${website}`
+    let updates = {}
+
+    updates[url] = null
+    updates[url2] = null
+
+    update(updates);
+}
+
