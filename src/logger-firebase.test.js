@@ -1,6 +1,8 @@
 import "./database/Auth";
-import "./database/Database";
-import {msToString} from "./logger-firebase";
+import * as database from "./database/Database";
+import {msToString, retrieveFirebaseUserYoutubeVideoData} from "./logger-firebase";
+
+jest.mock("./database/Database");
 
 describe("Logger Firebase Integration", () => {
 
@@ -33,6 +35,16 @@ describe("Logger Firebase Integration", () => {
 			expect(msToString(1000 * (1 + 60 + 60 * 60 + 60 * 60 * 24))).toBe("1 day, 1 hour, 1 minute, 1 second");
 			expect(msToString(1000 * (3 + 60 +  4 * 60 * 60 * 24))).toBe("4 days, 1 minute, 3 seconds");
 		});
+	});
+
+	describe("retrieveFirebaseUserYoutubeVideoData", () => {
+
+		const mock = jest.fn();
+
+		retrieveFirebaseUserYoutubeVideoData(mock.mock.calls.length).toBe(1);
+
+
+
 	})
 });
 
