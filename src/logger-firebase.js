@@ -1,7 +1,7 @@
 import {db, on} from "./database/Database.js";
 import {update} from "./database/Database"
 
-function msToString(time) {
+export function msToString(time) {
     let seconds = Math.floor(time / 1000) % 60;
     let minutes = Math.floor(time / 1000 / 60) % 60;
     let hours = Math.floor(time / 1000 / 60 / 24);
