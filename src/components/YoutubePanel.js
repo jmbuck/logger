@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
-import { retrieveFirebaseUserYoutubeVideoData, msToString } from "../logger-firebase";
+import { retrieveFirebaseUserYoutubeVideoData, msToString,
+         deleteFirebaseYoutubeData } from "../logger-firebase";
 import { auth } from "../database/Auth";
 
 class YoutubePanel extends Component {
@@ -34,8 +35,9 @@ class YoutubePanel extends Component {
     }
 
     handleDelete = (index) => {
-        let data = [...this.state.data];
-        data.splice(index, 1);
+        let data = [...this.state.data]
+        let channel = data.splice(index, 1)[0].name
+        deleteFirebaseYoutubeData(auth.currentUser.uid, channel)
         this.setState({data});
     };
 

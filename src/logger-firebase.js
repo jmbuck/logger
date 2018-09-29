@@ -284,3 +284,21 @@ export function deleteFirebaseWebsite(uid, website) {
     update(updates);
 }
 
+export function deleteFirebaseRedditData(uid, subreddit) {
+    let url = `/users/${uid}/reddit/${subreddit}`
+    let updates = {}
+
+    updates[url] = null
+
+    update(updates);
+}
+
+export function deleteFirebaseYoutubeData(uid, channel) {
+    let url = `/users/${uid}/youtube/${channel}`
+    let updates = {}
+
+    updates[url] = null
+
+    update(updates);
+}
+

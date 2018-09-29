@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
-import { retrieveFirebaseUserRedditData} from "../logger-firebase";
+import { retrieveFirebaseUserRedditData,
+         deleteFirebaseRedditData } from "../logger-firebase";
 import { auth } from "../database/Auth";
 
 class RedditPanel extends Component {
@@ -13,7 +14,6 @@ class RedditPanel extends Component {
         this.state = {
             data : []
         };
-        this.handleDelete = this.handleDelete.bind(this);
     }
 
     retrieve = (user) => {
@@ -35,7 +35,8 @@ class RedditPanel extends Component {
 
     handleDelete = (index) => {
         let data = [...this.state.data];
-        data.splice(index, 1);
+        let subreddit = data.splice(index, 1)[0].name
+        deleteFirebaseRedditData(auth.currentUser.uid, subreddit)
         this.setState({data});
     };
 
