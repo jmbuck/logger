@@ -1,13 +1,28 @@
 import {db, on} from "./database/Database.js";
 import {update} from "./database/Database"
 
-function msToString(time) {
-    let seconds = Math.floor(time / 1000) % 60;
-    let minutes = Math.floor(time / 1000 / 60) % 60;
-    let hours = Math.floor(time / 1000 / 60 / 24);
+export function msToString(totalTime) {
+    let milliseconds = totalTime
+    let seconds = Math.floor(milliseconds / 1000)
+    let minutes = Math.floor(seconds / 60)
+    seconds = seconds % 60
+    let hours = Math.floor(minutes / 60) 
+    minutes = minutes % 60
+    let days = Math.floor(hours / 24) 
+    hours = hours % 24
+    let output = ""
+    if(days) output += `${days} ${days === 1 ? 'day' : 'days'}, `
+    if(hours) output += `${hours} ${hours === 1 ? 'hour' : 'hours'}, `
+    if(minutes) output += `${minutes} ${minutes === 1 ? 'minute' : 'minutes'}, `
+    if(seconds) {
+      output += `${seconds} ${seconds === 1 ? 'second' : 'seconds'}`
+    } else {
+      //Cut out ending comma and space
+      output = output.substr(0, output.length-2)
+    }
+    return output
+  }
 
-    return (hours >= .9 ? `${hours} hours ` : '') + (minutes >= .9 ? `${minutes} minutes ` : '') + (seconds >= .9 ? `${seconds} seconds` : '');
-}
 
 /*
     Returns array data as:

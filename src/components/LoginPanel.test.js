@@ -14,7 +14,7 @@ describe("LoginPanel", () => {
     });
 
     it("should render component", () => {
-        //const component = Enzyme.shallow(<LoginPanel />);
+        const component = Enzyme.shallow(<LoginPanel />);
 
         expect(component).toMatchSnapshot();
     });

@@ -5,7 +5,7 @@ import DataNav from './DataNav'
 import { retrieveFirebaseUserRedditData} from "../logger-firebase";
 import { auth } from "../database/Auth";
 
-export class RedditPanel extends Component {
+class RedditPanel extends Component {
 
     constructor(props) {
         super(props);
