@@ -105,6 +105,7 @@ export function retrieveFirebaseUserData(uid, callback) {
         let data;
         let labels = [];
         let dataUsage = [];
+
         snapshot.forEach((child) => {
             labels.push(child.key)
             dataUsage.push(child.val())
@@ -181,24 +182,45 @@ export function retrieveFirebaseWebsitesData(uid, callback) {
         let names = [];
         let dataTypes = {};
 
-        snapshot.forEach((child) => {
-            if(i < 6) {
-                const jsonData = child.val().data;
+        let json = snapshot.toJSON();
 
-                names.push(child.key);
+        let sixJson = Object.keys(json).sort((website1, website2) => {
+        	let dataTotal1 = 0;
+        	let dataTotal2 = 0;
+        	for(let data in json[website1].data) {
+        		if(!json[website1].data.hasOwnProperty(data)) continue;
 
-                for(let dataType in jsonData) {
-                    if(!jsonData.hasOwnProperty(dataType)) continue;
+        		dataTotal1 += json[website1].data[data];
+	        }
 
-                    if(!dataTypes[dataType])
-                        dataTypes[dataType] = [0, 0, 0, 0, 0, 0];
+	        for(let data in json[website2].data) {
+	        	if(!json[website2].data.hasOwnProperty(data)) continue;
 
-                    dataTypes[dataType][i] = jsonData[dataType];
-                }
+	        	dataTotal2 += json[website2].data[data];
+	        }
 
-                i++;
-            }
+	        return dataTotal2 - dataTotal1;
         });
+
+        sixJson = sixJson.slice(0, 6).map((website) => {
+	        return { name: website, data: json[website].data }
+        });
+
+        for(i = 0; i < 6; i++)
+        {
+	        names.push(sixJson[i].name);
+
+	        for (let dataType in sixJson[i].data)
+	        {
+		        if (! sixJson[i].data.hasOwnProperty(dataType)) continue;
+
+		        if (! dataTypes[dataType])
+			        dataTypes[dataType] = [0, 0, 0, 0, 0, 0];
+
+		        dataTypes[dataType][i] = sixJson[i].data[dataType];
+	        }
+        }
+
         i = 0;
         callback({
             datasets : Object.entries(dataTypes).map((type) => {

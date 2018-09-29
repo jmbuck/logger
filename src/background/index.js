@@ -217,7 +217,7 @@ function postSiteData(sessionName, timeSpent) {
 function updateFirebaseSiteData(uid, url, time) {
     let updates = {};
 
-    let hostname = url.match(/\/\/(.*.*)(?=\.)/g);
+    let hostname = url.match(/\/\/(.*\..*)(?=\.)/g);
     if (!hostname) {
         console.log("Could not find hostname");
         return
@@ -383,7 +383,7 @@ function updateFirebaseIntervalData(uid, data) {
             size = 0
         }
         if (!data[i].url) continue;
-        let hostname = data[i].url.match(/\/\/(.*.*)(?=\.)/g);
+        let hostname = data[i].url.match(/\/\/(.*\..*)(?=\.)/g);
         if (!hostname) {
             console.log("Could not find hostname");
             continue
@@ -400,36 +400,36 @@ function updateFirebaseIntervalData(uid, data) {
         let ref = db.ref(url);
 
         let storedValue = 0;
-        ref.on("value", (snapshot) => {
+        ref.once("value", (snapshot) => {
             let temp = snapshot.child(type).val();
             if (temp != null) storedValue = temp
+	        updates[url + '/' + type] = storedValue + size;
+	        total[type] = (total[type])? total[type] + size: size
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
         });
-        updates[url + '/' + type] = storedValue + size;
-        total[type] = (total[type])? total[type] + size: size
     }
 
     let url = '/users/' + uid + '/data';
     let ref = db.ref(url);
 
-    ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
         snapshot.forEach((child) => {
             let val = child.val();
             let key = child.key;
             total[key] = (total[key])? total[key] + val: val
         })
+
+	    for (let key in total) {
+		    updates[url + '/' + key] = total[key]
+	    }
+
+	    db.ref().update(updates).catch((error) => {
+		    console.log("Error updating Firebase: " + error)
+	    })
     }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
-
-    for (let key in total) {
-        updates[url + '/' + key] = total[key]
-    }
-
-    db.ref().update(updates).catch((error) => {
-        console.log("Error updating Firebase: " + error)
-    })
 }
 
 setInterval(() => {
