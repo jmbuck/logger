@@ -7,16 +7,15 @@ import firebase from "firebase";
 Enzyme.configure({ adapter: new Adapter() });
 
 describe("App", () => {
-   beforeAll(() => {
-       firebase.auth = jest.fn().mockReturnValue({
-           onAuthStateChanged: true
-       });
-   });
-
-    it("should create component", () => {
-        //const component = Enzyme.shallow(<App />);
-
-        console.log(component);
+    beforeAll(() => {
+        firebase.auth = jest.fn().mockReturnValue({
+            onAuthStateChanged: true
+        });
+    });
+    
+    it('should render correctly with no props', () => {
+        const component = Enzyme.shallow(<App />)
+        expect(component).toMatchSnapshot();
     });
 });
 

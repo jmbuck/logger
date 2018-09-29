@@ -1,0 +1,707 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`YoutubePanel should render component 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <YoutubePanel />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": <div
+        className="panel-container"
+>
+        <div
+                className="panel-youtube"
+        >
+                <DataNav />
+                <div
+                        className="panel-center-content"
+                >
+                        <h1>
+                                YouTube
+                        </h1>
+                        <table
+                                border="1px solid black"
+                        >
+                                <thead>
+                                        <tr>
+                                                <th>
+                                                        Channels Watched
+                                                </th>
+                                                <th>
+                                                        Total Time Watched
+                                                </th>
+                                                <th>
+                                                        Total Videos Watched
+                                                </th>
+                                                <th>
+                                                        Delete
+                                                </th>
+                                        </tr>
+                                </thead>
+                                <tbody>
+                                        
+                                </tbody>
+                        </table>
+                </div>
+        </div>
+</div>,
+      "className": "panel",
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <div
+          className="panel-youtube"
+>
+          <DataNav />
+          <div
+                    className="panel-center-content"
+          >
+                    <h1>
+                              YouTube
+                    </h1>
+                    <table
+                              border="1px solid black"
+                    >
+                              <thead>
+                                        <tr>
+                                                  <th>
+                                                            Channels Watched
+                                                  </th>
+                                                  <th>
+                                                            Total Time Watched
+                                                  </th>
+                                                  <th>
+                                                            Total Videos Watched
+                                                  </th>
+                                                  <th>
+                                                            Delete
+                                                  </th>
+                                        </tr>
+                              </thead>
+                              <tbody>
+                                        
+                              </tbody>
+                    </table>
+          </div>
+</div>,
+        "className": "panel-container",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <DataNav />,
+            <div
+              className="panel-center-content"
+>
+              <h1>
+                            YouTube
+              </h1>
+              <table
+                            border="1px solid black"
+              >
+                            <thead>
+                                          <tr>
+                                                        <th>
+                                                                      Channels Watched
+                                                        </th>
+                                                        <th>
+                                                                      Total Time Watched
+                                                        </th>
+                                                        <th>
+                                                                      Total Videos Watched
+                                                        </th>
+                                                        <th>
+                                                                      Delete
+                                                        </th>
+                                          </tr>
+                            </thead>
+                            <tbody>
+                                          
+                            </tbody>
+              </table>
+</div>,
+          ],
+          "className": "panel-youtube",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {},
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <h1>
+                  YouTube
+</h1>,
+                <table
+                  border="1px solid black"
+>
+                  <thead>
+                                    <tr>
+                                                      <th>
+                                                                        Channels Watched
+                                                      </th>
+                                                      <th>
+                                                                        Total Time Watched
+                                                      </th>
+                                                      <th>
+                                                                        Total Videos Watched
+                                                      </th>
+                                                      <th>
+                                                                        Delete
+                                                      </th>
+                                    </tr>
+                  </thead>
+                  <tbody>
+                                    
+                  </tbody>
+</table>,
+              ],
+              "className": "panel-center-content",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "YouTube",
+                },
+                "ref": null,
+                "rendered": "YouTube",
+                "type": "h1",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "border": "1px solid black",
+                  "children": Array [
+                    <thead>
+                      <tr>
+                                            <th>
+                                                                  Channels Watched
+                                            </th>
+                                            <th>
+                                                                  Total Time Watched
+                                            </th>
+                                            <th>
+                                                                  Total Videos Watched
+                                            </th>
+                                            <th>
+                                                                  Delete
+                                            </th>
+                      </tr>
+</thead>,
+                    <tbody>
+                      
+</tbody>,
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": <tr>
+                        <th>
+                                                Channels Watched
+                        </th>
+                        <th>
+                                                Total Time Watched
+                        </th>
+                        <th>
+                                                Total Videos Watched
+                        </th>
+                        <th>
+                                                Delete
+                        </th>
+</tr>,
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": Array [
+                          <th>
+                            Channels Watched
+</th>,
+                          <th>
+                            Total Time Watched
+</th>,
+                          <th>
+                            Total Videos Watched
+</th>,
+                          <th>
+                            Delete
+</th>,
+                        ],
+                      },
+                      "ref": null,
+                      "rendered": Array [
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "children": "Channels Watched",
+                          },
+                          "ref": null,
+                          "rendered": "Channels Watched",
+                          "type": "th",
+                        },
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "children": "Total Time Watched",
+                          },
+                          "ref": null,
+                          "rendered": "Total Time Watched",
+                          "type": "th",
+                        },
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "children": "Total Videos Watched",
+                          },
+                          "ref": null,
+                          "rendered": "Total Videos Watched",
+                          "type": "th",
+                        },
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "children": "Delete",
+                          },
+                          "ref": null,
+                          "rendered": "Delete",
+                          "type": "th",
+                        },
+                      ],
+                      "type": "tr",
+                    },
+                    "type": "thead",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [],
+                    },
+                    "ref": null,
+                    "rendered": Array [],
+                    "type": "tbody",
+                  },
+                ],
+                "type": "table",
+              },
+            ],
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      "type": "div",
+    },
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <div
+          className="panel-container"
+>
+          <div
+                    className="panel-youtube"
+          >
+                    <DataNav />
+                    <div
+                              className="panel-center-content"
+                    >
+                              <h1>
+                                        YouTube
+                              </h1>
+                              <table
+                                        border="1px solid black"
+                              >
+                                        <thead>
+                                                  <tr>
+                                                            <th>
+                                                                      Channels Watched
+                                                            </th>
+                                                            <th>
+                                                                      Total Time Watched
+                                                            </th>
+                                                            <th>
+                                                                      Total Videos Watched
+                                                            </th>
+                                                            <th>
+                                                                      Delete
+                                                            </th>
+                                                  </tr>
+                                        </thead>
+                                        <tbody>
+                                                  
+                                        </tbody>
+                              </table>
+                    </div>
+          </div>
+</div>,
+        "className": "panel",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <div
+            className="panel-youtube"
+>
+            <DataNav />
+            <div
+                        className="panel-center-content"
+            >
+                        <h1>
+                                    YouTube
+                        </h1>
+                        <table
+                                    border="1px solid black"
+                        >
+                                    <thead>
+                                                <tr>
+                                                            <th>
+                                                                        Channels Watched
+                                                            </th>
+                                                            <th>
+                                                                        Total Time Watched
+                                                            </th>
+                                                            <th>
+                                                                        Total Videos Watched
+                                                            </th>
+                                                            <th>
+                                                                        Delete
+                                                            </th>
+                                                </tr>
+                                    </thead>
+                                    <tbody>
+                                                
+                                    </tbody>
+                        </table>
+            </div>
+</div>,
+          "className": "panel-container",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <DataNav />,
+              <div
+                className="panel-center-content"
+>
+                <h1>
+                                YouTube
+                </h1>
+                <table
+                                border="1px solid black"
+                >
+                                <thead>
+                                                <tr>
+                                                                <th>
+                                                                                Channels Watched
+                                                                </th>
+                                                                <th>
+                                                                                Total Time Watched
+                                                                </th>
+                                                                <th>
+                                                                                Total Videos Watched
+                                                                </th>
+                                                                <th>
+                                                                                Delete
+                                                                </th>
+                                                </tr>
+                                </thead>
+                                <tbody>
+                                                
+                                </tbody>
+                </table>
+</div>,
+            ],
+            "className": "panel-youtube",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {},
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <h1>
+                    YouTube
+</h1>,
+                  <table
+                    border="1px solid black"
+>
+                    <thead>
+                                        <tr>
+                                                            <th>
+                                                                                Channels Watched
+                                                            </th>
+                                                            <th>
+                                                                                Total Time Watched
+                                                            </th>
+                                                            <th>
+                                                                                Total Videos Watched
+                                                            </th>
+                                                            <th>
+                                                                                Delete
+                                                            </th>
+                                        </tr>
+                    </thead>
+                    <tbody>
+                                        
+                    </tbody>
+</table>,
+                ],
+                "className": "panel-center-content",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "YouTube",
+                  },
+                  "ref": null,
+                  "rendered": "YouTube",
+                  "type": "h1",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "border": "1px solid black",
+                    "children": Array [
+                      <thead>
+                        <tr>
+                                                <th>
+                                                                        Channels Watched
+                                                </th>
+                                                <th>
+                                                                        Total Time Watched
+                                                </th>
+                                                <th>
+                                                                        Total Videos Watched
+                                                </th>
+                                                <th>
+                                                                        Delete
+                                                </th>
+                        </tr>
+</thead>,
+                      <tbody>
+                        
+</tbody>,
+                    ],
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": <tr>
+                          <th>
+                                                    Channels Watched
+                          </th>
+                          <th>
+                                                    Total Time Watched
+                          </th>
+                          <th>
+                                                    Total Videos Watched
+                          </th>
+                          <th>
+                                                    Delete
+                          </th>
+</tr>,
+                      },
+                      "ref": null,
+                      "rendered": Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": Array [
+                            <th>
+                              Channels Watched
+</th>,
+                            <th>
+                              Total Time Watched
+</th>,
+                            <th>
+                              Total Videos Watched
+</th>,
+                            <th>
+                              Delete
+</th>,
+                          ],
+                        },
+                        "ref": null,
+                        "rendered": Array [
+                          Object {
+                            "instance": null,
+                            "key": undefined,
+                            "nodeType": "host",
+                            "props": Object {
+                              "children": "Channels Watched",
+                            },
+                            "ref": null,
+                            "rendered": "Channels Watched",
+                            "type": "th",
+                          },
+                          Object {
+                            "instance": null,
+                            "key": undefined,
+                            "nodeType": "host",
+                            "props": Object {
+                              "children": "Total Time Watched",
+                            },
+                            "ref": null,
+                            "rendered": "Total Time Watched",
+                            "type": "th",
+                          },
+                          Object {
+                            "instance": null,
+                            "key": undefined,
+                            "nodeType": "host",
+                            "props": Object {
+                              "children": "Total Videos Watched",
+                            },
+                            "ref": null,
+                            "rendered": "Total Videos Watched",
+                            "type": "th",
+                          },
+                          Object {
+                            "instance": null,
+                            "key": undefined,
+                            "nodeType": "host",
+                            "props": Object {
+                              "children": "Delete",
+                            },
+                            "ref": null,
+                            "rendered": "Delete",
+                            "type": "th",
+                          },
+                        ],
+                        "type": "tr",
+                      },
+                      "type": "thead",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": Array [],
+                      },
+                      "ref": null,
+                      "rendered": Array [],
+                      "type": "tbody",
+                    },
+                  ],
+                  "type": "table",
+                },
+              ],
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+        "type": "div",
+      },
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+    "attachTo": undefined,
+    "hydrateIn": undefined,
+  },
+}
+`;

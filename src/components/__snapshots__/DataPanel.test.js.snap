@@ -1,0 +1,1239 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataPanel should render component 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <DataPanel />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": <div
+        className="panel-container"
+>
+        <div
+                className="panel-data"
+        >
+                <DataNav />
+                <div
+                        className="panel-center-content"
+                >
+                        <div
+                                className="Data-Panel"
+                        >
+                                <div
+                                        className="graph"
+                                >
+                                        <h3
+                                                className="h3-size"
+                                        >
+                                                Data Usage
+                                        </h3>
+                                        <Doughnut
+                                                data={
+                                                        Object {
+                                                                "datasets": Array [
+                                                                  Object {
+                                                                    "backgroundColor": Array [
+                                                                      "rgba(255, 99, 132, 0.2)",
+                                                                      "rgba(54, 162, 235, 0.2)",
+                                                                      "rgba(255, 206, 86, 0.2)",
+                                                                      "rgba(75, 192, 192, 0.2)",
+                                                                      "rgba(153, 102, 255, 0.2)",
+                                                                      "rgba(255, 159, 64, 0.2)",
+                                                                    ],
+                                                                    "data": Array [],
+                                                                    "label": "Loading",
+                                                                  },
+                                                                ],
+                                                                "labels": Array [],
+                                                              }
+                                                }
+                                        />
+                                </div>
+                                <div
+                                        className="graph"
+                                >
+                                        <h3
+                                                className="h3-size"
+                                        >
+                                                6 Websites browsing data
+                                        </h3>
+                                        <HorizontalBar
+                                                data={
+                                                        Object {
+                                                                "datasets": Array [],
+                                                                "labels": Array [],
+                                                              }
+                                                }
+                                                height={50}
+                                                options={
+                                                        Object {
+                                                                "scales": Object {
+                                                                  "xAxes": Array [
+                                                                    Object {
+                                                                      "stacked": true,
+                                                                    },
+                                                                  ],
+                                                                  "yAxes": Array [
+                                                                    Object {
+                                                                      "stacked": true,
+                                                                    },
+                                                                  ],
+                                                                },
+                                                              }
+                                                }
+                                                width={100}
+                                        />
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>,
+      "className": "panel",
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <div
+          className="panel-data"
+>
+          <DataNav />
+          <div
+                    className="panel-center-content"
+          >
+                    <div
+                              className="Data-Panel"
+                    >
+                              <div
+                                        className="graph"
+                              >
+                                        <h3
+                                                  className="h3-size"
+                                        >
+                                                  Data Usage
+                                        </h3>
+                                        <Doughnut
+                                                  data={
+                                                            Object {
+                                                                      "datasets": Array [
+                                                                        Object {
+                                                                          "backgroundColor": Array [
+                                                                            "rgba(255, 99, 132, 0.2)",
+                                                                            "rgba(54, 162, 235, 0.2)",
+                                                                            "rgba(255, 206, 86, 0.2)",
+                                                                            "rgba(75, 192, 192, 0.2)",
+                                                                            "rgba(153, 102, 255, 0.2)",
+                                                                            "rgba(255, 159, 64, 0.2)",
+                                                                          ],
+                                                                          "data": Array [],
+                                                                          "label": "Loading",
+                                                                        },
+                                                                      ],
+                                                                      "labels": Array [],
+                                                                    }
+                                                  }
+                                        />
+                              </div>
+                              <div
+                                        className="graph"
+                              >
+                                        <h3
+                                                  className="h3-size"
+                                        >
+                                                  6 Websites browsing data
+                                        </h3>
+                                        <HorizontalBar
+                                                  data={
+                                                            Object {
+                                                                      "datasets": Array [],
+                                                                      "labels": Array [],
+                                                                    }
+                                                  }
+                                                  height={50}
+                                                  options={
+                                                            Object {
+                                                                      "scales": Object {
+                                                                        "xAxes": Array [
+                                                                          Object {
+                                                                            "stacked": true,
+                                                                          },
+                                                                        ],
+                                                                        "yAxes": Array [
+                                                                          Object {
+                                                                            "stacked": true,
+                                                                          },
+                                                                        ],
+                                                                      },
+                                                                    }
+                                                  }
+                                                  width={100}
+                                        />
+                              </div>
+                    </div>
+          </div>
+</div>,
+        "className": "panel-container",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <DataNav />,
+            <div
+              className="panel-center-content"
+>
+              <div
+                            className="Data-Panel"
+              >
+                            <div
+                                          className="graph"
+                            >
+                                          <h3
+                                                        className="h3-size"
+                                          >
+                                                        Data Usage
+                                          </h3>
+                                          <Doughnut
+                                                        data={
+                                                                      Object {
+                                                                                    "datasets": Array [
+                                                                                      Object {
+                                                                                        "backgroundColor": Array [
+                                                                                          "rgba(255, 99, 132, 0.2)",
+                                                                                          "rgba(54, 162, 235, 0.2)",
+                                                                                          "rgba(255, 206, 86, 0.2)",
+                                                                                          "rgba(75, 192, 192, 0.2)",
+                                                                                          "rgba(153, 102, 255, 0.2)",
+                                                                                          "rgba(255, 159, 64, 0.2)",
+                                                                                        ],
+                                                                                        "data": Array [],
+                                                                                        "label": "Loading",
+                                                                                      },
+                                                                                    ],
+                                                                                    "labels": Array [],
+                                                                                  }
+                                                        }
+                                          />
+                            </div>
+                            <div
+                                          className="graph"
+                            >
+                                          <h3
+                                                        className="h3-size"
+                                          >
+                                                        6 Websites browsing data
+                                          </h3>
+                                          <HorizontalBar
+                                                        data={
+                                                                      Object {
+                                                                                    "datasets": Array [],
+                                                                                    "labels": Array [],
+                                                                                  }
+                                                        }
+                                                        height={50}
+                                                        options={
+                                                                      Object {
+                                                                                    "scales": Object {
+                                                                                      "xAxes": Array [
+                                                                                        Object {
+                                                                                          "stacked": true,
+                                                                                        },
+                                                                                      ],
+                                                                                      "yAxes": Array [
+                                                                                        Object {
+                                                                                          "stacked": true,
+                                                                                        },
+                                                                                      ],
+                                                                                    },
+                                                                                  }
+                                                        }
+                                                        width={100}
+                                          />
+                            </div>
+              </div>
+</div>,
+          ],
+          "className": "panel-data",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {},
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <div
+                className="Data-Panel"
+>
+                <div
+                                className="graph"
+                >
+                                <h3
+                                                className="h3-size"
+                                >
+                                                Data Usage
+                                </h3>
+                                <Doughnut
+                                                data={
+                                                                Object {
+                                                                                "datasets": Array [
+                                                                                  Object {
+                                                                                    "backgroundColor": Array [
+                                                                                      "rgba(255, 99, 132, 0.2)",
+                                                                                      "rgba(54, 162, 235, 0.2)",
+                                                                                      "rgba(255, 206, 86, 0.2)",
+                                                                                      "rgba(75, 192, 192, 0.2)",
+                                                                                      "rgba(153, 102, 255, 0.2)",
+                                                                                      "rgba(255, 159, 64, 0.2)",
+                                                                                    ],
+                                                                                    "data": Array [],
+                                                                                    "label": "Loading",
+                                                                                  },
+                                                                                ],
+                                                                                "labels": Array [],
+                                                                              }
+                                                }
+                                />
+                </div>
+                <div
+                                className="graph"
+                >
+                                <h3
+                                                className="h3-size"
+                                >
+                                                6 Websites browsing data
+                                </h3>
+                                <HorizontalBar
+                                                data={
+                                                                Object {
+                                                                                "datasets": Array [],
+                                                                                "labels": Array [],
+                                                                              }
+                                                }
+                                                height={50}
+                                                options={
+                                                                Object {
+                                                                                "scales": Object {
+                                                                                  "xAxes": Array [
+                                                                                    Object {
+                                                                                      "stacked": true,
+                                                                                    },
+                                                                                  ],
+                                                                                  "yAxes": Array [
+                                                                                    Object {
+                                                                                      "stacked": true,
+                                                                                    },
+                                                                                  ],
+                                                                                },
+                                                                              }
+                                                }
+                                                width={100}
+                                />
+                </div>
+</div>,
+              "className": "panel-center-content",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <div
+                    className="graph"
+>
+                    <h3
+                                        className="h3-size"
+                    >
+                                        Data Usage
+                    </h3>
+                    <Doughnut
+                                        data={
+                                                            Object {
+                                                                                "datasets": Array [
+                                                                                  Object {
+                                                                                    "backgroundColor": Array [
+                                                                                      "rgba(255, 99, 132, 0.2)",
+                                                                                      "rgba(54, 162, 235, 0.2)",
+                                                                                      "rgba(255, 206, 86, 0.2)",
+                                                                                      "rgba(75, 192, 192, 0.2)",
+                                                                                      "rgba(153, 102, 255, 0.2)",
+                                                                                      "rgba(255, 159, 64, 0.2)",
+                                                                                    ],
+                                                                                    "data": Array [],
+                                                                                    "label": "Loading",
+                                                                                  },
+                                                                                ],
+                                                                                "labels": Array [],
+                                                                              }
+                                        }
+                    />
+</div>,
+                  <div
+                    className="graph"
+>
+                    <h3
+                                        className="h3-size"
+                    >
+                                        6 Websites browsing data
+                    </h3>
+                    <HorizontalBar
+                                        data={
+                                                            Object {
+                                                                                "datasets": Array [],
+                                                                                "labels": Array [],
+                                                                              }
+                                        }
+                                        height={50}
+                                        options={
+                                                            Object {
+                                                                                "scales": Object {
+                                                                                  "xAxes": Array [
+                                                                                    Object {
+                                                                                      "stacked": true,
+                                                                                    },
+                                                                                  ],
+                                                                                  "yAxes": Array [
+                                                                                    Object {
+                                                                                      "stacked": true,
+                                                                                    },
+                                                                                  ],
+                                                                                },
+                                                                              }
+                                        }
+                                        width={100}
+                    />
+</div>,
+                ],
+                "className": "Data-Panel",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      <h3
+                        className="h3-size"
+>
+                        Data Usage
+</h3>,
+                      <Doughnut
+                        data={
+                                                Object {
+                                                                        "datasets": Array [
+                                                                          Object {
+                                                                            "backgroundColor": Array [
+                                                                              "rgba(255, 99, 132, 0.2)",
+                                                                              "rgba(54, 162, 235, 0.2)",
+                                                                              "rgba(255, 206, 86, 0.2)",
+                                                                              "rgba(75, 192, 192, 0.2)",
+                                                                              "rgba(153, 102, 255, 0.2)",
+                                                                              "rgba(255, 159, 64, 0.2)",
+                                                                            ],
+                                                                            "data": Array [],
+                                                                            "label": "Loading",
+                                                                          },
+                                                                        ],
+                                                                        "labels": Array [],
+                                                                      }
+                        }
+/>,
+                    ],
+                    "className": "graph",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "Data Usage",
+                        "className": "h3-size",
+                      },
+                      "ref": null,
+                      "rendered": "Data Usage",
+                      "type": "h3",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {
+                        "data": Object {
+                          "datasets": Array [
+                            Object {
+                              "backgroundColor": Array [
+                                "rgba(255, 99, 132, 0.2)",
+                                "rgba(54, 162, 235, 0.2)",
+                                "rgba(255, 206, 86, 0.2)",
+                                "rgba(75, 192, 192, 0.2)",
+                                "rgba(153, 102, 255, 0.2)",
+                                "rgba(255, 159, 64, 0.2)",
+                              ],
+                              "data": Array [],
+                              "label": "Loading",
+                            },
+                          ],
+                          "labels": Array [],
+                        },
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                  ],
+                  "type": "div",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      <h3
+                        className="h3-size"
+>
+                        6 Websites browsing data
+</h3>,
+                      <HorizontalBar
+                        data={
+                                                Object {
+                                                                        "datasets": Array [],
+                                                                        "labels": Array [],
+                                                                      }
+                        }
+                        height={50}
+                        options={
+                                                Object {
+                                                                        "scales": Object {
+                                                                          "xAxes": Array [
+                                                                            Object {
+                                                                              "stacked": true,
+                                                                            },
+                                                                          ],
+                                                                          "yAxes": Array [
+                                                                            Object {
+                                                                              "stacked": true,
+                                                                            },
+                                                                          ],
+                                                                        },
+                                                                      }
+                        }
+                        width={100}
+/>,
+                    ],
+                    "className": "graph",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": "6 Websites browsing data",
+                        "className": "h3-size",
+                      },
+                      "ref": null,
+                      "rendered": "6 Websites browsing data",
+                      "type": "h3",
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {
+                        "data": Object {
+                          "datasets": Array [],
+                          "labels": Array [],
+                        },
+                        "height": 50,
+                        "options": Object {
+                          "scales": Object {
+                            "xAxes": Array [
+                              Object {
+                                "stacked": true,
+                              },
+                            ],
+                            "yAxes": Array [
+                              Object {
+                                "stacked": true,
+                              },
+                            ],
+                          },
+                        },
+                        "width": 100,
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                  ],
+                  "type": "div",
+                },
+              ],
+              "type": "div",
+            },
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      "type": "div",
+    },
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <div
+          className="panel-container"
+>
+          <div
+                    className="panel-data"
+          >
+                    <DataNav />
+                    <div
+                              className="panel-center-content"
+                    >
+                              <div
+                                        className="Data-Panel"
+                              >
+                                        <div
+                                                  className="graph"
+                                        >
+                                                  <h3
+                                                            className="h3-size"
+                                                  >
+                                                            Data Usage
+                                                  </h3>
+                                                  <Doughnut
+                                                            data={
+                                                                      Object {
+                                                                                "datasets": Array [
+                                                                                  Object {
+                                                                                    "backgroundColor": Array [
+                                                                                      "rgba(255, 99, 132, 0.2)",
+                                                                                      "rgba(54, 162, 235, 0.2)",
+                                                                                      "rgba(255, 206, 86, 0.2)",
+                                                                                      "rgba(75, 192, 192, 0.2)",
+                                                                                      "rgba(153, 102, 255, 0.2)",
+                                                                                      "rgba(255, 159, 64, 0.2)",
+                                                                                    ],
+                                                                                    "data": Array [],
+                                                                                    "label": "Loading",
+                                                                                  },
+                                                                                ],
+                                                                                "labels": Array [],
+                                                                              }
+                                                            }
+                                                  />
+                                        </div>
+                                        <div
+                                                  className="graph"
+                                        >
+                                                  <h3
+                                                            className="h3-size"
+                                                  >
+                                                            6 Websites browsing data
+                                                  </h3>
+                                                  <HorizontalBar
+                                                            data={
+                                                                      Object {
+                                                                                "datasets": Array [],
+                                                                                "labels": Array [],
+                                                                              }
+                                                            }
+                                                            height={50}
+                                                            options={
+                                                                      Object {
+                                                                                "scales": Object {
+                                                                                  "xAxes": Array [
+                                                                                    Object {
+                                                                                      "stacked": true,
+                                                                                    },
+                                                                                  ],
+                                                                                  "yAxes": Array [
+                                                                                    Object {
+                                                                                      "stacked": true,
+                                                                                    },
+                                                                                  ],
+                                                                                },
+                                                                              }
+                                                            }
+                                                            width={100}
+                                                  />
+                                        </div>
+                              </div>
+                    </div>
+          </div>
+</div>,
+        "className": "panel",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <div
+            className="panel-data"
+>
+            <DataNav />
+            <div
+                        className="panel-center-content"
+            >
+                        <div
+                                    className="Data-Panel"
+                        >
+                                    <div
+                                                className="graph"
+                                    >
+                                                <h3
+                                                            className="h3-size"
+                                                >
+                                                            Data Usage
+                                                </h3>
+                                                <Doughnut
+                                                            data={
+                                                                        Object {
+                                                                                    "datasets": Array [
+                                                                                      Object {
+                                                                                        "backgroundColor": Array [
+                                                                                          "rgba(255, 99, 132, 0.2)",
+                                                                                          "rgba(54, 162, 235, 0.2)",
+                                                                                          "rgba(255, 206, 86, 0.2)",
+                                                                                          "rgba(75, 192, 192, 0.2)",
+                                                                                          "rgba(153, 102, 255, 0.2)",
+                                                                                          "rgba(255, 159, 64, 0.2)",
+                                                                                        ],
+                                                                                        "data": Array [],
+                                                                                        "label": "Loading",
+                                                                                      },
+                                                                                    ],
+                                                                                    "labels": Array [],
+                                                                                  }
+                                                            }
+                                                />
+                                    </div>
+                                    <div
+                                                className="graph"
+                                    >
+                                                <h3
+                                                            className="h3-size"
+                                                >
+                                                            6 Websites browsing data
+                                                </h3>
+                                                <HorizontalBar
+                                                            data={
+                                                                        Object {
+                                                                                    "datasets": Array [],
+                                                                                    "labels": Array [],
+                                                                                  }
+                                                            }
+                                                            height={50}
+                                                            options={
+                                                                        Object {
+                                                                                    "scales": Object {
+                                                                                      "xAxes": Array [
+                                                                                        Object {
+                                                                                          "stacked": true,
+                                                                                        },
+                                                                                      ],
+                                                                                      "yAxes": Array [
+                                                                                        Object {
+                                                                                          "stacked": true,
+                                                                                        },
+                                                                                      ],
+                                                                                    },
+                                                                                  }
+                                                            }
+                                                            width={100}
+                                                />
+                                    </div>
+                        </div>
+            </div>
+</div>,
+          "className": "panel-container",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <DataNav />,
+              <div
+                className="panel-center-content"
+>
+                <div
+                                className="Data-Panel"
+                >
+                                <div
+                                                className="graph"
+                                >
+                                                <h3
+                                                                className="h3-size"
+                                                >
+                                                                Data Usage
+                                                </h3>
+                                                <Doughnut
+                                                                data={
+                                                                                Object {
+                                                                                                "datasets": Array [
+                                                                                                  Object {
+                                                                                                    "backgroundColor": Array [
+                                                                                                      "rgba(255, 99, 132, 0.2)",
+                                                                                                      "rgba(54, 162, 235, 0.2)",
+                                                                                                      "rgba(255, 206, 86, 0.2)",
+                                                                                                      "rgba(75, 192, 192, 0.2)",
+                                                                                                      "rgba(153, 102, 255, 0.2)",
+                                                                                                      "rgba(255, 159, 64, 0.2)",
+                                                                                                    ],
+                                                                                                    "data": Array [],
+                                                                                                    "label": "Loading",
+                                                                                                  },
+                                                                                                ],
+                                                                                                "labels": Array [],
+                                                                                              }
+                                                                }
+                                                />
+                                </div>
+                                <div
+                                                className="graph"
+                                >
+                                                <h3
+                                                                className="h3-size"
+                                                >
+                                                                6 Websites browsing data
+                                                </h3>
+                                                <HorizontalBar
+                                                                data={
+                                                                                Object {
+                                                                                                "datasets": Array [],
+                                                                                                "labels": Array [],
+                                                                                              }
+                                                                }
+                                                                height={50}
+                                                                options={
+                                                                                Object {
+                                                                                                "scales": Object {
+                                                                                                  "xAxes": Array [
+                                                                                                    Object {
+                                                                                                      "stacked": true,
+                                                                                                    },
+                                                                                                  ],
+                                                                                                  "yAxes": Array [
+                                                                                                    Object {
+                                                                                                      "stacked": true,
+                                                                                                    },
+                                                                                                  ],
+                                                                                                },
+                                                                                              }
+                                                                }
+                                                                width={100}
+                                                />
+                                </div>
+                </div>
+</div>,
+            ],
+            "className": "panel-data",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {},
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <div
+                  className="Data-Panel"
+>
+                  <div
+                                    className="graph"
+                  >
+                                    <h3
+                                                      className="h3-size"
+                                    >
+                                                      Data Usage
+                                    </h3>
+                                    <Doughnut
+                                                      data={
+                                                                        Object {
+                                                                                          "datasets": Array [
+                                                                                            Object {
+                                                                                              "backgroundColor": Array [
+                                                                                                "rgba(255, 99, 132, 0.2)",
+                                                                                                "rgba(54, 162, 235, 0.2)",
+                                                                                                "rgba(255, 206, 86, 0.2)",
+                                                                                                "rgba(75, 192, 192, 0.2)",
+                                                                                                "rgba(153, 102, 255, 0.2)",
+                                                                                                "rgba(255, 159, 64, 0.2)",
+                                                                                              ],
+                                                                                              "data": Array [],
+                                                                                              "label": "Loading",
+                                                                                            },
+                                                                                          ],
+                                                                                          "labels": Array [],
+                                                                                        }
+                                                      }
+                                    />
+                  </div>
+                  <div
+                                    className="graph"
+                  >
+                                    <h3
+                                                      className="h3-size"
+                                    >
+                                                      6 Websites browsing data
+                                    </h3>
+                                    <HorizontalBar
+                                                      data={
+                                                                        Object {
+                                                                                          "datasets": Array [],
+                                                                                          "labels": Array [],
+                                                                                        }
+                                                      }
+                                                      height={50}
+                                                      options={
+                                                                        Object {
+                                                                                          "scales": Object {
+                                                                                            "xAxes": Array [
+                                                                                              Object {
+                                                                                                "stacked": true,
+                                                                                              },
+                                                                                            ],
+                                                                                            "yAxes": Array [
+                                                                                              Object {
+                                                                                                "stacked": true,
+                                                                                              },
+                                                                                            ],
+                                                                                          },
+                                                                                        }
+                                                      }
+                                                      width={100}
+                                    />
+                  </div>
+</div>,
+                "className": "panel-center-content",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <div
+                      className="graph"
+>
+                      <h3
+                                            className="h3-size"
+                      >
+                                            Data Usage
+                      </h3>
+                      <Doughnut
+                                            data={
+                                                                  Object {
+                                                                                        "datasets": Array [
+                                                                                          Object {
+                                                                                            "backgroundColor": Array [
+                                                                                              "rgba(255, 99, 132, 0.2)",
+                                                                                              "rgba(54, 162, 235, 0.2)",
+                                                                                              "rgba(255, 206, 86, 0.2)",
+                                                                                              "rgba(75, 192, 192, 0.2)",
+                                                                                              "rgba(153, 102, 255, 0.2)",
+                                                                                              "rgba(255, 159, 64, 0.2)",
+                                                                                            ],
+                                                                                            "data": Array [],
+                                                                                            "label": "Loading",
+                                                                                          },
+                                                                                        ],
+                                                                                        "labels": Array [],
+                                                                                      }
+                                            }
+                      />
+</div>,
+                    <div
+                      className="graph"
+>
+                      <h3
+                                            className="h3-size"
+                      >
+                                            6 Websites browsing data
+                      </h3>
+                      <HorizontalBar
+                                            data={
+                                                                  Object {
+                                                                                        "datasets": Array [],
+                                                                                        "labels": Array [],
+                                                                                      }
+                                            }
+                                            height={50}
+                                            options={
+                                                                  Object {
+                                                                                        "scales": Object {
+                                                                                          "xAxes": Array [
+                                                                                            Object {
+                                                                                              "stacked": true,
+                                                                                            },
+                                                                                          ],
+                                                                                          "yAxes": Array [
+                                                                                            Object {
+                                                                                              "stacked": true,
+                                                                                            },
+                                                                                          ],
+                                                                                        },
+                                                                                      }
+                                            }
+                                            width={100}
+                      />
+</div>,
+                  ],
+                  "className": "Data-Panel",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        <h3
+                          className="h3-size"
+>
+                          Data Usage
+</h3>,
+                        <Doughnut
+                          data={
+                                                    Object {
+                                                                              "datasets": Array [
+                                                                                Object {
+                                                                                  "backgroundColor": Array [
+                                                                                    "rgba(255, 99, 132, 0.2)",
+                                                                                    "rgba(54, 162, 235, 0.2)",
+                                                                                    "rgba(255, 206, 86, 0.2)",
+                                                                                    "rgba(75, 192, 192, 0.2)",
+                                                                                    "rgba(153, 102, 255, 0.2)",
+                                                                                    "rgba(255, 159, 64, 0.2)",
+                                                                                  ],
+                                                                                  "data": Array [],
+                                                                                  "label": "Loading",
+                                                                                },
+                                                                              ],
+                                                                              "labels": Array [],
+                                                                            }
+                          }
+/>,
+                      ],
+                      "className": "graph",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": "Data Usage",
+                          "className": "h3-size",
+                        },
+                        "ref": null,
+                        "rendered": "Data Usage",
+                        "type": "h3",
+                      },
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "class",
+                        "props": Object {
+                          "data": Object {
+                            "datasets": Array [
+                              Object {
+                                "backgroundColor": Array [
+                                  "rgba(255, 99, 132, 0.2)",
+                                  "rgba(54, 162, 235, 0.2)",
+                                  "rgba(255, 206, 86, 0.2)",
+                                  "rgba(75, 192, 192, 0.2)",
+                                  "rgba(153, 102, 255, 0.2)",
+                                  "rgba(255, 159, 64, 0.2)",
+                                ],
+                                "data": Array [],
+                                "label": "Loading",
+                              },
+                            ],
+                            "labels": Array [],
+                          },
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": [Function],
+                      },
+                    ],
+                    "type": "div",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        <h3
+                          className="h3-size"
+>
+                          6 Websites browsing data
+</h3>,
+                        <HorizontalBar
+                          data={
+                                                    Object {
+                                                                              "datasets": Array [],
+                                                                              "labels": Array [],
+                                                                            }
+                          }
+                          height={50}
+                          options={
+                                                    Object {
+                                                                              "scales": Object {
+                                                                                "xAxes": Array [
+                                                                                  Object {
+                                                                                    "stacked": true,
+                                                                                  },
+                                                                                ],
+                                                                                "yAxes": Array [
+                                                                                  Object {
+                                                                                    "stacked": true,
+                                                                                  },
+                                                                                ],
+                                                                              },
+                                                                            }
+                          }
+                          width={100}
+/>,
+                      ],
+                      "className": "graph",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": "6 Websites browsing data",
+                          "className": "h3-size",
+                        },
+                        "ref": null,
+                        "rendered": "6 Websites browsing data",
+                        "type": "h3",
+                      },
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "class",
+                        "props": Object {
+                          "data": Object {
+                            "datasets": Array [],
+                            "labels": Array [],
+                          },
+                          "height": 50,
+                          "options": Object {
+                            "scales": Object {
+                              "xAxes": Array [
+                                Object {
+                                  "stacked": true,
+                                },
+                              ],
+                              "yAxes": Array [
+                                Object {
+                                  "stacked": true,
+                                },
+                              ],
+                            },
+                          },
+                          "width": 100,
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": [Function],
+                      },
+                    ],
+                    "type": "div",
+                  },
+                ],
+                "type": "div",
+              },
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+        "type": "div",
+      },
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+    "attachTo": undefined,
+    "hydrateIn": undefined,
+  },
+}
+`;
