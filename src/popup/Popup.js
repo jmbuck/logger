@@ -1,4 +1,4 @@
-import {auth} from "../database/Auth.js";
+import {auth, googleAuth} from "../database/Auth.js";
 
 /**
  * initApp handles setting up the Firebase context and registering
@@ -61,7 +61,7 @@ function startAuth(interactive) {
             console.error(chrome.runtime.lastError);
         } else if (token) {
             // Authorize Firebase with the OAuth Access Token.
-            var credential = firebase.auth.GoogleAuthProvider.credential(null, token);
+            var credential = googleAuth.credential(null, token);
             auth.signInAndRetrieveDataWithCredential(credential).catch(function(error) {
                 // The OAuth token might have been invalidated. Lets' remove it from cache.
                 if (error.code === 'database/invalid-credential') {
