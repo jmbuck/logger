@@ -72,9 +72,9 @@ export function retrieveFirebaseWebsitesBlacklist(uid, callback) {
 
 export function retrieveFirebaseWebsitesSettings(uid, callback) {
     on(`/users/${uid}/filters/data`, (snapshot) => {
-        let arr = []
+        let arr = {}
         snapshot.forEach((child) => {
-            arr.push(child.key)
+            arr[child.key] = child.val()
         })
 
         callback(arr)
@@ -269,6 +269,35 @@ export function postFirebaseWebsiteSettings(uid, website, settings) {
     let updates = {};
 
     updates[url] = settings;
+
+    update(updates);
+}
+
+export function deleteFirebaseWebsite(uid, website) {
+    let url = `/users/${uid}/websites/${website}`
+    let url2 = `/users/${uid}/filters/data/${website}`
+    let updates = {}
+
+    updates[url] = null
+    updates[url2] = null
+
+    update(updates);
+}
+
+export function deleteFirebaseRedditData(uid, subreddit) {
+    let url = `/users/${uid}/reddit/${subreddit}`
+    let updates = {}
+
+    updates[url] = null
+
+    update(updates);
+}
+
+export function deleteFirebaseYoutubeData(uid, channel) {
+    let url = `/users/${uid}/youtube/${channel}`
+    let updates = {}
+
+    updates[url] = null
 
     update(updates);
 }
