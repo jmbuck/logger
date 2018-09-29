@@ -1,22 +1,22 @@
 import React from 'react';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import App from "./App";
+import PreferencePanel from "./PreferencePanel";
 import firebase from "firebase";
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe("App", () => {
+describe("PreferencePanel", () => {
     beforeAll(() => {
         firebase.auth = jest.fn().mockReturnValue({
             onAuthStateChanged: true
         });
     });
 
-    it("should create component", () => {
-        //const component = Enzyme.shallow(<App />);
+    it("should render component", () => {
+        const component = Enzyme.shallow(<PreferencePanel />);
 
-        console.log(component);
+        expect(component).toMatchSnapshot();
     });
 });
 

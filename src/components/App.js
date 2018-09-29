@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import {Redirect, Route, Switch} from 'react-router'
 import '../css/common.css';
+import { withRouter } from 'react-router-dom'
 import Navbar from './Navbar'
 
 import PreferencePanel from "./PreferencePanel"
@@ -82,4 +83,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withRouter(App);
