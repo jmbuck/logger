@@ -72,7 +72,12 @@ export function retrieveFirebaseWebsitesBlacklist(uid, callback) {
 
 export function retrieveFirebaseWebsitesSettings(uid, callback) {
     on(`/users/${uid}/filters/data`, (snapshot) => {
-        callback(snapshot.toJSON());
+        let arr = []
+        snapshot.forEach((child) => {
+            arr.push(child.key)
+        })
+
+        callback(arr)
     });
 }
 
