@@ -28,6 +28,7 @@ class WebsitePanel extends Component {
                 this.setState({ data })
             });
             retrieveFirebaseWebsitesSettings(user.uid, (settings) => {
+                console.log(settings)
                 this.setState({ settings })
             });
             retrieveFirebaseWebsitesBlacklist(user.uid, (blacklist) => {

@@ -219,17 +219,18 @@ function updateFirebaseSiteData(uid, url, time) {
 
     let hostname = url.match(/\/\/(.*\..*)(?=\.)/g);
     if (!hostname) {
-        console.log("Could not find hostname");
+        console.log("Could not find hostname1");
         return
     }
     hostname = (hostname[0] !== undefined)? hostname[0].split(".").join("-"): null;
     if (!hostname) {
-        console.log("Could not find hostname");
+        console.log("Could not find hostname2");
         return
     }
     if (hostname.includes('www')) hostname = hostname.substring(4);
 
     let db_url = '/users/' + uid + '/websites/' + hostname;
+    let db_url2 = '/users/' + uid + '/filters/data/' + hostname;
     let ref = db.ref(db_url);
 
     let storedTime = 0;
@@ -246,6 +247,7 @@ function updateFirebaseSiteData(uid, url, time) {
     updates[db_url + '/time'] = storedTime + time;
     updates[db_url + '/url'] = url;
     updates[db_url + '/visits'] = ++storedVisits;
+    updates[db_url2] = { visits: true, data: true, time: true }
 
     console.log("UPDATES: " + JSON.stringify(updates));
     db.ref().update(updates).catch((error) => {
@@ -383,20 +385,26 @@ function updateFirebaseIntervalData(uid, data) {
             size = 0
         }
         if (!data[i].url) continue;
+<<<<<<< HEAD
         let hostname = data[i].url.match(/\/\/(.*\..*)(?=\.)/g);
+=======
+        let hostname = data[i].url.match(/\/\/(.*.*)(?=\.)/g);
+        console.log(data[i].url)
+>>>>>>> Make websites show and filter data correctly
         if (!hostname) {
-            console.log("Could not find hostname");
+            console.log("Could not find hostname3");
             continue
         }
         hostname = (hostname[0] !== undefined)? hostname[0].split('.').join('-'): null;
         if (!hostname) {
-            console.log("Could not find hostname");
+            console.log("Could not find hostname4");
             continue
         }
 
         if (hostname.includes('www')) hostname = hostname.substring(4);
 
         let url = '/users/' + uid + '/websites/' + hostname + '/data';
+        
         let ref = db.ref(url);
 
         let storedValue = 0;
@@ -411,6 +419,7 @@ function updateFirebaseIntervalData(uid, data) {
     }
 
     let url = '/users/' + uid + '/data';
+    let url2 = '/users/'
     let ref = db.ref(url);
 
     ref.once("value", (snapshot) => {
