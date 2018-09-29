@@ -59,8 +59,7 @@ class FilterPanel extends Component {
         const time = ev.target.time.checked;
         const visits = ev.target.visits.checked;
         const tracking = { data, time, visits };
-        console.log(ev.target);
-        console.log(tracking);
+
         this.postTrackingSettingsToFirebase(website, tracking)
     };
 
