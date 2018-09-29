@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
-import { retrieveFirebaseUserYoutubeVideoData} from "../logger-firebase";
+import { retrieveFirebaseUserYoutubeVideoData, msToString } from "../logger-firebase";
 import { auth } from "../database/Auth";
 
 class YoutubePanel extends Component {
@@ -52,7 +52,6 @@ class YoutubePanel extends Component {
                                 <tr>
                                     <th>Channels Watched</th>
                                     <th>Total Time Watched</th>
-                                    <th>Total Videos Watched</th>
                                     <th>Delete</th>
                                 </tr>
                                 </thead>
@@ -61,8 +60,7 @@ class YoutubePanel extends Component {
                                     this.state.data.map((d, index) =>
                                         <tr key={d.name}>
                                             <td>{d.name}</td>
-                                            <td>{d.time}</td>
-                                            <td>1</td>
+                                            <td>{msToString(d.time)}</td>
                                             <td>
                                                 <img src={exitIcon} onClick={() => this.handleDelete(index)} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
                                             </td>

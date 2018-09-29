@@ -3,7 +3,7 @@ import Enzyme from 'enzyme';
 import { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import App from "./App";
-import { RedditPanel } from './RedditPanel'
+import RedditPanel from './RedditPanel'
 import firebase from "firebase";
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -16,7 +16,7 @@ describe("App", () => {
     });
 
     it("should create component", () => {
-        //const component = Enzyme.shallow(<App />);
+        const component = Enzyme.shallow(<App />);
 
         console.log(component);
     });
