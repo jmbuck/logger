@@ -372,64 +372,68 @@ function retrieveDetails(details) {
 
 chrome.webRequest.onCompleted.addListener(retrieveDetails, networkFilters, ["responseHeaders"]);
 
+function getWebsiteName(url) {
+	let hostname = url.match(/\/\/(.*)(?=\.)(.*)(?=\.)/g);
+	if (!hostname) {
+		console.log("Could not find hostname");
+		return undefined;
+	}
+	hostname = (hostname[0] !== undefined)? hostname[0].split('.').join('-'): null;
+	hostname = hostname.substring(2);
+	if (!hostname) {
+		console.log("Could not find hostname");
+		return undefined;
+	}
+
+	if (hostname.startsWith('www')) hostname = hostname.substring(4);
+	return hostname;
+}
+
 function updateFirebaseIntervalData(uid, data) {
     let updates = {};
 
     let total = {};
+
     for (let i = 0; i < data.length; i++) {
         let type = data[i].type;
         let size = parseInt(data[i].size);
         if (isNaN(size)) {
             size = 0
         }
-        if (!data[i].url) continue;
-        let hostname = data[i].url.match(/\/\/(.*\..*)(?=\.)/g);
-        if (!hostname) {
-            console.log("Could not find hostname");
-            continue
-        }
-        hostname = (hostname[0] !== undefined)? hostname[0].split('.').join('-'): null;
-        if (!hostname) {
-            console.log("Could not find hostname");
-            continue
-        }
 
-        if (hostname.includes('www')) hostname = hostname.substring(4);
+        if (!data[i].url) continue;
+
+        let hostname = getWebsiteName(data[i].url);
+
+        if(!hostname) continue;
 
         let url = '/users/' + uid + '/websites/' + hostname + '/data';
-        let ref = db.ref(url);
 
-        let storedValue = 0;
-        ref.once("value", (snapshot) => {
-            let temp = snapshot.child(type).val();
-            if (temp != null) storedValue = temp
-	        updates[url + '/' + type] = storedValue + size;
-	        total[type] = (total[type])? total[type] + size: size
-        }, function (errorObject) {
-            console.log("The read failed: " + errorObject.code);
-        });
+        if(!updates[url + '/' + type])
+            updates[url + '/' + type] = 0;
+
+        if(!total[type])
+            total[type] = 0;
+
+        updates[url + '/' + type] += size;
+        total[type] += size;
     }
 
     let url = '/users/' + uid + '/data';
-    let ref = db.ref(url);
 
-    ref.once("value", (snapshot) => {
-        snapshot.forEach((child) => {
-            let val = child.val();
-            let key = child.key;
-            total[key] = (total[key])? total[key] + val: val
-        })
+    for(let key in total) {
+        if(!total.hasOwnProperty(key)) continue;
 
-	    for (let key in total) {
-		    updates[url + '/' + key] = total[key]
-	    }
+        updates[url + '/' + key] = total[key];
+    }
 
-	    db.ref().update(updates).catch((error) => {
-		    console.log("Error updating Firebase: " + error)
-	    })
-    }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-    });
+    for(let key in updates) {
+        if(!updates.hasOwnProperty(key)) continue;
+
+        db.ref(key).transaction((value) => {
+            return updates[key] + (value ? value : 0);
+        });
+    }
 }
 
 setInterval(() => {
