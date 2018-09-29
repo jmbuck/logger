@@ -1,2 +1,0 @@
-test('Creates component', () => {
-});

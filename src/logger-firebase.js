@@ -1,4 +1,3 @@
-import {auth, googleAuth} from "./database/Auth.js";
 import {db, on} from "./database/Database.js";
 import {update} from "./database/Database"
 

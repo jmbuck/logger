@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import '../css/common.css'
 import DataNav from './DataNav'
-import { retrieveFirebaseNetflixData} from "../rebase";
+import { retrieveFirebaseNetflixData} from "../logger-firebase";
 import { auth } from "../database/Auth";
 
 class NetflixPanel extends Component {

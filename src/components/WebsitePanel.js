@@ -4,7 +4,7 @@ import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
 import { retrieveFirebaseWebsiteData,
     retrieveFirebaseWebsitesBlacklist,
-    retrieveFirebaseWebsitesSettings} from "../rebase";
+    retrieveFirebaseWebsitesSettings} from "../logger-firebase";
 import { auth } from "../database/Auth";
 
 class WebsitePanel extends Component {

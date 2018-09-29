@@ -8,7 +8,7 @@ import {
     postFirebaseWebsiteSettings,
     retrieveFirebaseWebsites,
     retrieveFirebaseWebsitesBlacklist
-} from '../rebase'
+} from '../logger-firebase'
 import { auth } from "../database/Auth";
 
 class FilterPanel extends Component {
