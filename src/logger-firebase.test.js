@@ -39,6 +39,10 @@ describe("Logger Firebase Integration", () => {
 
 	describe("retrieveFirebaseUserYoutubeVideoData", () => {
 
+		beforeEach(() => {
+			jest.resetModules();
+		});
+
 		const mock = jest.fn();
 
 		retrieveFirebaseUserYoutubeVideoData(mock.mock.calls.length).toBe(1);

@@ -31,6 +31,7 @@ class App extends Component {
             if(user) {
                 //Finish Signing in
                 this.authHandler(user)
+	            this.props.history.push('/data')
             } else {
                 //Finish Signing out
                 this.state = {
