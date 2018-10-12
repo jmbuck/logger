@@ -1,5 +1,5 @@
 import {db, on} from "./database/Database.js";
-import {update} from "./database/Database"
+import {once, update} from "./database/Database"
 
 export function msToString(totalTime) {
     let milliseconds = totalTime
@@ -157,7 +157,7 @@ export function retrieveFirebaseWebsiteData(uid, callback) {
 }
 
 export function retrieveDefaultCategory(website, callback) {
-    on(`/global/websites/${website}`, (snapshot) => {
+    once(`/global/websites/${website}`, (snapshot) => {
         let arr = [];
         snapshot.forEach((child) => {
             const json = child.val();
