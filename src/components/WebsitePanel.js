@@ -87,9 +87,9 @@ class WebsitePanel extends Component {
                                             return (
                                             <tr key={d.name}>
                                                 <td>{d.name}</td>
-                                                <td>{this.state.settings[d.name] && this.state.settings[d.name].visits ? d.visits : 'N/A'}</td>
-                                                <td>{this.state.settings[d.name] && this.state.settings[d.name].time ? d.time : 'N/A'}</td>
-                                                <td>{this.state.settings[d.name] && this.state.settings[d.name].data ? d.data : 'N/A'}</td>
+                                                <td>{this.state.settings[d.name] ? (this.state.settings[d.name].visits ? d.visits : 'N/A') : d.visits}</td>
+                                                <td>{this.state.settings[d.name] ? (this.state.settings[d.name].time ? d.time : 'N/A') : d.time}</td>
+                                                <td>{this.state.settings[d.name] ? (this.state.settings[d.name].data ? d.data : 'N/A') : d.data}</td>
                                                 <td>{d.category}</td>
                                                 <td>
                                                     <img src={exitIcon} onClick={() => this.handleDelete(index)} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>

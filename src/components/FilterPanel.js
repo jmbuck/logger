@@ -6,7 +6,7 @@ import exitIcon from "../img/x.svg"
 import {
     postFirebaseWebsiteFilter,
     postFirebaseWebsiteSettings,
-    retrieveFirebaseWebsites,
+    retrieveFirebaseWebsiteData,
     retrieveFirebaseWebsitesBlacklist
 } from '../logger-firebase'
 import { auth } from "../database/Auth";
@@ -25,9 +25,8 @@ class FilterPanel extends Component {
     }
 
     retrieve = (user) => {
-        retrieveFirebaseWebsites(user.uid, (data) => {
-            console.log(data);
-            this.setState({websites: data});
+        retrieveFirebaseWebsiteData(user.uid, (data) => {
+            this.setState({ websites: data })
         });
         retrieveFirebaseWebsitesBlacklist(user.uid, (data) => {
             this.setState({filters: data});
@@ -95,7 +94,7 @@ class FilterPanel extends Component {
                                 </div>
                                 <h3 className="break-line title" />
                                 {this.state.websites && this.state.websites.map((website) => 
-                                    <h4 key={website} onClick={() => this.openModal(website)}>{website}</h4>
+                                    <h4 key={website.name} onClick={() => this.openModal(website.name)}>{website.name}</h4>
                                 )}
                             </div>
                         </div>
