@@ -1,5 +1,6 @@
 import {db, on} from "./database/Database.js";
 import {once, update} from "./database/Database"
+import {auth} from "./database/Auth"
 
 export function msToString(totalTime) {
     let milliseconds = totalTime
@@ -306,6 +307,22 @@ export function postFirebaseWebsiteSettings(uid, website, settings) {
     updates[url] = settings;
 
     update(updates);
+}
+
+export function deleteFirebaseAccount(uid) {
+    let url = `/users/${uid}`
+    let updates = {}
+
+    updates[url] = null
+
+    update(updates)
+
+    let user = auth.currentUser
+
+    user.delete().then(function() {
+    }).catch(function(error) {
+    });
+
 }
 
 export function deleteFirebaseWebsite(uid, website) {

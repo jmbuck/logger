@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
 import '../css/common.css'
 import exitIcon from "../img/x.svg";
+import { auth } from "../database/Auth";
+import {deleteFirebaseAccount} from "../logger-firebase";
 
 class DeleteAccountPanel extends Component {
+
+    deleteAccount(uid) {
+        deleteFirebaseAccount(uid)
+    }
+
     render() {
         return (<div className="panel">
                 <div className="panel-container">
@@ -12,7 +19,7 @@ class DeleteAccountPanel extends Component {
                             Are you sure? You will lose all associated data and there is no way to retrieve this again.
                         </div>
                         <div className="Two-Grid">
-                            <div>
+                            <div onClick={() => this.deleteAccount(auth.currentUser.uid)}>
                                 Yes, I'm sure
                             </div>
                             <div onClick={ () => this.props.history.push("/preferences") }>
