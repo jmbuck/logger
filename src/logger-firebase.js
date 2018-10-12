@@ -156,6 +156,28 @@ export function retrieveFirebaseWebsiteData(uid, callback) {
     });
 }
 
+export function retrieveDefaultCategory(website, callback) {
+    on(`/global/websites/${website}`, (snapshot) => {
+        let arr = [];
+        snapshot.forEach((child) => {
+            const json = child.val();
+            let category = "other";
+
+            if(json.category) {
+                for(let key in json.category) {
+                    if(!json.category.hasOwnProperty(key)) continue;
+
+                    if(json.category[category] < json.category(key))
+                        category = key;
+                }
+            }
+
+            arr.push({ category: category });
+        });
+        callback(arr);
+    });
+}
+
 export function retrieveFirebaseWebsitesData(uid, callback) {
     const colors = [
         'rgba(255, 99, 132, 0.2)',
