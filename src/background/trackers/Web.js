@@ -1,22 +1,8 @@
-import { getWebsiteName, db, auth } from "../Background";
+import {getWebsiteName, getActiveTab} from "../Background";
+import {db} from "../../database/Database"
+import {auth} from "../../database/Auth"
 
 let alertInterval;
-let tab_sessions = {};
-
-function domainRetrieval(URL) {
-    return URL.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img)[0];
-}
-
-function getActiveTab() {
-    for(let key in tab_sessions) {
-        if(!tab_sessions.hasOwnProperty(key)) continue;
-
-        if(tab_sessions[key].active) {
-            return tab_sessions[key];
-        }
-    }
-    return null;
-}
 
 function updateSiteTime(uid, url, time) {
     let hostname = getWebsiteName(url);
@@ -50,67 +36,22 @@ function shawnsFunction() {
     let hostname = getWebsiteName(getActiveTab().domain)
 }
 
-export function initWebTracker() {
-    chrome.tabs.onRemoved.addListener((tabId) => {
-        if(auth.currentUser) {
-            updateSiteTime(auth.currentUser, tab_sessions[tabId].domain, Date.now() - tab_sessions[tabId].time);
-            tab_sessions[tabId] = null;
-        }
-    });
-
-    chrome.tabs.onCreated.addListener(addTabToSessions);
-
-    chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
-        if(changeInfo.url && auth.currentUser) {
-            const newDomain = domainRetrieval(changeInfo.url);
-            tab_sessions[tabId].url = changeInfo.url;
-            if(newDomain !== tab_sessions[tabId].domain) {
-                tab_sessions[tabId].domain = newDomain;
-                updateSiteVisits(auth.currentUser.uid, tab_sessions[tabId].domain)
-            }
-        }
-    });
-
-    chrome.tabs.onActivated.addListener((activeInfo) => {
-        if(auth.currentUser) {
-
-            const activeTab = getActiveTab();
-            if(activeTab) {
-                updateSiteTime(auth.currentUser.uid, activeTab.domain, Date.now() - activeTab.time);
-                activeTab.time = -1;
-                activeTab.active = false;
-            }
-            tab_sessions[activeInfo.tabId].time = Date.now();
-            tab_sessions[activeInfo.tabId].active = true;
-        }
-    });
-}
-
-function addTabToSessions(tab) {
-    if(auth.currentUser) {
-        tab_sessions[tab.id] = {
-            id: tab.id,
-            url: tab.url,
-            domain: domainRetrieval(tab.url),
-            time: tab.active ? Date.now() : -1,
-            active: tab.active
-        };
-    }
-}
-
-export function initWebAuth() {
-    if(auth.currentUser) {
-        chrome.tabs.query({}, (tabs) => {
-            tabs.forEach((tab) => {
-                addTabToSessions(tab);
-            })
-        });
-
+document.addEventListener("init-auth", () => {
+    if(auth.currentUser)
         alertInterval = setInterval(shawnsFunction, 5000);
-    }
-    else {
-        tab_sessions = {};
-        if(alertInterval)
-            clearInterval(alertInterval);
-    }
-}
+    else if(alertInterval)
+        clearInterval(alertInterval);
+});
+
+document.addEventListener("tab-removed", (e) => {
+    updateSiteTime(auth.currentUser.uid, e.detail.tab.domain, Date.now() - e.detail.tab.time);
+});
+
+document.addEventListener("tab-updated", (e) => {
+    if(e.detail.old_domain !== e.detail.new_domain)
+        updateSiteVisits(auth.currentUser.uid, e.detail.tab.domain)
+});
+
+document.addEventListener("tab-deactivated", (e) => {
+    updateSiteTime(auth.currentUser.uid, e.detail.tab.domain, Date.now() - e.detail.tab.time);
+});

@@ -1,5 +1,4 @@
-import {db, on} from "./database/Database.js";
-import {once, update} from "./database/Database"
+import {db, on, once, update} from "./database/Database"
 import {auth} from "./database/Auth"
 
 export function msToString(totalTime) {

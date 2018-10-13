@@ -1,9 +1,8 @@
 /*global chrome*/
 
-import {app, auth, db} from "./Background.js"
-import firebase from "firebase/app";
-require("firebase/auth");
-require("firebase/database");
+import {db} from "../database/Database"
+import {auth} from "../database/Auth"
+import "./Background"
 
 //sample for timing tabs found here: https://github.com/google/page-timer
 
@@ -24,7 +23,7 @@ var timeWatchedNetflix;
 
 function initApp() {
 
-    firebase.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
         console.log('User state change detected from the Background script of the Chrome Extension:', user);
     })
 }
@@ -173,8 +172,8 @@ function postRedditData(subreddit, timeWatched) {
     if(subreddit) {
         console.log(subreddit);
         console.log(timeWatched);
-        if(firebase.auth().currentUser)
-            updateFirebaseRedditData(firebase.auth().currentUser.uid, subreddit, timeWatched)
+        if(auth.currentUser)
+            updateFirebaseRedditData(auth.currentUser.uid, subreddit, timeWatched)
     }
 
     subreddit = null
@@ -209,8 +208,8 @@ function NetflixShowData(trackId) {
 
 function postSiteData(sessionName, timeSpent) {
     if(sessionName) {
-        if(firebase.auth().currentUser)
-            updateFirebaseSiteData(firebase.auth().currentUser.uid, sessionName, timeSpent)
+        if(auth.currentUser)
+            updateFirebaseSiteData(auth.currentUser.uid, sessionName, timeSpent)
     }
 }
 
@@ -269,8 +268,8 @@ function postYoutubeVideoData(channel, timeWatched) {
     if(channel) {
         console.log(channel);
         console.log(timeWatched);
-        if(firebase.auth().currentUser)
-            updateFirebaseYoutubeVideoData(firebase.auth().currentUser.uid, {channel, timeWatched})
+        if(auth.currentUser)
+            updateFirebaseYoutubeVideoData(auth.currentUser.uid, {channel, timeWatched})
     }
 
     channel = null;
@@ -284,8 +283,8 @@ chrome.runtime.onMessage.addListener((message) => {
             timeWatchedNetflix = Date.now() - startNetflix;
             startNetflix = Date.now()
         }
-        if(firebase.auth().currentUser) {
-            updateFirebaseNetflixData(firebase.auth().currentUser.uid, message.data, timeWatchedNetflix)
+        if(auth.currentUser) {
+            updateFirebaseNetflixData(auth.currentUser.uid, message.data, timeWatchedNetflix)
         }
     }
 });
@@ -414,8 +413,8 @@ function updateFirebaseIntervalData(uid, data) {
 
 setInterval(() => {
     //check uid not null
-    if (firebase.auth().currentUser)
-        updateFirebaseIntervalData(firebase.auth().currentUser.uid, dataCollector);
+    if (auth.currentUser)
+        updateFirebaseIntervalData(auth.currentUser.uid, dataCollector);
     dataCollector = [];
 
 }, 5000);
