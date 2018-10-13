@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { Bar } from 'react-chartjs-2'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
@@ -9,6 +10,7 @@ import { retrieveFirebaseWebsiteData,
     retrieveDefaultCategories,
     setWebsiteCategory,
     msToString, } from "../logger-firebase";
+import Modal from 'react-modal'
 import { auth } from "../database/Auth";
 
 class WebsitePanel extends Component {
@@ -113,12 +115,54 @@ class WebsitePanel extends Component {
         })
     }
 
+    openModal = (website) => {
+        this.setState({website, modalIsOpen: true})
+    };
+
+    closeModal = () => {
+        this.setState({website: '', modalIsOpen: false})
+    };
+
     render() {
         return (
             <div className="panel">
                 <div className="panel-container">
                     <div className="panel-website">
 						<DataNav {...this.props}/>
+                        <Modal
+                            ariaHideApp={false}
+                            isOpen={this.state.modalIsOpen}
+                            onRequestClose={this.closeModal}
+                            contentLabel={this.state.website}
+                        >
+
+                            <h2>{this.state.website}</h2>
+                            <button onClick={this.closeModal}>close</button>
+                            <h3>Usage Graphs</h3>
+                            <h2>Monthly Time Used</h2>
+                            <div className="bar-graph">
+                                <Bar 
+                                    options={{
+                                        maintainAspectRatio: false
+                                    }}
+                                    data={{                  
+                                        labels: [],
+                                        datasets: [{
+                                            label: "Loading",
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 206, 86, 0.2)',
+                                                'rgba(75, 192, 192, 0.2)',
+                                                'rgba(153, 102, 255, 0.2)',
+                                                'rgba(255, 159, 64, 0.2)'
+                                            ],
+                                            data: [],
+                                        }]
+                                    }} 
+                                />
+                            </div>
+                        </Modal>
                         <div className="panel-center-content">
 	                        <h1>Website Page</h1>
 	                        <table border="1px solid black" width="100%">
@@ -150,7 +194,7 @@ class WebsitePanel extends Component {
                                         if(!this.blacklisted(d.name)) {
                                             return (
                                             <tr key={d.name}>
-                                                <td>{d.name}</td>
+                                                <td className="pointer" onClick={() => this.openModal(d.name)}>{d.name}</td>
                                                 <td>{this.state.settings[d.name] ? (this.state.settings[d.name].visits ? d.visits : 'N/A') : d.visits}</td>
                                                 <td>{this.state.settings[d.name] ? (this.state.settings[d.name].time ? msToString(d.time) : 'N/A') : msToString(d.time)}</td>
                                                 <td>{this.state.settings[d.name] ? (this.state.settings[d.name].data ? d.data : 'N/A') : d.data}</td>
