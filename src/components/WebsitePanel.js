@@ -29,6 +29,7 @@ class WebsitePanel extends Component {
             //2 is visits ascending, 3 is descending
             //4 is time ascending, 5 is descending
             //6 is data ascending, 7 is descending
+            //8 is timestamp ascending, 9 is descending
             sortBy: 0,
         }
     }
@@ -61,9 +62,11 @@ class WebsitePanel extends Component {
         if(!aNew.data) aNew.data = 0;
         if(!aNew.time) aNew.time = 0;
         if(!aNew.visits) aNew.visits = 0;
+        if(!aNew.timestamp) aNew.timestamp = 0;
         if(!bNew.data) bNew.data = 0;
         if(!bNew.time) bNew.time = 0;
         if(!bNew.visits) bNew.visits = 0;
+        if(!bNew.timestamp) bNew.timestamp = 0;
         switch(this.state.sortBy) {
           case 0: //Alphabetical
             return aNew.name < bNew.name ? -1 : aNew.name > bNew.name
@@ -81,6 +84,10 @@ class WebsitePanel extends Component {
               return aNew.data - bNew.data
           case 7:
               return bNew.data - aNew.data
+          case 8: //Timestamp
+              return aNew.timestamp - bNew.timestamp
+          case 9:
+              return bNew.timestamp - aNew.timestamp
           default:
             return aNew.name < bNew.name ? -1 : aNew.name > bNew.name
         }
@@ -141,11 +148,11 @@ class WebsitePanel extends Component {
                             <h3>Usage Graphs</h3>
                             <h2>Monthly Time Used</h2>
                             <div className="bar-graph">
-                                <Bar 
+                                <Bar
                                     options={{
                                         maintainAspectRatio: false
                                     }}
-                                    data={{                  
+                                    data={{
                                         labels: [],
                                         datasets: [{
                                             label: "Loading",
@@ -159,7 +166,7 @@ class WebsitePanel extends Component {
                                             ],
                                             data: [],
                                         }]
-                                    }} 
+                                    }}
                                 />
                             </div>
                         </Modal>
@@ -180,10 +187,14 @@ class WebsitePanel extends Component {
                                         if(this.state.sortBy === 4) this.setState({ sortBy: 5 })
                                         else this.setState({ sortBy: 4 })
                                     }}>Time Spent</th>
-                                    <th onClick={() => {
+                             <th onClick={() => {
                                         if(this.state.sortBy === 6) this.setState({ sortBy: 7 })
                                         else this.setState({ sortBy: 6 })
                                     }}>Data Used</th>
+                            <th onClick={() => {
+                                       if(this.state.sortBy === 8) this.setState({ sortBy: 9 })
+                                       else this.setState({ sortBy: 8 })
+                                   }}>Last Visited</th>
 			                        <th>Category</th>
                                     <th>Delete</th>
 		                        </tr>
@@ -198,16 +209,17 @@ class WebsitePanel extends Component {
                                                 <td>{this.state.settings[d.name] ? (this.state.settings[d.name].visits ? d.visits : 'N/A') : d.visits}</td>
                                                 <td>{this.state.settings[d.name] ? (this.state.settings[d.name].time ? msToString(d.time) : 'N/A') : msToString(d.time)}</td>
                                                 <td>{this.state.settings[d.name] ? (this.state.settings[d.name].data ? d.data : 'N/A') : d.data}</td>
+                                                <td>{this.state.settings[d.name] ? (this.state.settings[d.name].timestamp ? new Date(d.timestamp).toDateString() : 'N/A') : new Date(d.timestamp).toDateString()}</td>
                                                 <td>
                                                     <span className={`category ${this.state.categoryClass}`} onClick={(ev) => {
                                                         ev.persist()
                                                         if(!this.state.categoryClass) {
-                                                            this.setState({categoryClass: 'hide', dropdownClass: ''}, () => 
+                                                            this.setState({categoryClass: 'hide', dropdownClass: ''}, () =>
                                                             ev.target.nextSibling.focus()
                                                             )
                                                         }
                                                         } }>
-                                                        {d.category 
+                                                        {d.category
                                                         ? `${d.category}`
                                                         : 'N/A'}
                                                     </span>
