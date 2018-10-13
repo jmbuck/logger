@@ -77,7 +77,6 @@ export function retrieveFirebaseWebsitesSettings(uid, callback) {
         snapshot.forEach((child) => {
             arr[child.key] = child.val()
         })
-
         callback(arr)
     });
 }
@@ -276,6 +275,25 @@ export function retrieveFirebaseWebsitesData(uid, callback) {
             labels : names
         });
     })
+}
+
+export function retrieveFirebaseWebsiteSettings(uid, callback) {
+    let settings = {}
+    on(`/users/${uid}/filters/data`, (snapshot) => {
+        snapshot.forEach( (child) => {
+            let key = child.key
+            const json = child.val()
+            let childJson = {
+                data: (json.data)? json.data: true,
+                time: (json.time)? json.time: true,
+                visits: (json.visits)? json.visits: true,
+                timeLimit: (json.timeLimit)? json.timeLimit: -1,
+                warningMessage: (json.warningMessage)? json.warningMessage: "Warning message for time limit"
+            }
+            settings[key] = childJson
+        });
+        callback(settings)
+    });
 }
 
 export function retrieveFirebaseNetflixData(uid, callback) {
