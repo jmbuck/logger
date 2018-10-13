@@ -13,6 +13,11 @@ function updateSiteTime(uid, url, time) {
         return time + (value ? value : 0);
     });
 
+    //Always overwrite timestamp - this'll show timestamp of most recent visit
+    db.ref(`/users/${uid}/websites/${hostname}/timestamp`).transaction((value) => {
+        return Date.now();
+    });
+
     db.ref(`/global/websites/${hostname}/time`).transaction((value) => {
         return time + (value ? value : 0);
     })
