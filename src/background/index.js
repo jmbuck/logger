@@ -1,6 +1,6 @@
 /*global chrome*/
 
-import "./Background.js"
+import {app, auth, db} from "./Background.js"
 import firebase from "firebase/app";
 require("firebase/auth");
 require("firebase/database");
@@ -22,23 +22,6 @@ var subreddit;
 var endOfSession;
 var timeWatchedNetflix;
 
-var config = {
-    apiKey: "AIzaSyAWi4vgQmLJqYCaVjwqXygDcD8PERfafRM",
-    authDomain: "logger-216718.firebaseapp.com",
-    databaseURL: "https://logger-216718.firebaseio.com",
-    projectId: "logger-216718",
-    storageBucket: "logger-216718.appspot.com",
-    messagingSenderId: "870302921200"
-};
-
-const app = firebase.initializeApp(config);
-const db = app.database();
-
-function domainRetreival(URL) {
-    var resultArray = URL.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img);
-    return resultArray[0];
-}
-
 function initApp() {
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -46,11 +29,11 @@ function initApp() {
     })
 }
 
-window.onload = function() {
+window.addEventListener("load", () => {
     initApp();
-};
+});
 
-function onActiveTabChange(activeInfo) {
+/*function onActiveTabChange(activeInfo) {
     //Logic for when a tab is closed
     chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, (tabs) => {
         let url = tabs[0] !== undefined ? tabs[0].url : null;
@@ -82,6 +65,7 @@ function onTabUpdate(tabId, changeInfo, tab) {
                 } else {
                     let finalSessionTime = Date.now() - SessionsArray[i].startOfSession;
                     //HERE: This marks the end of a prior session, what to do with SessionArray[i]'s data?'
+                    console.log(SessionsArray);
                     postSiteData(SessionsArray[i].domain, finalSessionTime);
                     SessionsArray.splice(i, 1); //Remove this old session.
                     //Are we already tracking this new session in another tab?
@@ -136,7 +120,25 @@ function onTabUpdate(tabId, changeInfo, tab) {
     } else {
         //Do nothing
     }
+}*/
+
+function getWebsiteName(url) {
+    let hostname = url.match(/\/\/(.*)(?=\.)(.*)(?=\.)/g);
+    if (!hostname) {
+        console.log("Could not find hostname");
+        return undefined;
+    }
+    hostname = (hostname[0] !== undefined)? hostname[0].split('.').join('-'): null;
+    hostname = hostname.substring(2);
+    if (!hostname) {
+        console.log("Could not find hostname");
+        return undefined;
+    }
+
+    if (hostname.startsWith('www')) hostname = hostname.substring(4);
+    return hostname;
 }
+
 
 function checkTab(url) {
     if(startYoutube) {
@@ -207,8 +209,6 @@ function NetflixShowData(trackId) {
 
 function postSiteData(sessionName, timeSpent) {
     if(sessionName) {
-        console.log(sessionName);
-        console.log(timeSpent);
         if(firebase.auth().currentUser)
             updateFirebaseSiteData(firebase.auth().currentUser.uid, sessionName, timeSpent)
     }
@@ -217,39 +217,30 @@ function postSiteData(sessionName, timeSpent) {
 function updateFirebaseSiteData(uid, url, time) {
     let updates = {};
 
-    let hostname = url.match(/\/\/(.*\..*)(?=\.)/g);
-    if (!hostname) {
-        console.log("Could not find hostname1");
-        return
-    }
-    hostname = (hostname[0] !== undefined)? hostname[0].split(".").join("-"): null;
-    if (!hostname) {
-        console.log("Could not find hostname2");
-        return
-    }
-    if (hostname.includes('www')) hostname = hostname.substring(4);
+    let hostname = getWebsiteName(url);
+
+    if(!hostname) return;
 
     let db_url = '/users/' + uid + '/websites/' + hostname;
     let db_url2 = '/users/' + uid + '/filters/data/' + hostname;
     let ref = db.ref(db_url);
 
-    let storedTime = 0;
-    let storedVisits = 0;
-    ref.on("value", function(snapshot) {
-        let stored = snapshot.val();
-        if (stored) {
-            storedTime = (stored.time)? stored.time: 0;
-            storedVisits = (stored.visits)? stored.visits: 0
+    ref.transaction((value) => {
+        if(value) {
+            value.time = time + (value.time ? value.time : 0);
+            value.visits = 1 + (value.visits ? value.visits : 1);
+            return value;
         }
-    }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
+        return {
+            time: time,
+            visits: 1,
+            url: url
+        }
     });
-    updates[db_url + '/time'] = storedTime + time;
-    updates[db_url + '/url'] = url;
-    updates[db_url + '/visits'] = ++storedVisits;
-    updates[db_url2] = { visits: true, data: true, time: true }
 
-    console.log("UPDATES: " + JSON.stringify(updates));
+    updates[db_url2] = { visits: true, data: true, time: true };
+
+    console.log("UPDATES: " + JSON.stringify(updates), url);
     db.ref().update(updates).catch((error) => {
         console.log("Error updating Firebase: " + error)
     })
@@ -285,8 +276,8 @@ function postYoutubeVideoData(channel, timeWatched) {
     channel = null;
 }
 
-chrome.tabs.onActivated.addListener(onActiveTabChange);
-chrome.tabs.onUpdated.addListener(onTabUpdate);
+//chrome.tabs.onActivated.addListener(onActiveTabChange);
+//chrome.tabs.onUpdated.addListener(onTabUpdate);
 chrome.runtime.onMessage.addListener((message) => {
     if(message.netflix_info) {
         if(startNetflix) {
@@ -373,23 +364,6 @@ function retrieveDetails(details) {
 }
 
 chrome.webRequest.onCompleted.addListener(retrieveDetails, networkFilters, ["responseHeaders"]);
-
-function getWebsiteName(url) {
-	let hostname = url.match(/\/\/(.*)(?=\.)(.*)(?=\.)/g);
-	if (!hostname) {
-		console.log("Could not find hostname");
-		return undefined;
-	}
-	hostname = (hostname[0] !== undefined)? hostname[0].split('.').join('-'): null;
-	hostname = hostname.substring(2);
-	if (!hostname) {
-		console.log("Could not find hostname");
-		return undefined;
-	}
-
-	if (hostname.startsWith('www')) hostname = hostname.substring(4);
-	return hostname;
-}
 
 function updateFirebaseIntervalData(uid, data) {
     let updates = {};
