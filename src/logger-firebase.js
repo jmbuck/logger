@@ -157,10 +157,12 @@ export function retrieveFirebaseWebsiteData(uid, callback) {
     });
 }
 
-export function retrieveDefaultCategory(website, callback) {
-    once(`/global/websites/${website}`, (snapshot) => {
+export function retrieveDefaultCategories(websites, callback) {
+    once(`/global/websites`, (snapshot) => {
         let arr = [];
         snapshot.forEach((child) => {
+            if(!websites.contains(child.key)) return;
+
             const json = child.val();
             let category = "other";
 
@@ -173,7 +175,7 @@ export function retrieveDefaultCategory(website, callback) {
                 }
             }
 
-            arr.push({ category: category });
+            arr.push({ name: child.key, category: category });
         });
         callback(arr);
     });
