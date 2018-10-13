@@ -69,6 +69,8 @@ h3.break-line.title { margin-top: 5px; margin-bottom: 20px; }
 
 .category:hover { text-decoration: underline; }
 
+th { cursor: pointer; }
+
 .panel-preference {
     color: white;
 }

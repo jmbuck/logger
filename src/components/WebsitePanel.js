@@ -8,7 +8,7 @@ import { retrieveFirebaseWebsiteData,
     deleteFirebaseWebsite,
     retrieveDefaultCategory,
     setWebsiteCategory,
-    } from "../logger-firebase";
+    msToString, } from "../logger-firebase";
 import { auth } from "../database/Auth";
 
 class WebsitePanel extends Component {
@@ -23,6 +23,11 @@ class WebsitePanel extends Component {
             blacklist: null,
             dropdownClass: 'hide',
             categoryClass: '',
+            //0 is alphabetical ascending, 1 is descending
+            //2 is visits ascending, 3 is descending
+            //4 is time ascending, 5 is descending
+            //6 is data ascending, 7 is descending
+            sortBy: 0,
         }
     }
 
@@ -32,7 +37,6 @@ class WebsitePanel extends Component {
                 this.setState({ data })
             });
             retrieveFirebaseWebsitesSettings(user.uid, (settings) => {
-                console.log(settings)
                 this.setState({ settings })
             });
             retrieveFirebaseWebsitesBlacklist(user.uid, (blacklist) => {
@@ -40,6 +44,37 @@ class WebsitePanel extends Component {
             })
         }
     };
+
+    sortWebsites = (a, b) => {
+        const aNew = {...a}
+        const bNew = {...b}
+        if(!aNew.data) aNew.data = 0;
+        if(!aNew.time) aNew.time = 0;
+        if(!aNew.visits) aNew.visits = 0;
+        if(!bNew.data) bNew.data = 0;
+        if(!bNew.time) bNew.time = 0;
+        if(!bNew.visits) bNew.visits = 0;
+        switch(this.state.sortBy) {
+          case 0: //Alphabetical
+            return aNew.name < bNew.name ? -1 : aNew.name > bNew.name
+          case 1:
+            return bNew.name < aNew.name ? -1 : bNew.name > aNew.name
+          case 2: //Visits
+              return aNew.visits - bNew.visits
+          case 3:
+              return bNew.visits - aNew.visits
+          case 4: //Time
+              return aNew.time - bNew.time
+          case 5:
+              return bNew.time - aNew.time
+          case 6: //Data
+              return aNew.data - bNew.data
+          case 7:
+              return bNew.data - aNew.data
+          default:
+            return aNew.name < bNew.name ? -1 : aNew.name > bNew.name
+        }
+      }
 
     blacklisted = (name) => {
         for(let website in this.state.blacklist) {
@@ -51,11 +86,11 @@ class WebsitePanel extends Component {
     };
 
     getDefaultCategory = (website, index) => {
-        let websites = [...this.state.data]
-        retrieveDefaultCategory(website, (data) => {
+       /* let websites = [...this.state.data]
+        retrieveDefaultCategory(website.name, (data) => {
             websites[index].category = data;
             this.setState({ data: websites})
-        }); 
+        }); */
     }
 
     updateCategory = (website, category) => {
@@ -89,23 +124,35 @@ class WebsitePanel extends Component {
 	                        <table border="1px solid black" width="100%">
                                 <thead>
 		                        <tr>
-			                        <th>Name</th>
-			                        <th>Number of Visits</th>
-			                        <th>Time Spent</th>
-                                    <th>Data Used</th>
+			                        <th onClick={() => {
+                                        if(this.state.sortBy === 0) this.setState({ sortBy: 1 })
+                                        else this.setState({ sortBy: 0 })
+                                    }}>Name</th>
+			                        <th onClick={() => {
+                                        if(this.state.sortBy === 2) this.setState({ sortBy: 3 })
+                                        else this.setState({ sortBy: 2 })
+                                    }}>Number of Visits</th>
+			                        <th onClick={() => {
+                                        if(this.state.sortBy === 4) this.setState({ sortBy: 5 })
+                                        else this.setState({ sortBy: 4 })
+                                    }}>Time Spent</th>
+                                    <th onClick={() => {
+                                        if(this.state.sortBy === 6) this.setState({ sortBy: 7 })
+                                        else this.setState({ sortBy: 6 })
+                                    }}>Data Used</th>
 			                        <th>Category</th>
                                     <th>Delete</th>
 		                        </tr>
                                 </thead>
                                 <tbody>
                                 { !(this.state.blacklist === null || this.state.settings === null) ?
-                                    this.state.data.map((d, index) => {
+                                    this.state.data.sort((a, b) => this.sortWebsites(a, b)).map((d, index) => {
                                         if(!this.blacklisted(d.name)) {
                                             return (
                                             <tr key={d.name}>
                                                 <td>{d.name}</td>
                                                 <td>{this.state.settings[d.name] ? (this.state.settings[d.name].visits ? d.visits : 'N/A') : d.visits}</td>
-                                                <td>{this.state.settings[d.name] ? (this.state.settings[d.name].time ? d.time : 'N/A') : d.time}</td>
+                                                <td>{this.state.settings[d.name] ? (this.state.settings[d.name].time ? msToString(d.time) : 'N/A') : msToString(d.time)}</td>
                                                 <td>{this.state.settings[d.name] ? (this.state.settings[d.name].data ? d.data : 'N/A') : d.data}</td>
                                                 <td>
                                                     <span className={`category ${this.state.categoryClass}`} onClick={(ev) => {
