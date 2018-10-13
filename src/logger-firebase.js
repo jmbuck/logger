@@ -226,41 +226,43 @@ export function retrieveFirebaseWebsitesData(uid, callback) {
 
         let json = snapshot.toJSON();
 
-        let sixJson = Object.keys(json).sort((website1, website2) => {
-        	let dataTotal1 = 0;
-        	let dataTotal2 = 0;
-        	for(let data in json[website1].data) {
-        		if(!json[website1].data.hasOwnProperty(data)) continue;
+        if(json) {
+            let sixJson = Object.keys(json).sort((website1, website2) => {
+                let dataTotal1 = 0;
+                let dataTotal2 = 0;
+                for(let data in json[website1].data) {
+                    if(!json[website1].data.hasOwnProperty(data)) continue;
 
-        		dataTotal1 += json[website1].data[data];
-	        }
+                    dataTotal1 += json[website1].data[data];
+                }
 
-	        for(let data in json[website2].data) {
-	        	if(!json[website2].data.hasOwnProperty(data)) continue;
+                for(let data in json[website2].data) {
+                    if(!json[website2].data.hasOwnProperty(data)) continue;
 
-	        	dataTotal2 += json[website2].data[data];
-	        }
+                    dataTotal2 += json[website2].data[data];
+                }
 
-	        return dataTotal2 - dataTotal1;
-        });
+                return dataTotal2 - dataTotal1;
+            });
 
-        sixJson = sixJson.slice(0, 6).map((website) => {
-	        return { name: website, data: json[website].data }
-        });
+            sixJson = sixJson.slice(0, 6).map((website) => {
+                return { name: website, data: json[website].data }
+            });
 
-        for(i = 0; i < 6; i++)
-        {
-	        names.push(sixJson[i].name);
+            for(i = 0; i < 6; i++)
+            {
+                names.push(sixJson[i].name);
 
-	        for (let dataType in sixJson[i].data)
-	        {
-		        if (! sixJson[i].data.hasOwnProperty(dataType)) continue;
+                for (let dataType in sixJson[i].data)
+                {
+                    if (! sixJson[i].data.hasOwnProperty(dataType)) continue;
 
-		        if (! dataTypes[dataType])
-			        dataTypes[dataType] = [0, 0, 0, 0, 0, 0];
+                    if (! dataTypes[dataType])
+                        dataTypes[dataType] = [0, 0, 0, 0, 0, 0];
 
-		        dataTypes[dataType][i] = sixJson[i].data[dataType];
-	        }
+                    dataTypes[dataType][i] = sixJson[i].data[dataType];
+                }
+            }
         }
 
         i = 0;
