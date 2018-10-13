@@ -62,7 +62,7 @@ class YoutubePanel extends Component {
                                 {
                                     this.state.data.map((d, index) =>
                                         <tr key={d.id}>
-                                            <td>{d.id}</td>
+                                            <td>{d.name}</td>
                                             <td>{msToString(d.time)}</td>
                                             <td>
                                                 <img src={exitIcon} onClick={() => this.handleDelete(index)} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
