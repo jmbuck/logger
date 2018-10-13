@@ -2,8 +2,10 @@ import React, {Component} from 'react'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
-import { retrieveFirebaseUserYoutubeVideoData, msToString,
-         deleteFirebaseYoutubeData } from "../logger-firebase";
+import {
+    retrieveFirebaseUserYoutubeVideoData, msToString,
+    deleteFirebaseYoutubeData, retrieveTopYoutubeChannels
+} from "../logger-firebase";
 import { auth } from "../database/Auth";
 
 class YoutubePanel extends Component {
@@ -12,7 +14,8 @@ class YoutubePanel extends Component {
 		super(props);
 
 		this.state = {
-            data: []
+            data: [],
+            topChannels: ["..."]
 		};
 		this.handleDelete = this.handleDelete.bind(this);
 	}
@@ -22,6 +25,9 @@ class YoutubePanel extends Component {
             retrieveFirebaseUserYoutubeVideoData(user.uid, (data) => {
                 console.log(data)
                 this.setState({ data : data})
+            })
+            retrieveTopYoutubeChannels((data) => {
+                this.setState(data);
             })
         }
     };
@@ -50,6 +56,10 @@ class YoutubePanel extends Component {
                         <DataNav {...this.props}/>
                         <div className="panel-center-content">
 	                        <h1>YouTube</h1>
+                            <h2>Top Youtube Channels</h2>
+                            {
+                                this.state.topChannels.map((channel) => <div>{channel}</div>)
+                            }
 	                        <table border="1px solid black">
                                 <thead>
                                 <tr>

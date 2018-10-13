@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import '../css/common.css'
 import DataNav from './DataNav'
-import { retrieveFirebaseNetflixData} from "../logger-firebase";
+import {retrieveFirebaseNetflixData, retrieveTopNetflix} from "../logger-firebase";
 import { auth } from "../database/Auth";
 
 class NetflixPanel extends Component {
@@ -13,15 +13,20 @@ class NetflixPanel extends Component {
             timeTV : "...",
             timeMovies : "...",
             visitsTV : "...",
-            visitsMovies : "..."
+            visitsMovies : "...",
+            topShows: ["..."]
         }
     }
 
     retrieve = (user) => {
         if(user) {
             retrieveFirebaseNetflixData(user.uid, (data) => {
-                this.setState(data)
-            })
+                this.setState(data);
+            });
+
+            retrieveTopNetflix((data) => {
+                this.setState(data);
+            });
         }
     };
 
@@ -42,6 +47,10 @@ class NetflixPanel extends Component {
 						<DataNav {...this.props}/>
                         <div className="panel-center-content">
 	                        <h1>Netflix Page</h1>
+                            <h2>Top Netflix Videos</h2>
+                            {
+                                this.state.topShows.map((show) => <div>{show}</div>)
+                            }
 	                        <h3>Time Spent Watching TV -</h3>
 	                        <div>{this.state.timeTV}</div>
 	                        <h3>Time Spent Watching Movies -</h3>
