@@ -20,6 +20,7 @@ class YoutubePanel extends Component {
 	retrieve = (user) => {
         if(user) {
             retrieveFirebaseUserYoutubeVideoData(user.uid, (data) => {
+                console.log(data)
                 this.setState({ data : data})
             })
         }
@@ -60,8 +61,8 @@ class YoutubePanel extends Component {
                                 <tbody>
                                 {
                                     this.state.data.map((d, index) =>
-                                        <tr key={d.name}>
-                                            <td>{d.name}</td>
+                                        <tr key={d.id}>
+                                            <td>{d.id}</td>
                                             <td>{msToString(d.time)}</td>
                                             <td>
                                                 <img src={exitIcon} onClick={() => this.handleDelete(index)} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
