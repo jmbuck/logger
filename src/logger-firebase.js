@@ -289,6 +289,19 @@ export function retrieveFirebaseNetflixData(uid, callback) {
     });
 }
 
+export function retrieveTopWebsites(callback) {
+    db.ref("/global/websites").orderByChild("visits").limit(10).on("value", (snapshot) => {
+        let arr = [];
+        const json = snapshot.toJSON();
+        for(let key in json) {
+            if(!json.hasOwnProperty(key)) continue;
+
+            arr.push({name: key, visits: json[key].visits});
+        }
+        callback(arr);
+    });
+}
+
 export function postFirebaseWebsiteFilter(uid, website) {
     let url = `/users/${uid}/filters/blacklist/${website}`;
 
