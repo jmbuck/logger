@@ -2,6 +2,8 @@ import "./trackers/Web"
 import "./trackers/Reddit"
 import "./trackers/Youtube"
 import "./trackers/Netflix"
+import "./trackers/Data"
+import {auth} from "../database/Auth"
 
 export let tab_sessions = {};
 
