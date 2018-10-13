@@ -150,7 +150,7 @@ export function retrieveFirebaseWebsiteData(uid, callback) {
                     data += json.data[dataType];
             }
 
-            arr.push({name: child.key, time: json.time, visits: json.visits, data: data, category: json.category ? json.category : undefined});
+            arr.push({name: child.key, time: json.time, visits: json.visits, timestamp: json.timestamp, data: data, category: json.category ? json.category : undefined});
         });
         callback(arr);
     });
@@ -289,6 +289,7 @@ export function retrieveFirebaseWebsiteSettings(uid, callback) {
                 data: (json.data)? json.data: true,
                 time: (json.time)? json.time: true,
                 visits: (json.visits)? json.visits: true,
+                timestamp: (json.timestamp)? json.timestamp: true,
                 timeLimit: (json.timeLimit)? json.timeLimit: -1,
                 warningMessage: (json.warningMessage)? json.warningMessage: "Warning message for time limit"
             }
@@ -388,4 +389,3 @@ export function deleteFirebaseYoutubeData(uid, channel) {
 
     update(updates);
 }
-
