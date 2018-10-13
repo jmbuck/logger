@@ -34,11 +34,18 @@ class WebsitePanel extends Component {
     retrieve = (user) => {
         if(user) {
             retrieveFirebaseWebsiteData(user.uid, (data) => {
-                this.setState({ data })
-            });
+                this.setState({ data, names: data.map(a => a.name) }, () => {
+                    retrieveDefaultCategory(this.state.names, (categories) => {
+                        console.log('categories:', categories)
+                        const websites = [...this.state.data]
+                        websites.map((website) => website.category = categories[website.name])
+                        this.setState({ data: websites })
+                    })
+                })
+            })
             retrieveFirebaseWebsitesSettings(user.uid, (settings) => {
                 this.setState({ settings })
-            });
+            })
             retrieveFirebaseWebsitesBlacklist(user.uid, (blacklist) => {
                 this.setState({ blacklist })
             })
@@ -84,14 +91,6 @@ class WebsitePanel extends Component {
         }
         return false
     };
-
-    getDefaultCategory = (website, index) => {
-       /* let websites = [...this.state.data]
-        retrieveDefaultCategory(website.name, (data) => {
-            websites[index].category = data;
-            this.setState({ data: websites})
-        }); */
-    }
 
     updateCategory = (website, category) => {
         setWebsiteCategory(auth.currentUser.uid, website, category)
@@ -165,7 +164,7 @@ class WebsitePanel extends Component {
                                                         } }>
                                                         {d.category 
                                                         ? `${d.category}`
-                                                        : this.getDefaultCategory(d, index)}
+                                                        : 'N/A'}
                                                     </span>
                                                     <select name="category" className={this.state.dropdownClass} onChange={(ev) => {
                                                         this.updateCategory(d, ev.target.value)
