@@ -3,13 +3,15 @@ import { Bar } from 'react-chartjs-2'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
-import { retrieveFirebaseWebsiteData,
+import {
+    retrieveFirebaseWebsiteData,
     retrieveFirebaseWebsitesBlacklist,
     retrieveFirebaseWebsitesSettings,
     deleteFirebaseWebsite,
     retrieveDefaultCategories,
     setWebsiteCategory,
-    msToString, } from "../logger-firebase";
+    msToString, retrieveTopWebsites,
+} from "../logger-firebase";
 import Modal from 'react-modal'
 import { auth } from "../database/Auth";
 
@@ -31,6 +33,7 @@ class WebsitePanel extends Component {
             //6 is data ascending, 7 is descending
             //8 is timestamp ascending, 9 is descending
             sortBy: 0,
+            topSites: ["..."]
         }
     }
 
@@ -52,6 +55,9 @@ class WebsitePanel extends Component {
             })
             retrieveFirebaseWebsitesBlacklist(user.uid, (blacklist) => {
                 this.setState({ blacklist })
+            })
+            retrieveTopWebsites((data) => {
+                this.setState(data);
             })
         }
     };
@@ -172,6 +178,11 @@ class WebsitePanel extends Component {
                         </Modal>
                         <div className="panel-center-content">
 	                        <h1>Website Page</h1>
+                            <h2>Top Websites</h2>
+                            {
+                                this.state.topSites.map((site) => <div>{site}</div>)
+                            }
+
 	                        <table border="1px solid black" width="100%">
                                 <thead>
 		                        <tr>

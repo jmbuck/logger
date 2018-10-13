@@ -314,33 +314,35 @@ export function retrieveFirebaseNetflixData(uid, callback) {
 }
 
 export function retrieveTopNetflix(callback) {
-    db.ref(`/global/netflix`).orderByChild("time").limitToFirst(10).once("value", (snapshot) => {
+    db.ref(`/global/netflix`).orderByChild("time").limitToLast(10).once("value", (snapshot) => {
         let arr = [];
         const json = snapshot.toJSON();
         for(let key in json) {
             if(!json.hasOwnProperty(key)) continue;
 
-            arr.push(json[key].title);
+            arr.push(json[key]);
         }
-        callback({topShows: arr});
+        arr.sort((t, t1) => json[t1].time - json[t].time);
+        callback({topShows: arr.map((t) => json[t].title)});
     })
 }
 
 export function retrieveTopWebsites(callback) {
-    db.ref("/global/websites").orderByChild("visits").limitToFirst(10).once("value", (snapshot) => {
+    db.ref("/global/websites").orderByChild("time").limitToLast(10).once("value", (snapshot) => {
         let arr = [];
         const json = snapshot.toJSON();
         for(let key in json) {
             if(!json.hasOwnProperty(key)) continue;
 
-            arr.push({name: key, visits: json[key].visits});
+            arr.push(key);
         }
-        callback(arr);
+        arr.sort((t, t1) => json[t1].time - json[t].time);
+        callback({topSites: arr});
     });
 }
 
 export function retrieveTopSubreddits(callback) {
-    db.ref("/global/reddit").orderByChild("time").limitToFirst(10).once("value", (snapshot) => {
+    db.ref("/global/reddit").orderByChild("time").limitToLast(10).once("value", (snapshot) => {
         let arr = [];
 
         const json = snapshot.toJSON();
@@ -349,21 +351,23 @@ export function retrieveTopSubreddits(callback) {
 
             arr.push(key);
         }
+        arr.sort((t, t1) => json[t1].time - json[t].time);
         callback({topSubreddits: arr});
     })
 }
 
 export function retrieveTopYoutubeChannels(callback) {
-    db.ref("/global/youtube").orderByChild("time").limitToFirst(10).once("value", (snapshot) => {
+    db.ref("/global/youtube").orderByChild("time").limitToLast(10).once("value", (snapshot) => {
         let arr = [];
 
         const json = snapshot.toJSON();
         for(let key in json) {
             if(!json.hasOwnProperty(key)) continue;
 
-            arr.push(json[key].name);
+            arr.push(json[key]);
         }
-        callback({topChannels: arr});
+        arr.sort((t, t1) => json[t1].time - json[t].time);
+        callback({topChannels: arr.map((t) => json[t].name)});
     })
 }
 

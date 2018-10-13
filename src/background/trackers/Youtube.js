@@ -66,12 +66,12 @@ function updateYoutubeTime(uid, url, time) {
 }
 
 document.addEventListener("tab-removed", (e) => {
-    if(e.detail.tab.url.startsWith("https://www.youtube.com/watch?") && e.detail.tab.time !== -1)
+    if(e.detail.tab.url.startsWith("https://www.youtube.com/watch?") && e.detail.tab.time !== -1 && e.detail.tab.time)
         updateYoutubeTime(auth.currentUser.uid, e.detail.tab.url, Date.now() - e.detail.tab.time);
 });
 
 document.addEventListener("tab-updated", (e) => {
-    if(e.detail.old_url.startsWith("https://www.youtube.com/watch?") && e.detail.tab.time !== -1)
+    if(e.detail.old_url.startsWith("https://www.youtube.com/watch?") && e.detail.tab.time !== -1 && e.detail.tab.time)
         updateYoutubeTime(auth.currentUser.uid, e.detail.old_url, Date.now() - e.detail.tab.time);
 
     if(e.detail.old_url !== e.detail.new_url && e.detail.new_url.startsWith("https://www.youtube.com/watch?"))
@@ -79,6 +79,6 @@ document.addEventListener("tab-updated", (e) => {
 });
 
 document.addEventListener("tab-deactivated", (e) => {
-    if(e.detail.tab.url.startsWith("https://www.youtube.com/watch?") && e.detail.tab.time !== -1)
+    if(e.detail.tab.url.startsWith("https://www.youtube.com/watch?") && e.detail.tab.time !== -1 && e.detail.tab.time)
         updateYoutubeTime(auth.currentUser.uid, e.detail.tab.url, Date.now() - e.detail.tab.time);
 });

@@ -89,6 +89,8 @@ document.addEventListener("init-auth", () => {
 });
 
 document.addEventListener("tab-removed", (e) => {
+    if(e.detail.tab.time === -1 || !e.detail.tab.time) return;
+
     updateSiteTime(auth.currentUser.uid, e.detail.tab.domain, Date.now() - e.detail.tab.time);
 });
 
@@ -96,9 +98,13 @@ document.addEventListener("tab-updated", (e) => {
     if(e.detail.old_domain !== e.detail.new_domain)
         updateSiteVisits(auth.currentUser.uid, e.detail.tab.domain);
 
+    if(e.detail.tab.time === -1 || !e.detail.tab.time) return;
+
     updateSiteTime(auth.currentUser.uid, e.detail.tab.domain, Date.now() - e.detail.tab.time);
 });
 
 document.addEventListener("tab-deactivated", (e) => {
+    if(e.detail.tab.time === -1 || !e.detail.tab.time) return;
+
     updateSiteTime(auth.currentUser.uid, e.detail.tab.domain, Date.now() - e.detail.tab.time);
 });
