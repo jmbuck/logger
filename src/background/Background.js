@@ -4,6 +4,7 @@ import "./trackers/Youtube"
 import "./trackers/Netflix"
 import {initWebAuth, initWebTracker} from "./trackers/Web";
 import firebase from "firebase";
+import {on} from "../database/Database";
 
 const config = {
     apiKey: "AIzaSyAWi4vgQmLJqYCaVjwqXygDcD8PERfafRM",
@@ -46,7 +47,7 @@ export function getWebsiteName(url) {
 
 export function retrieveFirebaseWebsiteSettings(uid, callback) {
     let settings = {}
-    db.ref(`/users/${uid}/filters/data`).once("value").then((snapshot) => {
+    on(`/users/${uid}/filters/data`, (snapshot) => {
         snapshot.forEach( (child) => {
             let key = child.key
             const json = child.val()

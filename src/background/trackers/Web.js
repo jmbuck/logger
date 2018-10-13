@@ -57,11 +57,12 @@ function checkTimeLimitViolation() {
     let hostname = getWebsiteName(getActiveTab().domain)
     if (hostname) {
         let current = getActiveTab().time
-        let elapsed = Date.now() - current
-        let timeLimit = settings[hostname].timeLimit / 1000
-
-        if ( timeLimit !== -1 && timeLimit < elapsed / 1000 ) {
-            alert(`${settings[hostname].warningMessage}: \nYour time limit is ${timeLimit} and you have been on for ${elapsed / 1000}`)
+        let elapsed = (Date.now() - current) / 1000
+        let timeLimit = settings[hostname].timeLimit
+        if (timeLimit !== -1) {
+            if ( timeLimit / 1000 < elapsed ) {
+                alert(`${settings[hostname].warningMessage}: \nYour time limit is ${timeLimit / 1000} and you have been on for ${elapsed}`)
+            }
         }
     }
 }
