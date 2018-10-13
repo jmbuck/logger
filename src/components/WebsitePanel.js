@@ -59,14 +59,14 @@ class WebsitePanel extends Component {
     sortWebsites = (a, b) => {
         const aNew = {...a}
         const bNew = {...b}
-        if(!aNew.data) aNew.data = 0;
-        if(!aNew.time) aNew.time = 0;
-        if(!aNew.visits) aNew.visits = 0;
-        if(!aNew.timestamp) aNew.timestamp = 0;
-        if(!bNew.data) bNew.data = 0;
-        if(!bNew.time) bNew.time = 0;
-        if(!bNew.visits) bNew.visits = 0;
-        if(!bNew.timestamp) bNew.timestamp = 0;
+        if(!aNew.data || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].data)) aNew.data = 0;
+        if(!aNew.time || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].time)) aNew.time = 0;
+        if(!aNew.visits || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].visits)) aNew.visits = 0;
+        if(!aNew.timestamp || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].timestamp)) aNew.timestamp = 0;
+        if(!bNew.data || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].data)) bNew.data = 0;
+        if(!bNew.time || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].time)) bNew.time = 0;
+        if(!bNew.visits || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].visits)) bNew.visits = 0;
+        if(!bNew.timestamp || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].timestamp)) bNew.timestamp = 0;
         switch(this.state.sortBy) {
           case 0: //Alphabetical
             return aNew.name < bNew.name ? -1 : aNew.name > bNew.name
