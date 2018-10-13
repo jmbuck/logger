@@ -79,7 +79,7 @@ function checkTimeLimitViolation() {
 
 document.addEventListener("init-auth", () => {
     if(auth.currentUser)
-        alertInterval = setInterval(checkTimeLimitViolation, 60000);
+        alertInterval = setInterval(checkTimeLimitViolation, 30000);
     else if(alertInterval)
         clearInterval(alertInterval);
 });
