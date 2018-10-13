@@ -69,7 +69,7 @@ class RedditPanel extends Component {
                     </div>
                 </div>
 	        </div>
-            )
+        )
     }
 }
 
