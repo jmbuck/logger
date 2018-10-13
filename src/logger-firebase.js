@@ -303,10 +303,10 @@ export function retrieveFirebaseNetflixData(uid, callback) {
         const json = snapshot.toJSON();
         if (json != null) {
             callback({
-                timeTV: msToString(json["show"].time),
-                visitsTV: json["show"].visits,
-                timeMovies: msToString(json["movie"].time),
-                visitsMovies: json["movie"].visits
+                timeTV: json.show && json.show.time ? msToString(json["show"].time) : "",
+                visitsTV: json.show && json.show.time ? json["show"].visits : "",
+                timeMovies: json.movie && json.movie.time ? msToString(json["movie"].time) : "",
+                visitsMovies: json.movie && json.movie.visits ? json["movie"].visits : ""
             })
         }
     });
