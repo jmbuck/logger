@@ -1,9 +1,21 @@
 import { getWebsiteName, db, auth } from "../Background";
 
+let alertInterval;
 let tab_sessions = {};
 
 function domainRetrieval(URL) {
     return URL.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img)[0];
+}
+
+function getActiveTab() {
+    for(let key in tab_sessions) {
+        if(!tab_sessions.hasOwnProperty(key)) continue;
+
+        if(tab_sessions[key].active) {
+            return tab_sessions[key];
+        }
+    }
+    return null;
 }
 
 function updateSiteTime(uid, url, time) {
@@ -24,6 +36,10 @@ function updateSiteVisits(uid, url) {
     db.ref(`/users/${uid}/websites/${hostname}/visits`).transaction((value) => {
         return 1 + (value ? value : 0);
     });
+}
+
+function shawnsFunction() {
+    let hostname = getWebsiteName(getActiveTab().domain)
 }
 
 export function initWebTracker() {
@@ -49,17 +65,13 @@ export function initWebTracker() {
 
     chrome.tabs.onActivated.addListener((activeInfo) => {
         if(auth.currentUser) {
-            for(let key in tab_sessions) {
-                if(!tab_sessions.hasOwnProperty(key)) continue;
 
-                if(tab_sessions[key].active) {
-                    updateSiteTime(auth.currentUser.uid, tab_sessions[key].domain, Date.now() - tab_sessions[key].time);
-                    tab_sessions[key].time = -1;
-                    tab_sessions[key].active = false;
-                    break;
-                }
+            const activeTab = getActiveTab();
+            if(activeTab) {
+                updateSiteTime(auth.currentUser.uid, activeTab.domain, Date.now() - activeTab.time);
+                activeTab.time = -1;
+                activeTab.active = false;
             }
-
             tab_sessions[activeInfo.tabId].time = Date.now();
             tab_sessions[activeInfo.tabId].active = true;
         }
@@ -88,9 +100,13 @@ export function initWebAuth() {
             tabs.forEach((tab) => {
                 addTabToSessions(tab);
             })
-        })
+        });
+
+        alertInterval = setInterval(shawnsFunction, 5000);
     }
     else {
         tab_sessions = {};
+        if(alertInterval)
+            clearInterval(alertInterval);
     }
 }
