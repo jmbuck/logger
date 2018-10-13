@@ -63,6 +63,12 @@ h3.break-line.title { margin-top: 5px; margin-bottom: 20px; }
 
 .exit-nav:hover img { filter: invert(88%) sepia(1%) saturate(2264%) hue-rotate(2deg) brightness(87%) contrast(97%) opacity(90%); }
 
+.hide { display: none; }
+
+.category { cursor: pointer; }
+
+.category:hover { text-decoration: underline; }
+
 .panel-preference {
     color: white;
 }
