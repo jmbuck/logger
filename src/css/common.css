@@ -69,7 +69,9 @@ h3.break-line.title { margin-top: 5px; margin-bottom: 20px; }
 
 .category:hover { text-decoration: underline; }
 
-th { cursor: pointer; }
+th, .pointer { cursor: pointer; }
+
+.bar-graph { width: 700px; height: 300px; }
 
 .panel-preference {
     color: white;
