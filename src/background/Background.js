@@ -85,11 +85,12 @@ window.addEventListener("load", () => {
         if(changeInfo.url && auth.currentUser) {
             const oldDomain = tab_sessions[tabId].domain;
             const newDomain = domainRetrieval(changeInfo.url);
+            const oldURL = tab_sessions[tabId].url;
 
             tab_sessions[tabId].url = changeInfo.url;
             tab_sessions[tabId].domain = newDomain;
 
-            document.dispatchEvent(new CustomEvent("tab-updated", { detail: { tab: tab_sessions[tabId], old_domain: oldDomain, new_domain: newDomain } } ))
+            document.dispatchEvent(new CustomEvent("tab-updated", { detail: { tab: tab_sessions[tabId], old_domain: oldDomain, new_domain: newDomain, old_url: oldURL, new_url: tab_sessions[tabId].url } } ))
         }
     });
 
@@ -104,7 +105,7 @@ window.addEventListener("load", () => {
             }
             tab_sessions[activeInfo.tabId].time = Date.now();
             tab_sessions[activeInfo.tabId].active = true;
-            if(activeTab.id !== activeInfo.tabId)
+            if(!activeTab || activeTab.id !== activeInfo.tabId)
                 document.dispatchEvent(new CustomEvent("tab-activated", { detail: { tab: tab_sessions[activeInfo.tabId] } } ));
         }
     });

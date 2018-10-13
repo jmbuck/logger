@@ -14,6 +14,4 @@ function load(evt) {
     }
 }
 
-
-
 window.addEventListener("load", load, false);
