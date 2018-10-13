@@ -7,7 +7,7 @@ import {
     postFirebaseWebsiteFilter,
     postFirebaseWebsiteSettings,
     retrieveFirebaseWebsiteData,
-    retrieveFirebaseWebsitesBlacklist
+    retrieveFirebaseWebsitesBlacklist, retrieveFirebaseWebsiteSettings
 } from '../logger-firebase'
 import { auth } from "../database/Auth";
 
@@ -19,6 +19,7 @@ class FilterPanel extends Component {
          this.state = { 
              websites: [],
              filters: [],
+             settings: [],
              modalIsOpen: false,
              website: '',
          }
@@ -26,10 +27,13 @@ class FilterPanel extends Component {
 
     retrieve = (user) => {
         retrieveFirebaseWebsiteData(user.uid, (data) => {
-            this.setState({ websites: data })
+            this.setState({ websites: data });
         });
         retrieveFirebaseWebsitesBlacklist(user.uid, (data) => {
             this.setState({filters: data});
+        })
+        retrieveFirebaseWebsiteSettings(user.uid, (data) => {
+            this.setState({settings: data})
         })
     };
 
@@ -57,7 +61,9 @@ class FilterPanel extends Component {
         const data = ev.target.data.checked;
         const time = ev.target.time.checked;
         const visits = ev.target.visits.checked;
-        const tracking = { data, time, visits };
+        const timeLimit = ev.target.timeLimit.value;
+        const warningMessage = ev.target.warningMessage.value;
+        const tracking = { data, time, visits, timeLimit, warningMessage };
 
         this.postTrackingSettingsToFirebase(website, tracking)
     };
@@ -109,9 +115,11 @@ class FilterPanel extends Component {
                             <button onClick={this.closeModal}>close</button>
                             <h3>Modify website tracking</h3>
                             <form onSubmit={this.handleTrackingSubmit}>
-                                <input type="checkbox" name="data" value="data" defaultChecked/> Internet Usage<br/>
-                                <input type="checkbox" name="time" value="time" defaultChecked/> Time Tracking<br/>
-                                <input type="checkbox" name="visits" value="visits" defaultChecked/> Visits Tracking<br/>
+                                <input type="checkbox" name="data" defaultChecked/> Internet Usage<br/>
+                                <input type="checkbox" name="time" defaultChecked/> Time Tracking<br/>
+                                <input type="checkbox" name="visits" defaultChecked /> Visits Tracking<br/>
+                                <input type="number" name="timeLimit" defaultValue={(this.state.settings[this.state.website])? this.state.settings[this.state.website].timeLimit: -1} /> Time Limit <br/>
+                                <input type="text" name="warningMessage" defaultValue={(this.state.settings[this.state.website])? this.state.settings[this.state.website].warningMessage: "Warning message for time limit"} />
                                 <button type="submit">Save</button>
                             </form>
                         </Modal>
