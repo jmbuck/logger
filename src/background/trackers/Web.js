@@ -1,7 +1,8 @@
-import { getWebsiteName, db, auth } from "../Background";
+import { retrieveFirebaseWebsiteSettings, getWebsiteName, db, auth } from "../Background";
 
 let alertInterval;
 let tab_sessions = {};
+let settings = undefined;
 
 function domainRetrieval(URL) {
     return URL.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img)[0];
@@ -46,8 +47,23 @@ function updateSiteVisits(uid, url) {
     })
 }
 
-function shawnsFunction() {
+function checkTimeLimitViolation() {
+    if (!settings) {
+        retrieveFirebaseWebsiteSettings(auth.currentUser.uid, (data) => {
+            settings = data
+        })
+    }
+
     let hostname = getWebsiteName(getActiveTab().domain)
+    if (hostname) {
+        let current = getActiveTab().time
+        let elapsed = Date.now() - current
+        let timeLimit = settings[hostname].timeLimit / 1000
+
+        if ( timeLimit !== -1 && timeLimit < elapsed / 1000 ) {
+            alert(`${settings[hostname].warningMessage}: \nYour time limit is ${timeLimit} and you have been on for ${elapsed / 1000}`)
+        }
+    }
 }
 
 export function initWebTracker() {
@@ -106,7 +122,7 @@ export function initWebAuth() {
             })
         });
 
-        alertInterval = setInterval(shawnsFunction, 5000);
+        alertInterval = setInterval(checkTimeLimitViolation, 15000);
     }
     else {
         tab_sessions = {};

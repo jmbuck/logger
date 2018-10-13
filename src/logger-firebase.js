@@ -289,7 +289,7 @@ export function retrieveFirebaseWebsiteSettings(uid, callback) {
                 data: (json.data)? json.data: true,
                 time: (json.time)? json.time: true,
                 visits: (json.visits)? json.visits: true,
-                timeLimit: (json.timeLimit)? json.timeLimit: -1,
+                timeLimit: (json.timeLimit)? json.timeLimit / 1000: -1,
                 warningMessage: (json.warningMessage)? json.warningMessage: "Warning message for time limit"
             }
             settings[key] = childJson

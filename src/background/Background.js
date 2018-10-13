@@ -43,3 +43,22 @@ export function getWebsiteName(url) {
     if (hostname.startsWith('www')) hostname = hostname.substring(4);
     return hostname;
 }
+
+export function retrieveFirebaseWebsiteSettings(uid, callback) {
+    let settings = {}
+    db.ref(`/users/${uid}/filters/data`).once("value").then((snapshot) => {
+        snapshot.forEach( (child) => {
+            let key = child.key
+            const json = child.val()
+            let childJson = {
+                data: (json.data)? json.data: true,
+                time: (json.time)? json.time: true,
+                visits: (json.visits)? json.visits: true,
+                timeLimit: (json.timeLimit)? json.timeLimit: -1,
+                warningMessage: (json.warningMessage)? json.warningMessage: "Warning message for time limit"
+            }
+            settings[key] = childJson
+        });
+        callback(settings)
+    });
+}
