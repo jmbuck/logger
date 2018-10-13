@@ -26,6 +26,10 @@ function updateSiteTime(uid, url, time) {
     db.ref(`/users/${uid}/websites/${hostname}/time`).transaction((value) => {
         return time + (value ? value : 0);
     });
+
+    db.ref(`/global/websites/${hostname}/time`).transaction((value) => {
+        return time + (value ? value : 0);
+    })
 }
 
 function updateSiteVisits(uid, url) {
@@ -36,6 +40,10 @@ function updateSiteVisits(uid, url) {
     db.ref(`/users/${uid}/websites/${hostname}/visits`).transaction((value) => {
         return 1 + (value ? value : 0);
     });
+
+    db.ref(`/global/websites/${hostname}/visits`).transaction((value) => {
+        return 1 + (value ? value : 0);
+    })
 }
 
 function shawnsFunction() {
@@ -80,14 +88,10 @@ export function initWebTracker() {
 
 function addTabToSessions(tab) {
     if(auth.currentUser) {
-        let domain = domainRetrieval(tab.url);
-        if(domain === "chrome")
-            return;
-
         tab_sessions[tab.id] = {
             id: tab.id,
             url: tab.url,
-            domain: domain,
+            domain: domainRetrieval(tab.url),
             time: tab.active ? Date.now() : -1,
             active: tab.active
         };
