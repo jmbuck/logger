@@ -6,7 +6,7 @@ import { retrieveFirebaseWebsiteData,
     retrieveFirebaseWebsitesBlacklist,
     retrieveFirebaseWebsitesSettings,
     deleteFirebaseWebsite,
-    retrieveDefaultCategory,
+    retrieveDefaultCategories,
     setWebsiteCategory,
     msToString, } from "../logger-firebase";
 import { auth } from "../database/Auth";
@@ -35,7 +35,8 @@ class WebsitePanel extends Component {
         if(user) {
             retrieveFirebaseWebsiteData(user.uid, (data) => {
                 this.setState({ data, names: data.map(a => a.name) }, () => {
-                    retrieveDefaultCategory(this.state.names, (categories) => {
+                    console.log(this.state.names)
+                    retrieveDefaultCategories(this.state.names ? this.state.names : [], (categories) => {
                         console.log('categories:', categories)
                         const websites = [...this.state.data]
                         websites.map((website) => website.category = categories[website.name])
@@ -93,7 +94,7 @@ class WebsitePanel extends Component {
     };
 
     updateCategory = (website, category) => {
-        setWebsiteCategory(auth.currentUser.uid, website, category)
+        setWebsiteCategory(auth.currentUser.uid, website.name, category)
     }
 
     handleDelete = (index) => {

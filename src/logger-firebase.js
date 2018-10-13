@@ -160,7 +160,7 @@ export function retrieveDefaultCategories(websites, callback) {
     once(`/global/websites`, (snapshot) => {
         let arr = {};
         snapshot.forEach((child) => {
-            if(!websites.contains(child.key)) return;
+            if(!websites.includes(child.key)) return;
 
             const json = child.val();
             let category = "other";
@@ -169,7 +169,7 @@ export function retrieveDefaultCategories(websites, callback) {
                 for(let key in json.category) {
                     if(!json.category.hasOwnProperty(key)) continue;
 
-                    if(json.category[category] < json.category(key))
+                    if(json.category[category] < json.category[key])
                         category = key;
                 }
             }
