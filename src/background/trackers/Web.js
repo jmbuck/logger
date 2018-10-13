@@ -62,6 +62,7 @@ function checkTimeLimitViolation() {
         retrieveFirebaseWebsiteSettings(auth.currentUser.uid, (data) => {
             settings = data
         })
+        return;
     }
 
     const activeTab = getActiveTab();
@@ -93,7 +94,9 @@ document.addEventListener("tab-removed", (e) => {
 
 document.addEventListener("tab-updated", (e) => {
     if(e.detail.old_domain !== e.detail.new_domain)
-        updateSiteVisits(auth.currentUser.uid, e.detail.tab.domain)
+        updateSiteVisits(auth.currentUser.uid, e.detail.tab.domain);
+
+    updateSiteTime(auth.currentUser.uid, e.detail.tab.domain, Date.now() - e.detail.tab.time);
 });
 
 document.addEventListener("tab-deactivated", (e) => {

@@ -10,13 +10,13 @@ export let tab_sessions = {};
 export function getWebsiteName(url) {
     let hostname = url.match(/\/\/(.*)(?=\.)(.*)(?=\.)/g);
     if (!hostname) {
-        console.log("Could not find hostname");
+        console.log("Could not find hostname", url);
         return undefined;
     }
     hostname = (hostname[0] !== undefined)? hostname[0].split('.').join('-'): null;
     hostname = hostname.substring(2);
     if (!hostname) {
-        console.log("Could not find hostname");
+        console.log("Could not find hostname", url);
         return undefined;
     }
 
@@ -70,7 +70,6 @@ window.addEventListener("load", () => {
 
     chrome.tabs.onRemoved.addListener((tabId) => {
         if(auth.currentUser) {
-            console.log(tab_sessions, tabId, tab_sessions[tabId]);
             document.dispatchEvent(new CustomEvent("tab-removed", { detail: { tab: tab_sessions[tabId] } } ));
             tab_sessions[tabId] = null;
             delete tab_sessions[tabId];
@@ -92,6 +91,8 @@ window.addEventListener("load", () => {
             tab_sessions[tabId].domain = newDomain;
 
             document.dispatchEvent(new CustomEvent("tab-updated", { detail: { tab: tab_sessions[tabId], old_domain: oldDomain, new_domain: newDomain, old_url: oldURL, new_url: tab_sessions[tabId].url } } ))
+
+            tab_sessions[tabId].time = Date.now()
         }
     });
 

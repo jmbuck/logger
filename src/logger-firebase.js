@@ -39,8 +39,9 @@ export function retrieveFirebaseUserYoutubeVideoData(uid, callback) {
     on(`/users/${uid}/youtube`, (snapshot) => {
         let arr = [];
         snapshot.forEach((child) => {
-            arr.push({name: child.key, time: child.val().timeWatched});
-        })
+            const json = child.val();
+            arr.push({id: child.key, name: json.name, time: json.time, visits: json.visits});
+        });
 
         callback(arr);
     });
@@ -302,10 +303,10 @@ export function retrieveFirebaseNetflixData(uid, callback) {
         const json = snapshot.toJSON();
         if (json != null) {
             callback({
-                timeTV: msToString(json["shows"].time),
-                visitsTV: json["shows"].watches,
-                timeMovies: msToString(json["movies"].time),
-                visitsMovies: json["movies"].watches
+                timeTV: msToString(json["show"].time),
+                visitsTV: json["show"].visits,
+                timeMovies: msToString(json["movie"].time),
+                visitsMovies: json["movie"].visits
             })
         }
     });

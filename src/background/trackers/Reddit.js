@@ -2,10 +2,11 @@ import {db} from "../../database/Database"
 import {auth} from "../../database/Auth"
 
 function getSubreddit(url) {
+    if(!url.startsWith("https://www.reddit.com")) return "";
+    else if(!url.startsWith("https://www.reddit.com/r/")) return "all";
+
     url = url.substr("https://www.reddit.com/r/".length, url.length);
     url = url.substr(0, url.indexOf("/"));
-    if(!url || url.length === 0)
-        return "all";
     return url;
 }
 
@@ -35,8 +36,11 @@ document.addEventListener("tab-removed", (e) => {
 });
 
 document.addEventListener("tab-updated", (e) => {
-    if(e.detail.tab.url.startsWith("https://www.reddit.com/r/") && getSubreddit(e.detail.old_url) !== getSubreddit(e.detail.new_url))
-        updateSubredditVisits(auth.currentUser.uid, e.detail.tab.url)
+    if(e.detail.old_url.startsWith("https://www.reddit.com/r/"))
+        updateSubredditTime(auth.currentUser.uid, e.detail.old_url, Date.now() - e.detail.tab.time);
+
+    if(e.detail.old_url !== e.detail.new_url && getSubreddit(e.detail.old_url) !== getSubreddit(e.detail.new_url))
+        updateSubredditVisits(auth.currentUser.uid, e.detail.new_url);
 });
 
 document.addEventListener("tab-deactivated", (e) => {
