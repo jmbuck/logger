@@ -28,11 +28,12 @@ class WebsitePanel extends Component {
             blacklist: null,
             dropdownClass: 'hide',
             categoryClass: '',
-            //0 is alphabetical ascending, 1 is descending
+            //0 is alphabetical name ascending, 1 is name descending
             //2 is visits ascending, 3 is descending
             //4 is time ascending, 5 is descending
             //6 is data ascending, 7 is descending
             //8 is timestamp ascending, 9 is descending
+            //10 is alphabetical category ascending, 11 is alphabetical category descending
             sortBy: 0,
             topSites: ["..."]
         }
@@ -70,12 +71,14 @@ class WebsitePanel extends Component {
         if(!aNew.time || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].time)) aNew.time = 0;
         if(!aNew.visits || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].visits)) aNew.visits = 1;
         if(!aNew.timestamp || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].timestamp)) aNew.timestamp = 0;
+        if(!aNew.category || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].category)) aNew.category = "";
         if(!bNew.data || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].data)) bNew.data = 0;
         if(!bNew.time || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].time)) bNew.time = 0;
         if(!bNew.visits || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].visits)) bNew.visits = 1;
         if(!bNew.timestamp || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].timestamp)) bNew.timestamp = 0;
+        if(!bNew.category || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].category)) bNew.category = "";
         switch(this.state.sortBy) {
-          case 0: //Alphabetical
+          case 0: //Alphabetical Name
             return aNew.name < bNew.name ? -1 : aNew.name > bNew.name
           case 1:
             return bNew.name < aNew.name ? -1 : bNew.name > aNew.name
@@ -95,6 +98,10 @@ class WebsitePanel extends Component {
               return aNew.timestamp - bNew.timestamp
           case 9:
               return bNew.timestamp - aNew.timestamp
+          case 10: //Alphabetical Category
+            return aNew.category < bNew.category ? -1 : aNew.category > bNew.category
+          case 11:
+            return bNew.category < aNew.category ? -1 : bNew.category > aNew.category
           default:
             return aNew.name < bNew.name ? -1 : aNew.name > bNew.name
         }
@@ -207,7 +214,10 @@ class WebsitePanel extends Component {
                                        if(this.state.sortBy === 8) this.setState({ sortBy: 9 })
                                        else this.setState({ sortBy: 8 })
                                    }}>Last Visited</th>
-			                        <th>Category</th>
+                           <th onClick={() => {
+                                      if(this.state.sortBy === 10) this.setState({ sortBy: 11 })
+                                      else this.setState({ sortBy: 10 })
+                                  }}>Category</th>
                                     <th>Delete</th>
 		                        </tr>
                                 </thead>
