@@ -1,4 +1,9 @@
 import {auth, googleAuth} from "../database/Auth.js";
+import retrieveFirebaseWebsiteData from "../logger-firebase";
+
+var lastVisited;
+var timeSpent;
+var numberVisits;
 
 /**
  * initApp handles setting up the Firebase context and registering
@@ -29,16 +34,33 @@ function initApp() {
             var uid = user.uid;
             var providerData = user.providerData;
             // [START_EXCLUDE]
+            document.getElementById("Stats").style.display = "block";
+            document.getElementById("WelcomeMessage").style.display = "block";
+            document.getElementById("SignInText").style.display = "none";
+            document.getElementById("Hyperlink").style.display = "none";
+            document.getElementById('quickstart-welcome-message').innerText = 'Hello ' + displayName + '!';
+
             document.getElementById('quickstart-button-google').textContent = 'Sign out with Google';
-            document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
-            document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+            document.getElementById('quickstart-website-visits').textContent = '(not done!)';
+            document.getElementById('quickstart-website-time-spent').textContent = '(not done!)';
+            document.getElementById('quickstart-website-visit-count').textContent = '(not done!)';
+            //retrieveFirebaseWebsiteData(uid, (data) => {
+              //TODO: search data object for relevant information to display to modify variables below
+            //})
+
             // [END_EXCLUDE]
         } else {
             // Let's try to get a Google database token programmatically.
             // [START_EXCLUDE]
-            document.getElementById('quickstart-button-google').textContent = 'Sign-in with Google';
-            document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
-            document.getElementById('quickstart-account-details').textContent = 'null';
+            document.getElementById("Stats").style.display = "none";
+            document.getElementById("WelcomeMessage").style.display = "none";
+            document.getElementById("SignInText").style.display = "block";
+            document.getElementById("Hyperlink").style.display = "block";
+
+            document.getElementById('quickstart-button-google').textContent = 'Sign in with Google';
+            document.getElementById('quickstart-website-visits').textContent = 'Not Signed In';
+            document.getElementById('quickstart-website-time-spent').textContent = 'Not Signed In';
+            document.getElementById('quickstart-website-visit-count').textContent = 'Not Signed In';
             // [END_EXCLUDE]
         }
         document.getElementById('quickstart-button-google').disabled = false;
