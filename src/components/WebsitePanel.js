@@ -1,19 +1,20 @@
 import React, {Component} from 'react'
-import { Bar } from 'react-chartjs-2'
+import {Bar} from 'react-chartjs-2'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
 import {
+    deleteFirebaseWebsite,
+    msToString,
+    retrieveDefaultCategories,
     retrieveFirebaseWebsiteData,
     retrieveFirebaseWebsitesBlacklist,
     retrieveFirebaseWebsitesSettings,
-    deleteFirebaseWebsite,
-    retrieveDefaultCategories,
+    retrieveTopWebsites,
     setWebsiteCategory,
-    msToString, retrieveTopWebsites,
 } from "../logger-firebase";
 import Modal from 'react-modal'
-import { auth } from "../database/Auth";
+import {auth} from "../database/Auth";
 
 class WebsitePanel extends Component {
 
@@ -67,11 +68,11 @@ class WebsitePanel extends Component {
         const bNew = {...b}
         if(!aNew.data || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].data)) aNew.data = 0;
         if(!aNew.time || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].time)) aNew.time = 0;
-        if(!aNew.visits || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].visits)) aNew.visits = 0;
+        if(!aNew.visits || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].visits)) aNew.visits = 1;
         if(!aNew.timestamp || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].timestamp)) aNew.timestamp = 0;
         if(!bNew.data || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].data)) bNew.data = 0;
         if(!bNew.time || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].time)) bNew.time = 0;
-        if(!bNew.visits || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].visits)) bNew.visits = 0;
+        if(!bNew.visits || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].visits)) bNew.visits = 1;
         if(!bNew.timestamp || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].timestamp)) bNew.timestamp = 0;
         switch(this.state.sortBy) {
           case 0: //Alphabetical
