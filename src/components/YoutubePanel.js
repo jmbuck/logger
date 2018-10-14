@@ -23,7 +23,6 @@ class YoutubePanel extends Component {
 	retrieve = (user) => {
         if(user) {
             retrieveFirebaseUserYoutubeVideoData(user.uid, (data) => {
-                console.log(data)
                 this.setState({ data : data})
             })
             retrieveTopYoutubeChannels((data) => {
