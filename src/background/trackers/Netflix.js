@@ -56,12 +56,12 @@ function updateNetflixVisits(uid, url) {
 }
 
 document.addEventListener("tab-removed", (e) => {
-    if(e.detail.tab.url.startsWith("https://www.netflix.com/watch/"))
+    if(e.detail.tab.url.startsWith("https://www.netflix.com/watch/") && e.detail.tab.time !== -1 && e.detail.tab.time)
         updateNetflixTime(auth.currentUser.uid, e.detail.tab.url, Date.now() - e.detail.tab.time);
 });
 
 document.addEventListener("tab-updated", (e) => {
-    if(e.detail.old_url.startsWith("https://www.netflix.com/watch/"))
+    if(e.detail.old_url.startsWith("https://www.netflix.com/watch/") && e.detail.tab.time !== -1 && e.detail.tab.time)
         updateNetflixTime(auth.currentUser.uid, e.detail.old_url, Date.now() - e.detail.tab.time);
 
     if(e.detail.old_url !== e.detail.new_url && e.detail.new_url.startsWith("https://www.netflix.com/watch/"))
@@ -69,6 +69,6 @@ document.addEventListener("tab-updated", (e) => {
 });
 
 document.addEventListener("tab-deactivated", (e) => {
-    if(e.detail.tab.url.startsWith("https://www.netflix.com/watch/"))
+    if(e.detail.tab.url.startsWith("https://www.netflix.com/watch/") && e.detail.tab.time !== -1 && e.detail.tab.time)
         updateNetflixTime(auth.currentUser.uid, e.detail.tab.url, Date.now() - e.detail.tab.time);
 });

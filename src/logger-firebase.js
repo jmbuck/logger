@@ -304,26 +304,71 @@ export function retrieveFirebaseNetflixData(uid, callback) {
         const json = snapshot.toJSON();
         if (json != null) {
             callback({
-                timeTV: msToString(json["show"].time),
-                visitsTV: json["show"].visits,
-                timeMovies: msToString(json["movie"].time),
-                visitsMovies: json["movie"].visits
+                timeTV: json.show && json.show.time ? msToString(json["show"].time) : "",
+                visitsTV: json.show && json.show.time ? json["show"].visits : "",
+                timeMovies: json.movie && json.movie.time ? msToString(json["movie"].time) : "",
+                visitsMovies: json.movie && json.movie.visits ? json["movie"].visits : ""
             })
         }
     });
 }
 
-export function retrieveTopWebsites(callback) {
-    db.ref("/global/websites").orderByChild("visits").limit(10).on("value", (snapshot) => {
+export function retrieveTopNetflix(callback) {
+    db.ref(`/global/netflix`).orderByChild("time").limitToLast(10).once("value", (snapshot) => {
         let arr = [];
         const json = snapshot.toJSON();
         for(let key in json) {
             if(!json.hasOwnProperty(key)) continue;
 
-            arr.push({name: key, visits: json[key].visits});
+            arr.push(json[key]);
         }
-        callback(arr);
+        arr.sort((t, t1) => json[t1].time - json[t].time);
+        callback({topShows: arr.map((t) => json[t].title)});
+    })
+}
+
+export function retrieveTopWebsites(callback) {
+    db.ref("/global/websites").orderByChild("time").limitToLast(10).once("value", (snapshot) => {
+        let arr = [];
+        const json = snapshot.toJSON();
+        for(let key in json) {
+            if(!json.hasOwnProperty(key)) continue;
+
+            arr.push(key);
+        }
+        arr.sort((t, t1) => json[t1].time - json[t].time);
+        callback({topSites: arr});
     });
+}
+
+export function retrieveTopSubreddits(callback) {
+    db.ref("/global/reddit").orderByChild("time").limitToLast(10).once("value", (snapshot) => {
+        let arr = [];
+
+        const json = snapshot.toJSON();
+        for(let key in json) {
+            if(!json.hasOwnProperty(key)) continue;
+
+            arr.push(key);
+        }
+        arr.sort((t, t1) => json[t1].time - json[t].time);
+        callback({topSubreddits: arr});
+    })
+}
+
+export function retrieveTopYoutubeChannels(callback) {
+    db.ref("/global/youtube").orderByChild("time").limitToLast(10).once("value", (snapshot) => {
+        let arr = [];
+
+        const json = snapshot.toJSON();
+        for(let key in json) {
+            if(!json.hasOwnProperty(key)) continue;
+
+            arr.push(json[key]);
+        }
+        arr.sort((t, t1) => json[t1].time - json[t].time);
+        callback({topChannels: arr.map((t) => json[t].name)});
+    })
 }
 
 export function postFirebaseWebsiteFilter(uid, website) {

@@ -3,13 +3,15 @@ import { Bar } from 'react-chartjs-2'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
-import { retrieveFirebaseWebsiteData,
+import {
+    retrieveFirebaseWebsiteData,
     retrieveFirebaseWebsitesBlacklist,
     retrieveFirebaseWebsitesSettings,
     deleteFirebaseWebsite,
     retrieveDefaultCategories,
     setWebsiteCategory,
-    msToString, } from "../logger-firebase";
+    msToString, retrieveTopWebsites,
+} from "../logger-firebase";
 import Modal from 'react-modal'
 import { auth } from "../database/Auth";
 
@@ -31,6 +33,7 @@ class WebsitePanel extends Component {
             //6 is data ascending, 7 is descending
             //8 is timestamp ascending, 9 is descending
             sortBy: 0,
+            topSites: ["..."]
         }
     }
 
@@ -53,20 +56,23 @@ class WebsitePanel extends Component {
             retrieveFirebaseWebsitesBlacklist(user.uid, (blacklist) => {
                 this.setState({ blacklist })
             })
+            retrieveTopWebsites((data) => {
+                this.setState(data);
+            })
         }
     };
 
     sortWebsites = (a, b) => {
         const aNew = {...a}
         const bNew = {...b}
-        if(!aNew.data) aNew.data = 0;
-        if(!aNew.time) aNew.time = 0;
-        if(!aNew.visits) aNew.visits = 0;
-        if(!aNew.timestamp) aNew.timestamp = 0;
-        if(!bNew.data) bNew.data = 0;
-        if(!bNew.time) bNew.time = 0;
-        if(!bNew.visits) bNew.visits = 0;
-        if(!bNew.timestamp) bNew.timestamp = 0;
+        if(!aNew.data || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].data)) aNew.data = 0;
+        if(!aNew.time || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].time)) aNew.time = 0;
+        if(!aNew.visits || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].visits)) aNew.visits = 0;
+        if(!aNew.timestamp || (this.state.settings[aNew.name] && !this.state.settings[aNew.name].timestamp)) aNew.timestamp = 0;
+        if(!bNew.data || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].data)) bNew.data = 0;
+        if(!bNew.time || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].time)) bNew.time = 0;
+        if(!bNew.visits || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].visits)) bNew.visits = 0;
+        if(!bNew.timestamp || (this.state.settings[bNew.name] && !this.state.settings[bNew.name].timestamp)) bNew.timestamp = 0;
         switch(this.state.sortBy) {
           case 0: //Alphabetical
             return aNew.name < bNew.name ? -1 : aNew.name > bNew.name
@@ -172,6 +178,11 @@ class WebsitePanel extends Component {
                         </Modal>
                         <div className="panel-center-content">
 	                        <h1>Website Page</h1>
+                            <h2>Top Websites</h2>
+                            {
+                                this.state.topSites.map((site) => <div>{site}</div>)
+                            }
+
 	                        <table border="1px solid black" width="100%">
                                 <thead>
 		                        <tr>

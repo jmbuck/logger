@@ -2,8 +2,10 @@ import React, {Component} from 'react'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
-import { retrieveFirebaseUserRedditData,
-         deleteFirebaseRedditData } from "../logger-firebase";
+import {
+    retrieveFirebaseUserRedditData,
+    deleteFirebaseRedditData, retrieveTopSubreddits
+} from "../logger-firebase";
 import { auth } from "../database/Auth";
 
 class RedditPanel extends Component {
@@ -12,7 +14,8 @@ class RedditPanel extends Component {
         super(props);
 
         this.state = {
-            data : []
+            data : [],
+            topSubreddits: ["..."]
         };
     }
 
@@ -20,6 +23,9 @@ class RedditPanel extends Component {
         if(user) {
             retrieveFirebaseUserRedditData(user.uid, (data) => {
                 this.setState({ data : data})
+            })
+            retrieveTopSubreddits((data) => {
+                this.setState(data);
             })
         }
     };
@@ -48,6 +54,10 @@ class RedditPanel extends Component {
 	                    <DataNav {...this.props}/>
                         <div className="panel-center-content">
 	                        <h1>Reddit</h1>
+                            <h2>Top Subreddits</h2>
+                            {
+                                this.state.topSubreddits.map((subreddit) => <div>{subreddit}</div>)
+                            }
 	                        <table border="1px solid black">
 		                        <tr>
 			                        <th>Subreddit</th>
