@@ -63,7 +63,6 @@ class FilterPanel extends Component {
         const visits = ev.target.visits.checked;
         const stringTimeLimit = ev.target.timeLimit.value;
         let timeLimit = parseInt(stringTimeLimit)
-        if (timeLimit !== -1) timeLimit *= 1000
         const warningMessage = ev.target.warningMessage.value;
         const tracking = { data, time, visits, timeLimit, warningMessage };
 
