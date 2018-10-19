@@ -1,3 +1,5 @@
+import React from 'react';
+
 //for testing, need to make something clickable on webpage
 <a href='#' onclick='downloadCSV({ filename: "stock-data.csv" });'>Download CSV</a>
 
