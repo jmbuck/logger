@@ -38,8 +38,10 @@ function initApp() {
             document.getElementById("WelcomeMessage").style.display = "block";
             document.getElementById("SignInText").style.display = "none";
             document.getElementById("Hyperlink").style.display = "none";
-            document.getElementById('quickstart-welcome-message').innerText = 'Hello ' + displayName + '!';
+            document.getElementById("UserID").style.display = "block";
 
+            document.getElementById('quickstart-welcome-message').innerText = 'Hello ' + displayName + '!';
+            document.getElementById('quickstart-userid').innerText = 'UserID: ' + uid;
             document.getElementById('quickstart-button-google').textContent = 'Sign out with Google';
             document.getElementById('quickstart-website-visits').textContent = '(not done!)';
             document.getElementById('quickstart-website-time-spent').textContent = '(not done!)';
@@ -56,6 +58,7 @@ function initApp() {
             document.getElementById("WelcomeMessage").style.display = "none";
             document.getElementById("SignInText").style.display = "block";
             document.getElementById("Hyperlink").style.display = "block";
+            document.getElementById("UserID").style.display = "none";
 
             document.getElementById('quickstart-button-google').textContent = 'Sign in with Google';
             document.getElementById('quickstart-website-visits').textContent = 'Not Signed In';
