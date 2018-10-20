@@ -54,7 +54,7 @@ class YoutubePanel extends Component {
                     <div className="panel-youtube">
                         <DataNav {...this.props}/>
                         <div className="panel-center-content">
-	                        <h1>YouTube</h1>
+	                        <h1>YouTube Page</h1>
                             <h2>Top Youtube Channels</h2>
                             {
                                 this.state.topChannels.map((channel) => <div>{channel}</div>)

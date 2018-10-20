@@ -53,7 +53,7 @@ class RedditPanel extends Component {
                     <div className="panel-reddit">
 	                    <DataNav {...this.props}/>
                         <div className="panel-center-content">
-	                        <h1>Reddit</h1>
+	                        <h1>Reddit Page</h1>
                             <h2>Top Subreddits</h2>
                             {
                                 this.state.topSubreddits.map((subreddit) => <div>{subreddit}</div>)
