@@ -83,11 +83,13 @@ class DataPanel extends Component {
 				        <div className="panel-center-content">
 					        <div className="Data-Panel">
                                 <div className="graph">
-                                    <h3 className="h3-size">Data Usage</h3>
-                                    <Doughnut data={this.state.dataUsage}/>
+                                    <h3 className="h3-size">Data Usage (in Bytes)</h3>
+                                    <Doughnut
+                                    data={this.state.dataUsage}
+                                    />
                                 </div>
                                 <div className="graph">
-                                <h3 className="h3-size">6 Websites browsing data</h3>
+                                <h3 className="h3-size">6 Websites Browsing Data (in Bytes)</h3>
                                     <HorizontalBar
                                         data={this.state.websiteDataUsage}
                                         width={100}
@@ -95,10 +97,18 @@ class DataPanel extends Component {
                                         options={{
                                             scales: {
                                                 xAxes: [{
-                                                    stacked: true
+                                                    stacked: true,
+                                                    scaleLabel: {
+                                                      display: true,
+                                                      labelString: 'Data Usage in Bytes'
+                                                    }
                                                 }],
                                                 yAxes: [{
-                                                    stacked: true
+                                                    stacked: true,
+                                                    scaleLabel: {
+                                                      display: true,
+                                                      labelString: 'Sites'
+                                                    }
                                                 }]
                                             }
                                         }}
