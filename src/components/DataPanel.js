@@ -89,7 +89,7 @@ class DataPanel extends Component {
                                     />
                                 </div>
                                 <div className="graph">
-                                <h3 className="h3-size">6 Websites Browsing Data (in Bytes)</h3>
+                                <h3 className="h3-size">Top 6 Websites Browsing Data (in Bytes)</h3>
                                     <HorizontalBar
                                         data={this.state.websiteDataUsage}
                                         width={100}
