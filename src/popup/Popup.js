@@ -1,5 +1,6 @@
 import {auth, googleAuth} from "../database/Auth.js";
-import retrieveFirebaseWebsiteData from "../logger-firebase";
+import {once} from "../database/Database";
+import {getWebsiteName} from "../background/Background";
 
 var lastVisited;
 var timeSpent;
@@ -20,6 +21,20 @@ var numberVisits;
  * When signed in, we also authenticate to the Firebase Realtime Database.js.
  */
 function initApp() {
+
+    //START SITE STATISTICS
+    chrome.tabs.getSelected(null,function(tab) {
+      var tabURL = tab.url;
+    });
+
+    var hostname = getWebsiteName(tabURL);
+    var url = '/users/' + uid + '/websites/' + hostname + '/time';
+
+    once(url, (snapshot) => {
+        document.getElementById('quickstart-website-time-spent').textContent = snapshot;
+    });
+    //END SITE STATISTICS
+
     // Listen for database state changes.
     // [START authstatelistener]
     auth.onAuthStateChanged((user) => {
@@ -33,6 +48,7 @@ function initApp() {
             var isAnonymous = user.isAnonymous;
             var uid = user.uid;
             var providerData = user.providerData;
+            var hostname =
             // [START_EXCLUDE]
             document.getElementById("Stats").style.display = "block";
             document.getElementById("WelcomeMessage").style.display = "block";
@@ -43,12 +59,9 @@ function initApp() {
             document.getElementById('quickstart-welcome-message').innerText = 'Hello ' + displayName + '!';
             document.getElementById('quickstart-userid').innerText = 'UserID: ' + uid;
             document.getElementById('quickstart-button-google').textContent = 'Sign out with Google';
-            document.getElementById('quickstart-website-visits').textContent = '(not done!)';
-            document.getElementById('quickstart-website-time-spent').textContent = '(not done!)';
-            document.getElementById('quickstart-website-visit-count').textContent = '(not done!)';
-            //retrieveFirebaseWebsiteData(uid, (data) => {
-              //TODO: search data object for relevant information to display to modify variables below
-            //})
+            document.getElementById('quickstart-website-visits').textContent = 'undefined';
+            document.getElementById('quickstart-website-time-spent').textContent = '';
+            document.getElementById('quickstart-website-visit-count').textContent = 'undefined';
 
             // [END_EXCLUDE]
         } else {
