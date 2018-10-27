@@ -242,7 +242,7 @@ export function retrieveFirebaseWebsitesData(uid, callback) {
                     dataTotal2 += json[website2].data[data];
                 }
 
-                return dataTotal2 - dataTotal1;
+                return dataTotal1 - dataTotal2;
             });
 
             sixJson = sixJson.slice(0, 6).map((website) => {

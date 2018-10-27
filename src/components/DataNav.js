@@ -6,7 +6,7 @@ class DataNav extends Component {
     return (
         <div className="panel-left-nav">
             <div className="filter-nav">
-                <div className="filter-title" onClick={ () => this.props.history.push("/data") }>
+                <div className="filter-title">
                     <h3>
                         Summary Pages
                     </h3>

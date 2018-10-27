@@ -12,3 +12,5 @@ An extension that tracks internet usage.
 3. Select 'Load unpacked' and select the generated build folder in the project.
 4. The extension should now be installed and usable. 
 5. Changes to the code will not be reflected in the extension unless you repeat steps 1-4.
+
+

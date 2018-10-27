@@ -95,7 +95,7 @@ document.addEventListener("tab-removed", (e) => {
 });
 
 document.addEventListener("tab-updated", (e) => {
-    if(e.detail.old_domain !== e.detail.new_domain)
+    if(e.detail.old_url !== e.detail.new_url)
         updateSiteVisits(auth.currentUser.uid, e.detail.tab.domain);
 
     if(e.detail.tab.time === -1 || !e.detail.tab.time) return;
