@@ -3,10 +3,12 @@ import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
 import {
-    retrieveFirebaseUserYoutubeVideoData, msToString,
-    deleteFirebaseYoutubeData, retrieveTopYoutubeChannels
+    deleteFirebaseYoutubeData,
+    msToString,
+    retrieveFirebaseUserYoutubeVideoData,
+    retrieveTopYoutubeChannels
 } from "../logger-firebase";
-import { auth } from "../database/Auth";
+import {auth} from "../database/Auth";
 
 class YoutubePanel extends Component {
 
@@ -47,6 +49,16 @@ class YoutubePanel extends Component {
         this.setState({data});
     };
 
+    isEmptyList = (channel, index) => {
+        if(!(this.state.topChannels.length < 2))
+        {
+            return (
+                <div>{index + 1}. {channel}</div>
+            )
+        }
+        return <div>{channel}</div>;
+    };
+
     render() {
         return (
 	        <div className="panel">
@@ -57,8 +69,11 @@ class YoutubePanel extends Component {
 	                        <h1>YouTube Page</h1>
                             <h2>Top Youtube Channels</h2>
                             {
-                                this.state.topChannels.map((channel) => <div>{channel}</div>)
+                                this.state.topChannels.map((channel, index) => this.isEmptyList(channel, index))
                             }
+
+                            <br/>
+
 	                        <table border="1px solid black">
                                 <thead>
                                 <tr>

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import '../css/common.css'
 import DataNav from './DataNav'
 import {retrieveFirebaseNetflixData, retrieveTopNetflix} from "../logger-firebase";
-import { auth } from "../database/Auth";
+import {auth} from "../database/Auth";
 
 class NetflixPanel extends Component {
 
@@ -39,6 +39,16 @@ class NetflixPanel extends Component {
         })
     }
 
+    isEmptyList = (show, index) => {
+        if(!(this.state.topShows.length < 2))
+        {
+            return (
+                <div>{index + 1}. {show}</div>
+            )
+        }
+        return <div>{show}</div>;
+    };
+
     render() {
         return (
 	        <div className="panel">
@@ -49,7 +59,7 @@ class NetflixPanel extends Component {
 	                        <h1>Netflix Page</h1>
                             <h2>Top Netflix Videos</h2>
                             {
-                                this.state.topShows.map((show) => <div>{show}</div>)
+                                this.state.topShows.map((show, index) => this.isEmptyList(show, index))
                             }
 	                        <h3>Time Spent Watching TV -</h3>
 	                        <div>{this.state.timeTV}</div>

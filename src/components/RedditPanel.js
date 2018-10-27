@@ -2,11 +2,8 @@ import React, {Component} from 'react'
 import '../css/common.css'
 import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
-import {
-    retrieveFirebaseUserRedditData,
-    deleteFirebaseRedditData, retrieveTopSubreddits
-} from "../logger-firebase";
-import { auth } from "../database/Auth";
+import {deleteFirebaseRedditData, retrieveFirebaseUserRedditData, retrieveTopSubreddits} from "../logger-firebase";
+import {auth} from "../database/Auth";
 
 class RedditPanel extends Component {
 
@@ -46,6 +43,16 @@ class RedditPanel extends Component {
         this.setState({data});
     };
 
+    isEmptyList = (subreddit, index) => {
+        if(!(this.state.topSubreddits.length < 2))
+        {
+            return (
+                <div>{index + 1}. {subreddit}</div>
+            )
+        }
+        return <div>{subreddit}</div>;
+    };
+
     render() {
         return (
 	        <div className="panel">
@@ -56,8 +63,11 @@ class RedditPanel extends Component {
 	                        <h1>Reddit Page</h1>
                             <h2>Top Subreddits</h2>
                             {
-                                this.state.topSubreddits.map((subreddit) => <div>{subreddit}</div>)
+                                this.state.topSubreddits.map((subreddit, index) => this.isEmptyList(subreddit, index))
                             }
+
+                            <br/>
+
 	                        <table border="1px solid black">
 		                        <tr>
 			                        <th>Subreddit</th>
