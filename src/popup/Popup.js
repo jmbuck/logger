@@ -25,13 +25,12 @@ function initApp() {
     //START SITE STATISTICS
     chrome.tabs.getSelected(null,function(tab) {
       var tabURL = tab.url;
-    });
+      var hostname = getWebsiteName(tabURL);
+      var url = '/users/' + uid + '/websites/' + hostname + '/time';
 
-    var hostname = getWebsiteName(tabURL);
-    var url = '/users/' + uid + '/websites/' + hostname + '/time';
-
-    once(url, (snapshot) => {
-        document.getElementById('quickstart-website-time-spent').textContent = snapshot;
+      once(url, (snapshot) => {
+          document.getElementById('quickstart-website-time-spent').textContent = snapshot;
+      });
     });
     //END SITE STATISTICS
 
