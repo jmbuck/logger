@@ -144,6 +144,16 @@ class WebsitePanel extends Component {
         this.setState({website: '', modalIsOpen: false})
     };
 
+    isEmptyList = (site, index) => {
+        if(!(this.state.topSites.length < 2))
+        {
+            return (
+                <div>{index + 1}. {site}</div>
+            )
+        }
+        return <div>{site}</div>;
+    };
+
     render() {
         return (
             <div className="panel">
@@ -188,8 +198,10 @@ class WebsitePanel extends Component {
 	                        <h1>Website Page</h1>
                             <h2>Top Websites</h2>
                             {
-                                this.state.topSites.map((site) => <div>{site}</div>)
+                                this.state.topSites.map((site, index) => this.isEmptyList(site,index))
                             }
+
+                            <br/>
 
 	                        <table border="1px solid black" width="100%">
                                 <thead>
