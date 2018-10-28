@@ -322,8 +322,8 @@ export function retrieveTopNetflix(callback) {
 
             arr.push(json[key]);
         }
-        arr.sort((t, t1) => json[t1].time - json[t].time);
-        callback({topShows: arr.map((t) => json[t].title)});
+        arr.sort((t, t1) => t1.time - t.time);
+        callback({topShows: arr.map((t) => t.title)});
     })
 }
 
@@ -366,8 +366,8 @@ export function retrieveTopYoutubeChannels(callback) {
 
             arr.push(json[key]);
         }
-        arr.sort((t, t1) => json[t1].time - json[t].time);
-        callback({topChannels: arr.map((t) => json[t].name)});
+        arr.sort((t, t1) => t1.time - t.time);
+        callback({topChannels: arr.map((t) => t.name)});
     })
 }
 
