@@ -1,5 +1,5 @@
 import {db, on, once, update} from "./database/Database"
-import {auth} from "./database/Auth"
+import {auth, googleAuth} from "./database/Auth"
 
 export function msToString(totalTime) {
     let milliseconds = totalTime
@@ -390,20 +390,32 @@ export function postFirebaseWebsiteSettings(uid, website, settings) {
     update(updates);
 }
 
-export function deleteFirebaseAccount(uid) {
-    let url = `/users/${uid}`
-    let updates = {}
+export function deleteFirebaseAccount() {
+    const user = auth.currentUser;
+    const provider = googleAuth;
 
-    updates[url] = null
+    user.reauthenticateWithPopup(provider).then((result) => {
+        var token = result.credential.accessToken;
+        var currUser = result.user;
+        let url = `/users/${currUser.uid}`
+        let updates = {}
+        updates[url] = null
+        update(updates)
 
-    update(updates)
+        currUser.delete().then(() => {
+            console.log("User deleted: ", currUser)
+            this.setState({data: {}});
+            this.props.history.push('/login')
+        }).catch(function(error) {
+            console.log("User not deleted: ", error)
+        });
 
-    let user = auth.currentUser
-
-    user.delete().then(function() {
-    }).catch(function(error) {
+    }).catch( (error) => {
+        var errorCode = error.code;
+        var errorMessage = error.onmessageerror;
+        var email = error.email;
+        var credential = error.credential;
     });
-
 }
 
 export function deleteFirebaseWebsite(uid, website) {
