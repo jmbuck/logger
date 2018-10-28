@@ -397,6 +397,11 @@ export function deleteFirebaseAccount() {
     user.reauthenticateWithPopup(provider).then((result) => {
         var token = result.credential.accessToken;
         var currUser = result.user;
+
+        deleteFirebaseAllWebsites(currUser.uid);
+        deleteFirebaseAllReddit(currUser.uid);
+        deleteFirebaseAllYoutube(currUser.uid);
+
         let url = `/users/${currUser.uid}`
         let updates = {}
         updates[url] = null
@@ -404,7 +409,6 @@ export function deleteFirebaseAccount() {
 
         currUser.delete().then(() => {
             console.log("User deleted: ", currUser)
-            this.setState({data: {}});
             this.props.history.push('/login')
         }).catch(function(error) {
             console.log("User not deleted: ", error)
@@ -416,6 +420,85 @@ export function deleteFirebaseAccount() {
         var email = error.email;
         var credential = error.credential;
     });
+}
+
+export function deleteFirebaseAllWebsites(uid) {
+    on(`/users/${uid}/websites`, (snapshot) => {
+        snapshot.forEach((child) => {
+            const json = child.val();
+            db.ref(`/global/websites/${child.key}/time`).transaction((value) => {
+                if (json.time) {
+                    return (value ? value : json.time) - json.time;
+                }
+            })
+            db.ref(`/global/websites/${child.key}/visits`).transaction((value) => {
+                if (json.visits) {
+                    return (value ? value : json.visits) - json.visits;
+                }
+            })
+        });
+    });
+
+    let url = `/users/${uid}/websites`
+    let url2 = `/users/${uid}/filters/data`
+    let updates = {}
+
+    updates[url] = null
+    updates[url2] = null
+
+    update(updates);
+}
+
+export function deleteFirebaseAllReddit(uid) {
+    on(`/users/${uid}/reddit`, (snapshot) => {
+        snapshot.forEach((child) => {
+            const json = child.val();
+
+            db.ref(`/global/reddit/${child.key}/time`).transaction((value) => {
+                if (json.time) {
+                    return (value ? value : json.time) - json.time;
+                }
+            })
+            db.ref(`/global/reddit/${child.key}/visits`).transaction((value) => {
+                if (json.visits) {
+                    return (value ? value : json.visits) - json.visits;
+                }
+            })
+        });
+    });
+
+    let url = `/users/${uid}/reddit`
+    let updates = {}
+
+    updates[url] = null
+
+    update(updates);
+}
+
+export function deleteFirebaseAllYoutube(uid) {
+    on(`/users/${uid}/youtube`, (snapshot) => {
+        snapshot.forEach((child) => {
+            const json = child.val();
+
+            db.ref(`/global/youtube/${child.key}/time`).transaction((value) => {
+                if (json.time) {
+                    return (value ? value : json.time) - json.time;
+                }
+            })
+            db.ref(`/global/youtube/${child.key}/visits`).transaction((value) => {
+                if (json.visits) {
+                    return (value ? value : json.visits) - json.visits;
+                }
+            })
+        });
+    });
+
+    let url = `/users/${uid}/youtube`
+    let updates = {}
+
+    updates[url] = null
+
+    update(updates);
 }
 
 export function deleteFirebaseWebsite(uid, website) {
