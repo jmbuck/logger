@@ -15,7 +15,10 @@ class LoginPanel extends Component {
     render = () => {
 
         return (<div className="panel">
-                <div className="panel-container">
+                <div className="panel-container Login">
+                    <div className="Logger-Title" >
+                        <span>Logger</span>
+                    </div>
                     <div className="panel-login">
                         <div className="SignIn">
                             <div className="main-content">
