@@ -1,6 +1,7 @@
 import {auth, googleAuth} from "../database/Auth.js";
 import {once} from "../database/Database";
 import {getWebsiteName} from "../background/Background";
+import {msToString} from "../logger-firebase";
 
 var lastVisited;
 var timeSpent;
@@ -22,18 +23,6 @@ var numberVisits;
  */
 function initApp() {
 
-    //START SITE STATISTICS
-    chrome.tabs.getSelected(null,function(tab) {
-      var tabURL = tab.url;
-      var hostname = getWebsiteName(tabURL);
-      var url = '/users/' + uid + '/websites/' + hostname + '/time';
-
-      once(url, (snapshot) => {
-          document.getElementById('quickstart-website-time-spent').textContent = snapshot;
-      });
-    });
-    //END SITE STATISTICS
-
     // Listen for database state changes.
     // [START authstatelistener]
     auth.onAuthStateChanged((user) => {
@@ -47,7 +36,46 @@ function initApp() {
             var isAnonymous = user.isAnonymous;
             var uid = user.uid;
             var providerData = user.providerData;
-            var hostname =
+
+            //START SITE STATISTICS
+            chrome.tabs.getSelected(null,function(tab) {
+              var tabURL = tab.url;
+              var hostname = getWebsiteName(tabURL);
+
+              var url = '/users/' + uid + '/websites/' + hostname + '/timestamp';
+
+              once(url, (snapshot) => {
+                  if (JSON.stringify(snapshot) == "null") {
+                    document.getElementById('quickstart-website-visits').textContent = "N/A";
+                  } else {
+                    var date = new Date(Number(JSON.stringify(snapshot)));
+                    document.getElementById('quickstart-website-visits').textContent = date.toLocaleString();
+                  }
+              });
+
+              var url = '/users/' + uid + '/websites/' + hostname + '/time';
+
+              once(url, (snapshot) => {
+                  if (JSON.stringify(snapshot) == "null") {
+                    document.getElementById('quickstart-website-time-spent').textContent = "N/A"
+                  } else {
+                    document.getElementById('quickstart-website-time-spent').textContent = msToString(JSON.stringify(snapshot));
+                  }
+              });
+
+              var url = '/users/' + uid + '/websites/' + hostname + '/visits';
+
+              once(url, (snapshot) => {
+                  if (JSON.stringify(snapshot) == "null") {
+                    document.getElementById('quickstart-website-visit-count').textContent = "N/A"
+                  } else {
+                    document.getElementById('quickstart-website-visit-count').textContent = JSON.stringify(snapshot);
+                  }
+              });
+
+            });
+            //END SITE STATISTICS
+
             // [START_EXCLUDE]
             document.getElementById("Stats").style.display = "block";
             document.getElementById("WelcomeMessage").style.display = "block";
@@ -58,9 +86,6 @@ function initApp() {
             document.getElementById('quickstart-welcome-message').innerText = 'Hello ' + displayName + '!';
             document.getElementById('quickstart-userid').innerText = 'UserID: ' + uid;
             document.getElementById('quickstart-button-google').textContent = 'Sign out with Google';
-            document.getElementById('quickstart-website-visits').textContent = 'undefined';
-            document.getElementById('quickstart-website-time-spent').textContent = '';
-            document.getElementById('quickstart-website-visit-count').textContent = 'undefined';
 
             // [END_EXCLUDE]
         } else {
