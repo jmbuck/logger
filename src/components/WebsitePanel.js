@@ -1,11 +1,9 @@
 import React, {Component} from 'react'
 import {Bar} from 'react-chartjs-2'
 import '../css/common.css'
-import exitIcon from "../img/x.svg"
 import DataNav from './DataNav'
 import {
     deleteFirebaseWebsite,
-    msToString,
     retrieveDefaultCategories,
     retrieveFirebaseWebsiteData,
     retrieveFirebaseWebsitesBlacklist,
@@ -14,6 +12,7 @@ import {
     setWebsiteCategory,
 } from "../logger-firebase";
 import Modal from 'react-modal'
+import Website from './Website'
 import {auth} from "../database/Auth";
 
 class WebsitePanel extends Component {
@@ -239,52 +238,16 @@ class WebsitePanel extends Component {
                                 { !(this.state.blacklist === null || this.state.settings === null) ?
                                     this.state.data.sort((a, b) => this.sortWebsites(a, b)).map((d, index) => {
                                         if(!this.blacklisted(d.name)) {
-                                            return (
-                                            <tr key={d.name}>
-                                                <td className="pointer" onClick={() => this.openModal(d.name)}>{d.name}</td>
-                                                <td>{this.state.settings[d.name] ? (this.state.settings[d.name].visits ? d.visits : 'N/A') : (d.visits ? d.visits : 'N/A')}</td>
-                                                <td>{this.state.settings[d.name] ? (this.state.settings[d.name].time ? msToString(d.time) : 'N/A') : (d.time ? msToString(d.time) : 'N/A')}</td>
-                                                <td>{this.state.settings[d.name] ? (this.state.settings[d.name].data ? d.data : 'N/A') : d.data}</td>
-                                                <td>{this.state.settings[d.name] ? (this.state.settings[d.name].timestamp ? new Date(d.timestamp).toDateString() : 'N/A') : new Date(d.timestamp).toDateString()}</td>
-                                                <td>
-                                                    <span className={`category ${this.state.categoryClass}`} onClick={(ev) => {
-                                                        ev.persist()
-                                                        if(!this.state.categoryClass) {
-                                                            this.setState({categoryClass: 'hide', dropdownClass: ''}, () =>
-                                                            ev.target.nextSibling.focus()
-                                                            )
-                                                        }
-                                                        } }>
-                                                        {
-                                                            d.category
-                                                                ? d.category
-                                                                : 'N/A'
-                                                        }
-                                                    </span>
-                                                    <select name="category" className={this.state.dropdownClass} onChange={(ev) => {
-                                                        this.updateCategory(d, ev.target.value)
-                                                        this.setState({categoryClass: '', dropdownClass: 'hide'})
-                                                        }} onBlur={() => {
-                                                        this.setState({categoryClass: '', dropdownClass: 'hide'})
-                                                        }} defaultValue={d.category}>
-                                                        <option value="">-</option>
-                                                        <option value="E-Commerce">E-Commerce</option>
-                                                        <option value="Personal">Personal</option>
-                                                        <option value="Political<">Political</option>
-                                                        <option value="News">News</option>
-                                                        <option value="Corporate">Corporate</option>
-                                                        <option value="Consultation">Consultation</option>
-                                                        <option value="Video">Video</option>
-                                                        <option value="Games">Games</option>
-                                                        <option value="Movies & TV">Movies & TV</option>
-                                                        <option value="Social Media">Social Media</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <img src={exitIcon} onClick={() => this.handleDelete(index)} style={{"filter" : "invert(100%)", "width": "25px", "height" : "25px", "cursor" : "pointer"}}/>
-                                                </td>
-                                            </tr>
-                                            )
+                                            return <Website 
+                                                        site={d} 
+                                                        index={index} 
+                                                        settings={this.state.settings[d.name]} 
+                                                        key={d.name}
+                                                        openModal={this.openModal}
+                                                        updateCategory={this.updateCategory} 
+                                                        handleDelete={this.handleDelete}
+                                                    />
+                                            
                                         } else {
                                             return null
                                         }
