@@ -43,9 +43,7 @@ class WebsitePanel extends Component {
         if(user) {
             retrieveFirebaseWebsiteData(user.uid, (data) => {
                 this.setState({ data, names: data.map(a => a.name) }, () => {
-                    console.log(this.state.names)
                     retrieveDefaultCategories(this.state.names ? this.state.names : [], (categories) => {
-                        console.log('categories:', categories)
                         const websites = [...this.state.data]
                         websites.map((website) => website.category = categories[website.name])
                         this.setState({ data: websites })
@@ -209,27 +207,27 @@ class WebsitePanel extends Component {
 			                        <th onClick={() => {
                                         if(this.state.sortBy === 0) this.setState({ sortBy: 1 })
                                         else this.setState({ sortBy: 0 })
-                                    }}>Name</th>
+                                    }} style={ this.state.sortBy === 0 ? { "border-bottom-color": "rgba(144, 144, 144)", "border-bottom-width": "5px" } : this.state.sortBy === 1 ? { "border-top-color": "rgba(144, 144, 144)", "border-top-width": "5px" } : {}}>Name</th>
 			                        <th onClick={() => {
                                         if(this.state.sortBy === 2) this.setState({ sortBy: 3 })
                                         else this.setState({ sortBy: 2 })
-                                    }}>Number of Visits</th>
+                                    }} style={ this.state.sortBy === 2 ? { "border-bottom-color": "rgba(144, 144, 144)", "border-bottom-width": "5px" } : this.state.sortBy === 3 ? { "border-top-color": "rgba(144, 144, 144)", "border-top-width": "5px" } : {}}>Number of Visits</th>
 			                        <th onClick={() => {
                                         if(this.state.sortBy === 4) this.setState({ sortBy: 5 })
                                         else this.setState({ sortBy: 4 })
-                                    }}>Time Spent</th>
+                                    }} style={ this.state.sortBy === 4 ? { "border-bottom-color": "rgba(144, 144, 144)", "border-bottom-width": "5px" } : this.state.sortBy === 5 ? { "border-top-color": "rgba(144, 144, 144)", "border-top-width": "5px" } : {}}>Time Spent</th>
                              <th onClick={() => {
                                         if(this.state.sortBy === 6) this.setState({ sortBy: 7 })
                                         else this.setState({ sortBy: 6 })
-                                    }}>Data Used</th>
+                                    }} style={ this.state.sortBy === 6 ? { "border-bottom-color": "rgba(144, 144, 144)", "border-bottom-width": "5px" } : this.state.sortBy === 7 ? { "border-top-color": "rgba(144, 144, 144)", "border-top-width": "5px" } : {}}>Data Used</th>
                             <th onClick={() => {
                                        if(this.state.sortBy === 8) this.setState({ sortBy: 9 })
                                        else this.setState({ sortBy: 8 })
-                                   }}>Last Visited</th>
+                                   }} style={ this.state.sortBy === 8 ? { "border-bottom-color": "rgba(144, 144, 144)", "border-bottom-width": "5px" } : this.state.sortBy === 9 ? { "border-top-color": "rgba(144, 144, 144)", "border-top-width": "5px" } : {}}>Last Visited</th>
                            <th onClick={() => {
                                       if(this.state.sortBy === 10) this.setState({ sortBy: 11 })
                                       else this.setState({ sortBy: 10 })
-                                  }}>Category</th>
+                                  }} style={ this.state.sortBy === 10 ? { "border-bottom-color": "rgba(144, 144, 144)", "border-bottom-width": "5px" } : this.state.sortBy === 11 ? { "border-top-color": "rgba(144, 144, 144)", "border-top-width": "5px" } : {}}>Category</th>
                                     <th>Delete</th>
 		                        </tr>
                                 </thead>

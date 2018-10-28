@@ -15,10 +15,6 @@ function updateSubredditTime(uid, url, time) {
         return time + (value ? value : 0);
     });
 
-    db.ref(`/users/${uid}/reddit/all/time`).transaction((value) => {
-        return time + (value ? value : 0);
-    });
-
     db.ref(`/global/reddit/${getSubreddit(url)}/time`).transaction((value) => {
         return time + (value ? value : 0);
     })
