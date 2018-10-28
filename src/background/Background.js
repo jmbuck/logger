@@ -25,7 +25,12 @@ export function getWebsiteName(url) {
 }
 
 export function domainRetrieval(URL) {
-    return URL.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img)[0];
+    if(!URL)
+        return "";
+    const match = URL.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img);
+    if(!match)
+        return "";
+    return match[0];
 }
 
 export function getActiveTab() {
