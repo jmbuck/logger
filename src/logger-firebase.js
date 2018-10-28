@@ -169,7 +169,7 @@ export function retrieveDefaultCategories(websites, callback) {
                 for(let key in json.category) {
                     if(!json.category.hasOwnProperty(key)) continue;
 
-                    if(json.category[category] < json.category[key])
+                    if(!json.category[category] || json.category[category] < json.category[key])
                         category = key;
                 }
             }
@@ -181,16 +181,32 @@ export function retrieveDefaultCategories(websites, callback) {
 }
 
 export function setWebsiteCategory(uid, website, category) {
-    let url = `/users/${uid}/websites/${website}/category`
-    let updates = {}
 
-    updates[url] = category
+    console.log(category, category === undefined, category.length);
+    if(category.length === 0) {
+        let url = `/users/${uid}/websites/${website}/category`
+        let updates = {}
 
-    update(updates);
+        updates[url] = 'other'
 
-    db.ref(`/global/websites/${website}/category/${category}`).transaction((value) => {
-        return 1 + (value ? value : 0);
-    });
+        update(updates);
+
+        db.ref(`/global/websites/${website}/category/other`).transaction((value) => {
+            return 1 + (value ? value : 0);
+        });
+    }
+    else {
+        let url = `/users/${uid}/websites/${website}/category`
+        let updates = {}
+
+        updates[url] = category
+
+        update(updates);
+
+        db.ref(`/global/websites/${website}/category/${category}`).transaction((value) => {
+            return 1 + (value ? value : 0);
+        });
+    }
 }
 
 export function retrieveFirebaseWebsitesData(uid, callback) {
