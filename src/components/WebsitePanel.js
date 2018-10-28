@@ -52,6 +52,7 @@ class WebsitePanel extends Component {
             })
             retrieveFirebaseWebsitesSettings(user.uid, (settings) => {
                 this.setState({ settings })
+                console.log("Settings: ", this.state.settings)
             })
             retrieveFirebaseWebsitesBlacklist(user.uid, (blacklist) => {
                 this.setState({ blacklist })
@@ -238,8 +239,8 @@ class WebsitePanel extends Component {
                                             return (
                                             <tr key={d.name}>
                                                 <td className="pointer" onClick={() => this.openModal(d.name)}>{d.name}</td>
-                                                <td>{this.state.settings[d.name] ? (this.state.settings[d.name].visits ? d.visits : 'N/A') : d.visits}</td>
-                                                <td>{this.state.settings[d.name] ? (this.state.settings[d.name].time ? msToString(d.time) : 'N/A') : msToString(d.time)}</td>
+                                                <td>{this.state.settings[d.name] ? (this.state.settings[d.name].visits ? d.visits : 'N/A') : (d.visits ? d.visits : 'N/A')}</td>
+                                                <td>{this.state.settings[d.name] ? (this.state.settings[d.name].time ? msToString(d.time) : 'N/A') : (d.time ? msToString(d.time) : 'N/A')}</td>
                                                 <td>{this.state.settings[d.name] ? (this.state.settings[d.name].data ? d.data : 'N/A') : d.data}</td>
                                                 <td>{this.state.settings[d.name] ? (this.state.settings[d.name].timestamp ? new Date(d.timestamp).toDateString() : 'N/A') : new Date(d.timestamp).toDateString()}</td>
                                                 <td>
