@@ -63,6 +63,10 @@ function checkTimeLimitViolation() {
             settings = data
         })
         return;
+    } else {
+        retrieveFirebaseWebsiteSettings(auth.currentUser.uid, (data) => {
+            settings = data
+        })
     }
 
     const activeTab = getActiveTab();
