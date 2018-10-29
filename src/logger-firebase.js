@@ -264,7 +264,7 @@ export function retrieveFirebaseWebsitesData(uid, callback) {
                 return { name: website, data: json[website].data }
             });
 
-            for(i = 0; i < 6; i++)
+            for(i = 5; i > -1; i--)
             {
                 names.push(sixJson[i].name);
 
