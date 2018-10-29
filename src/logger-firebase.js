@@ -150,7 +150,7 @@ export function retrieveFirebaseWebsiteData(uid, callback) {
                     data += json.data[dataType];
             }
 
-            arr.push({name: child.key, time: json.time, visits: json.visits, timestamp: json.timestamp, data: data, category: json.category ? json.category : undefined});
+            arr.push({name: child.key, time: json.time, visits: json.visits, timestamp: json.timestamp, data: data, month: json.month, category: json.category ? json.category : undefined});
         });
         callback(arr);
     });

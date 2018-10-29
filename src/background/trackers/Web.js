@@ -33,6 +33,11 @@ function updateSiteTime(uid, url, time) {
         return time + (value ? value : 0);
     });
 
+    let month = new Date().getMonth();
+    db.ref(`/users/${uid}/websites/${hostname}/month/${month}/time`).transaction((value) => {
+        return time + (value ? value : 0);
+    });
+
     //Always overwrite timestamp - this'll show timestamp of most recent visit
     db.ref(`/users/${uid}/websites/${hostname}/timestamp`).transaction((value) => {
         return Date.now();
@@ -49,6 +54,11 @@ function updateSiteVisits(uid, url) {
     if(!hostname) return;
 
     db.ref(`/users/${uid}/websites/${hostname}/visits`).transaction((value) => {
+        return 1 + (value ? value : 0);
+    });
+
+    let month = new Date().getMonth();
+    db.ref(`/users/${uid}/websites/${hostname}/month/${month}/visits`).transaction((value) => {
         return 1 + (value ? value : 0);
     });
 
