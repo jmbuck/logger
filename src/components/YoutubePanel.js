@@ -44,7 +44,7 @@ class YoutubePanel extends Component {
 
     handleDelete = (index) => {
         let data = [...this.state.data]
-        let channel = data.splice(index, 1)[0].name
+        let channel = data.splice(index, 1)[0].id
         deleteFirebaseYoutubeData(auth.currentUser.uid, channel)
         this.setState({data});
     };
