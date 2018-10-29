@@ -57,7 +57,7 @@ class FilterPanel extends Component {
 
     handleTrackingSubmit = (ev) => {
         ev.preventDefault();
-        const website = this.state.website;
+        const website = this.state.name;
         const data = ev.target.data.checked;
         const time = ev.target.time.checked;
         const visits = ev.target.visits.checked;
@@ -80,7 +80,8 @@ class FilterPanel extends Component {
     };
 
     openModal = (website) => {
-        this.setState({website, modalIsOpen: true})
+        console.log(this.state.settings[website.name])
+        this.setState({website, name: website.name, modalIsOpen: true})
     };
 
     closeModal = () => {
@@ -101,7 +102,7 @@ class FilterPanel extends Component {
                                 </div>
                                 <h3 className="break-line title" />
                                 {this.state.websites && this.state.websites.map((website) => 
-                                    <h4 key={website.name} onClick={() => this.openModal(website.name)}>{website.name}</h4>
+                                    <h4 key={website.name} onClick={() => this.openModal(website)}>{website.name}</h4>
                                 )}
                             </div>
                         </div>
@@ -109,18 +110,19 @@ class FilterPanel extends Component {
                         <Modal
                             isOpen={this.state.modalIsOpen}
                             onRequestClose={this.closeModal}
-                            contentLabel={this.state.website}
+                            contentLabel={this.state.name}
+                            ariaHideApp={false}
                         >
 
-                            <h2>{this.state.website}</h2>
+                            <h2>{this.state.name}</h2>
                             <button onClick={this.closeModal}>close</button>
                             <h3>Modify website tracking</h3>
                             <form onSubmit={this.handleTrackingSubmit}>
-                                <input type="checkbox" name="data" defaultChecked/> Internet Usage<br/>
-                                <input type="checkbox" name="time" defaultChecked/> Time Tracking<br/>
-                                <input type="checkbox" name="visits" defaultChecked /> Visits Tracking<br/>
-                                <input type="number" name="timeLimit" defaultValue={(this.state.settings[this.state.website])? this.state.settings[this.state.website].timeLimit: -1} /> Time Limit <br/>
-                                <input type="text" name="warningMessage" defaultValue={(this.state.settings[this.state.website])? this.state.settings[this.state.website].warningMessage: "Warning message for time limit"} />
+                                <input type="checkbox" name="data" defaultChecked={(this.state.settings[this.state.name])? this.state.settings[this.state.name].data : true}/> Internet Usage<br/>
+                                <input type="checkbox" name="time" defaultChecked={(this.state.settings[this.state.name])? this.state.settings[this.state.name].time : true}/> Time Tracking<br/>
+                                <input type="checkbox" name="visits" defaultChecked={(this.state.settings[this.state.name])? this.state.settings[this.state.name].visits : true}/> Visits Tracking<br/>
+                                <input type="number" name="timeLimit" defaultValue={(this.state.settings[this.state.name])? this.state.settings[this.state.name].timeLimit: -1} /> Time Limit <br/>
+                                <input type="text" name="warningMessage" defaultValue={(this.state.settings[this.state.name])? this.state.settings[this.state.name].warningMessage: "Warning message for time limit"} />
                                 <button type="submit">Save</button>
                             </form>
                         </Modal>

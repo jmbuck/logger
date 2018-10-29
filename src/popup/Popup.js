@@ -26,7 +26,6 @@ function initApp() {
     // Listen for database state changes.
     // [START authstatelistener]
     auth.onAuthStateChanged((user) => {
-        console.log(user);
         if (user) {
             // User is signed in.
             var displayName = user.displayName;

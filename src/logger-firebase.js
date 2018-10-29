@@ -182,7 +182,6 @@ export function retrieveDefaultCategories(websites, callback) {
 
 export function setWebsiteCategory(uid, website, category) {
 
-    console.log(category, category === undefined, category.length);
     if(category.length === 0) {
         let url = `/users/${uid}/websites/${website}/category`
         let updates = {}
