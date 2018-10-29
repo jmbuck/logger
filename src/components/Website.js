@@ -37,7 +37,7 @@ class Website extends Component {
                         }
                         } }>
                         {
-                            d.category
+                            d.category && d.category !== 'other'
                                 ? d.category
                                 : 'N/A'
                         }
