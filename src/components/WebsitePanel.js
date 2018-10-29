@@ -27,6 +27,7 @@ class WebsitePanel extends Component {
             blacklist: null,
             dropdownClass: 'hide',
             categoryClass: '',
+            website: {},
             //0 is alphabetical name ascending, 1 is name descending
             //2 is visits ascending, 3 is descending
             //4 is time ascending, 5 is descending
@@ -34,7 +35,15 @@ class WebsitePanel extends Component {
             //8 is timestamp ascending, 9 is descending
             //10 is alphabetical category ascending, 11 is alphabetical category descending
             sortBy: 0,
-            topSites: ["..."]
+            topSites: ["..."],
+            colors1: [
+                'rgba(255, 99, 132, 0.2)',    
+            ], 
+            colors2: [
+                'rgba(54, 162, 235, 0.2)',
+            ],
+            monthlyData1: this.getEmptyData(0),
+            monthlyData2: this.getEmptyData(1),
         }
     }
 
@@ -136,25 +145,89 @@ class WebsitePanel extends Component {
         })
     }
 
+    getEmptyData = (num) => {
+        return {
+            labels: [],
+            datasets: [{
+                label: num ? 'Monthly Visits' : 'Monthly Time Spent',
+                backgroundColor: num ? ['rgba(255, 99, 132, 0.2)'] : ['rgba(54, 162, 235, 0.2)'],
+                data: [],
+            }]
+        };
+    }
+
     openModal = (website) => {
-        this.setState({website, modalIsOpen: true})
+        let labels = []
+        let dataTime = []
+        let dataVisits = []
+        let data1 = this.getEmptyData(0)
+        let data2 = this.getEmptyData(1)
+
+        const month = website.month
+        if(month) {
+            Object.keys(month).sort().forEach((value) => {
+                console.log(value)
+                labels.push(this.getMonth(parseInt(value)))
+                dataTime.push(month[value].time)
+                dataVisits.push(month[value].visits)
+            })
+
+            data1 = {
+                labels,
+                datasets: [{
+                    label: "Monthly Time Spent",
+                    backgroundColor: this.state.colors2,
+                    data: dataTime, 
+                }]
+            };
+
+            data2 = {
+                labels,
+                datasets: [{
+                    label: "Monthly Visits",
+                    backgroundColor: this.state.colors1,
+                    data: dataVisits,
+                }]
+            };
+        }
+
+        this.setState({website, monthlyData1: data1, monthlyData2: data2, modalIsOpen: true})
     };
 
+    getMonth = (number) => {
+        switch(number) {
+            case 0: return 'January'
+            case 1: return 'February'
+            case 2: return 'March'
+            case 3: return 'April'
+            case 4: return 'May'
+            case 5: return 'June'
+            case 6: return 'July'
+            case 7: return 'August'
+            case 8: return 'September'
+            case 9: return 'October'
+            case 10: return 'November'
+            case 11: return 'December'
+        }
+    }
+
     closeModal = () => {
-        this.setState({website: '', modalIsOpen: false})
+        this.setState({website: '', monthlyData1: this.getEmptyData(0), monthlyData2: this.getEmptyData(1), modalIsOpen: false})
     };
 
     isEmptyList = (site, index) => {
         if(!(this.state.topSites.length < 2))
         {
             return (
-                <div>{index + 1}. {site}</div>
+                <div key={index}>{index + 1}. {site}</div>
             )
         }
-        return <div>{site}</div>;
+        return <div key={index}>{site}</div>;
     };
 
     render() {
+
+
         return (
             <div className="panel">
                 <div className="panel-container">
@@ -164,33 +237,27 @@ class WebsitePanel extends Component {
                             ariaHideApp={false}
                             isOpen={this.state.modalIsOpen}
                             onRequestClose={this.closeModal}
-                            contentLabel={this.state.website}
+                            contentLabel={this.state.website.name}
                         >
 
-                            <h2>{this.state.website}</h2>
+                            <h2>{this.state.website.name}</h2>
                             <button onClick={this.closeModal}>close</button>
-                            <h3>Usage Graphs</h3>
-                            <h2>Monthly Time Used</h2>
+                            <h3>Monthly Time Spent</h3>
                             <div className="bar-graph">
                                 <Bar
                                     options={{
                                         maintainAspectRatio: false
                                     }}
-                                    data={{
-                                        labels: [],
-                                        datasets: [{
-                                            label: "Loading",
-                                            backgroundColor: [
-                                                'rgba(255, 99, 132, 0.2)',
-                                                'rgba(54, 162, 235, 0.2)',
-                                                'rgba(255, 206, 86, 0.2)',
-                                                'rgba(75, 192, 192, 0.2)',
-                                                'rgba(153, 102, 255, 0.2)',
-                                                'rgba(255, 159, 64, 0.2)'
-                                            ],
-                                            data: [],
-                                        }]
+                                    data={this.state.monthlyData1}
+                                />
+                            </div>
+                            <h3>Monthly Visits</h3>
+                            <div className="bar-graph">
+                                <Bar
+                                    options={{
+                                        maintainAspectRatio: false
                                     }}
+                                    data={this.state.monthlyData2}
                                 />
                             </div>
                         </Modal>

@@ -22,7 +22,7 @@ class Website extends Component {
         let d = this.props.site
         return (
             <tr>
-                <td className="pointer" onClick={() => this.props.openModal(d.name)}>{d.name}</td>
+                <td className="pointer" onClick={() => this.props.openModal(d)}>{d.name}</td>
                 <td>{this.props.settings ? (this.props.settings.visits ? d.visits : 'N/A') : (d.visits ? d.visits : 'N/A')}</td>
                 <td>{this.props.settings ? (this.props.settings.time ? msToString(d.time) : 'N/A') : (d.time ? msToString(d.time) : 'N/A')}</td>
                 <td>{this.props.settings ? (this.props.settings.data ? d.data : 'N/A') : d.data}</td>
